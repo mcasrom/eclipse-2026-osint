@@ -40,14 +40,70 @@
   #foot { border-top:1px solid var(--line); padding:8px 14px; font-size:.72em; color:var(--muted); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
   .leaflet-popup-content { font-size:.82em; }
   @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } }
+
+  #tabs { display:flex; gap:6px; padding:8px 14px; background:#0d1322; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  #tabs .tab { background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:6px 14px; font-size:.8em; cursor:pointer; }
+  #tabs .tab.active { background:var(--accent); color:#0a0e17; border-color:var(--accent); font-weight:600; }
+  .hidden { display:none !important; }
+  .overlay { position:fixed; inset:0; background:rgba(5,8,14,.93); z-index:10000; display:flex; align-items:center; justify-content:center; padding:18px; }
+  .welcome { background:var(--panel); border:1px solid var(--line); border-radius:14px; max-width:540px; padding:26px; }
+  .welcome h2 { color:var(--accent); font-size:1.35em; margin-bottom:6px; }
+  .welcome .facts { margin:14px 0; }
+  .welcome .facts div { padding:8px 0; border-bottom:1px solid var(--line); font-size:.92em; line-height:1.45; }
+  #offlineBanner { position:fixed; top:0; left:0; right:0; z-index:9999; background:#7a1c1c; color:#fff; text-align:center; padding:8px; font-size:.8em; }
+  #helpModal { position:fixed; inset:0; z-index:10001; display:flex; align-items:center; justify-content:center; padding:18px; }
+  #helpBox { background:var(--panel); border:1px solid var(--line); border-radius:14px; max-width:580px; max-height:86vh; overflow-y:auto; padding:24px; }
+  #helpBox h3 { color:var(--accent); margin:14px 0 6px; font-size:.95em; }
+  #helpBox p, #helpBox li { font-size:.86em; line-height:1.65; margin-bottom:6px; }
+  #otherCards { padding:20px 14px; }
+  .ocard { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px; max-width:720px; margin:0 auto; }
+  .ocard h2 { color:var(--accent); margin-bottom:6px; }
+  .ocard .meta { color:var(--muted); font-size:.85em; margin-bottom:10px; }
+  .header-row { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .header-row .btns { display:flex; gap:6px; flex:none; }
+  #installBtn { display:none; }
+  #installBtn.show { display:inline-block; }
+  @media (max-width:720px) { .header-row { flex-direction:column; align-items:flex-start; } }
 </style>
 </head>
 <body>
 <header>
-  <h1>🌑 Eclipse Solar Total · 12 de agosto de 2026 · España</h1>
-  <div class="sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
+  <div class="header-row">
+    <div>
+      <h1>🌑 Eclipse Solar Total · 12 de agosto de 2026 · España</h1>
+      <div class="sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
+    </div>
+    <div class="btns">
+      <button class="btn ghost" id="helpBtn" style="padding:7px 12px;">❓ Ayuda</button>
+      <button class="btn" id="installBtn" style="padding:7px 12px;">⬇️ Instalar</button>
+    </div>
+  </div>
 </header>
 <div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
+<div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
+<div id="tabs">
+  <button class="tab active" data-tab="eclipse">🌑 Eclipse 2026</button>
+  <button class="tab" data-tab="perseidas">☄️ Perseidas</button>
+  <button class="tab" data-tab="2027">🌒 Eclipse 2027</button>
+  <button class="tab" data-tab="auroras">🌌 Auroras</button>
+</div>
+<div id="otherCards" class="hidden">
+  <div id="ocard-perseidas" class="ocard hidden">
+    <h2>☄️ Lluvia de Perseidas</h2>
+    <div class="meta">12–13 de agosto de 2026 · pico la noche del eclipse</div>
+    <p style="font-size:.9em;line-height:1.6;">El máximo de las Perseidas coincide con la noche del 12 al 13 de agosto: hasta ~100 meteoros/hora. Tras la puesta de sol, mira hacia el noreste (radiant en Perseo), lejos de luces. Los meteoros NO requieren protección ocular. Este año, además, el cielo se oscurecerá por el eclipse y podrás disfrutar de la lluvia ese mismo día.</p>
+  </div>
+  <div id="ocard-2027" class="ocard hidden">
+    <h2>🌒 Eclipse Total · 2 de agosto de 2027</h2>
+    <div class="meta">El siguiente eclipse total en España</div>
+    <p style="font-size:.9em;line-height:1.6;">El 2 de agosto de 2027 la franja de totalidad cruza el <b>sur peninsular</b> (Cádiz, Málaga, Granada, Almería) con una totalidad de hasta ~6 minutos, la mayor en España continental en décadas. Marca la fecha: será aún más espectacular que el de 2026. Este portal lo cubrirá.</p>
+  </div>
+  <div id="ocard-auroras" class="ocard hidden">
+    <h2>🌌 Auroras boreales</h2>
+    <div class="meta">Máximo solar 2026</div>
+    <p style="font-size:.9em;line-height:1.6;">Estamos en el pico del ciclo solar 25: con la actividad alta, las auroras son visibles desde el <b>norte peninsular</b> (Galicia, Cantábrico, Pirineos) en noches despejadas. Sigue la previsión de actividad geomagnética (índice Kp) y busca cielos oscuros. Un complemento perfecto a la temporada de eclipses.</p>
+  </div>
+</div>
 <div id="main">
   <div id="map"></div>
   <div id="panel">
@@ -82,6 +138,39 @@
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span>Hecho con datos públicos · Disfruta con seguridad ☀️</span>
 </div>
+<div id="welcome" class="overlay hidden">
+  <div class="welcome">
+    <h2>🌑 Eclipse Solar Total · 12-Ago-2026</h2>
+    <p class="sub" style="color:var(--muted);font-size:.92em;">El primero visible desde la península ibérica en más de un siglo</p>
+    <div class="facts">
+      <div>🗺️ La <b>franja de totalidad</b> cruza A Coruña → Valencia → Baleares</div>
+      <div>🕐 Totalidad sobre España ≈ <b>20:28</b> (hora local)</div>
+      <div>🕶️ Imprescindible <b>gafas ISO 12312-2</b> salvo durante la totalidad</div>
+      <div>☁️ Consulta la <b>previsión de nubosidad</b> por ciudad</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" id="welcomeGo">Explorar el mapa →</button>
+      <button class="btn ghost" id="welcomeHelp">❓ Ayuda y seguridad</button>
+    </div>
+  </div>
+</div>
+<div id="helpModal" class="hidden">
+  <div id="helpBox">
+    <button class="btn ghost" style="float:right;padding:4px 10px;" onclick="document.getElementById('helpModal').classList.add('hidden')">✕</button>
+    <h2 style="color:var(--accent)">❓ Ayuda</h2>
+    <h3>🗺️ Cómo leer el mapa</h3>
+    <p>La <b>franja amarilla</b> es la zona de totalidad. Los puntos de colores son ciudades, con su previsión de nubosidad a las 20:00. Clic en una ciudad para ver sus horarios.</p>
+    <h3>🕐 Horarios</h3>
+    <p>Todos los horarios están en <b>hora local de España</b> (CEST). La totalidad sobre la península ocurre ≈ <b>20:28</b>; dura entre 30 s y 1 m 48 s según la ubicación.</p>
+    <h3>☁️ Colores de nubosidad</h3>
+    <p>🟢 Despejado · 🟡 Parcialmente nublado · 🟠 Nublado · 🔴 Muy nublado. Previsión de Open-Meteo, se actualiza cada 3 horas.</p>
+    <h3>🕶️ Seguridad (importante)</h3>
+    <p>Nunca mires al Sol sin <b>gafas certificadas ISO 12312-2</b>. Las gafas de sol normales NO sirven. Solo durante los segundos de totalidad puedes mirar sin filtro. Con prismáticos/telescopio: filtro solar certificado SIEMPRE. <a class="link" href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener">Más info (IGN)</a></p>
+    <h3>📊 Fuentes</h3>
+    <p>Horarios por ciudad: <b>IGN</b>. Franja de totalidad: <b>NASA GSFC</b>. Nubosidad: <b>Open-Meteo</b>. Código abierto · sin tracking · sin cookies.</p>
+  </div>
+</div>
+
 <script src="/vendor/leaflet.js"></script>
 <script>
 const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
@@ -194,6 +283,55 @@ function buildTravelLinks(){
     'Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia: ' +
     provs.map(p => '<a class="link" href="https://viajeinteligencia.com/?q=' + encodeURIComponent(p) + '" target="_blank" rel="noopener">' + esc(p) + '</a>').join(' · ');
 }
+
+// ===== PWA: registro SW =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+}
+
+// ===== Funnel de entrada =====
+(function(){
+  var w = document.getElementById('welcome');
+  if (!localStorage.getItem('ecl2026_seen')) w.classList.remove('hidden');
+  document.getElementById('welcomeGo').onclick = function(){ localStorage.setItem('ecl2026_seen','1'); w.classList.add('hidden'); };
+  document.getElementById('welcomeHelp').onclick = function(){ w.classList.add('hidden'); openHelp(); };
+})();
+
+// ===== Tabs de fenómenos =====
+document.querySelectorAll('#tabs .tab').forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    var t = b.dataset.tab;
+    if (t === 'eclipse') {
+      document.getElementById('main').classList.remove('hidden');
+      document.getElementById('otherCards').classList.add('hidden');
+      if (typeof map !== undefined) map.invalidateSize();
+    } else {
+      document.getElementById('main').classList.add('hidden');
+      document.getElementById('otherCards').classList.remove('hidden');
+      document.querySelectorAll('#otherCards .ocard').forEach(function(c){ c.classList.add('hidden'); });
+      document.getElementById('ocard-' + t).classList.remove('hidden');
+    }
+  };
+});
+
+// ===== Ayuda =====
+function openHelp(){ document.getElementById('helpModal').classList.remove('hidden'); }
+document.getElementById('helpBtn').onclick = openHelp;
+document.getElementById('helpModal').onclick = function(e){ if (e.target === document.getElementById('helpModal')) document.getElementById('helpModal').classList.add('hidden'); };
+
+// ===== Instalación PWA =====
+var deferredInstall = null;
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredInstall = e; document.getElementById('installBtn').classList.add('show'); });
+document.getElementById('installBtn').onclick = async function(){ if (!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); };
+window.addEventListener('appinstalled', function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); });
+
+// ===== Offline =====
+function setOffline(off){ document.getElementById('offlineBanner').classList.toggle('hidden', !off); }
+window.addEventListener('offline', function(){ setOffline(true); });
+window.addEventListener('online', function(){ setOffline(false); });
+setOffline(!navigator.onLine);
 
 loadData();
 </script>
