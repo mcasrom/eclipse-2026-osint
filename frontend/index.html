@@ -244,12 +244,25 @@
       <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#000;border:2px solid #ffd54f;display:inline-block"></span> <span data-i18n="total_ciudad">Ciudad con eclipse TOTAL</span></div>
       <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#111827;border:2px solid #8aa0c0;display:inline-block"></span> <span data-i18n="parcial_ciudad">Ciudad con eclipse PARCIAL</span></div>
       <div class="row"><span style="width:22px;height:14px;background:rgba(255,213,79,.35);border:1px solid #ffd54f;display:inline-block"></span> <span data-i18n="franja_total">Franja de totalidad</span></div>
+      <div class="row" style="margin-top:8px;">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.85em;">
+          <input type="checkbox" id="parcToggle" style="accent-color:var(--accent)"> <span data-i18n="parc_label">☀️ Mostrar parcialidad</span>
+        </label>
+      </div>
+      <div class="row parcRow hidden" style="margin-top:2px;">
+        <span style="width:22px;height:3px;background:#ff5f56;display:inline-block"></span> <span data-i18n="parc_90">90%</span> ·
+        <span style="width:22px;height:3px;background:#ff9f43;display:inline-block"></span> <span data-i18n="parc_70">70%</span> ·
+        <span style="width:22px;height:3px;background:#ffd54f;display:inline-block"></span> <span data-i18n="parc_50">50%</span> ·
+        <span style="width:22px;height:3px;background:#8aa0c0;display:inline-block"></span> <span data-i18n="parc_30">30%</span> ·
+        <span style="width:22px;height:3px;background:#4a5a72;display:inline-block"></span> <span data-i18n="parc_10">10%</span>
+        <span style="color:var(--muted);font-size:.72em;margin-left:2px;" data-i18n="parc_diametro">del diámetro solar</span>
+      </div>
     </div>
     <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
     <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
     <div class="legend" style="margin-top:6px;">🤖 Planifica tu viaje 2-3 días con IA: <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a></div>
     <h3 data-i18n="sec_datos">ℹ️ Sobre los datos</h3>
-    <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja: tabla de trayectoria de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
+    <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja y parcialidad: elementos besselianos de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
     <div class="legend" style="margin-top:6px;">📬 Contacto: <a class="link" href="mailto:eclipse@viajeinteligencia.com">eclipse@viajeinteligencia.com</a></div>
     <div class="legend" style="margin-top:4px;">🔭 Este portal abre la vía a más <b>fenómenos celestes y meteorológicos</b> (próximos eclipses, lluvias de meteoros, auroras…).</div>
   </div>
@@ -257,7 +270,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.26</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.27</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -302,7 +315,7 @@
 <script src="/vendor/leaflet.js"></script>
 <script>
 const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
-let cities = [], bandLayer = null, markers = {}, fcData = null;
+let cities = [], bandLayer = null, markers = {}, fcData = null, parcLayer = null;
 let currentYear = '2026';
 var I18N = {
   es: {
@@ -319,7 +332,9 @@ var I18N = {
     amanecer: '🌅 Amanecer', atardecer: '🌇 Atardecer', fase: '🌙 Fase', uv: '☀️ UV máx', cacheado: 'cacheado',
     despejado: 'Despejado', parcial_nube: 'Parcialmente nublado', nublado: 'Nublado', muy_nublado: 'Muy nublado',
     total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
-    max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos'
+    max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos',
+    parc_label: '☀️ Mostrar parcialidad', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_diametro: 'del diámetro solar', cobertura_max: 'Cobertura máx', del_sol: 'del Sol'
   },
   en: {
     brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
@@ -335,7 +350,9 @@ var I18N = {
     amanecer: '🌅 Sunrise', atardecer: '🌇 Sunset', fase: '🌙 Moon', uv: '☀️ UV max', cacheado: 'cached',
     despejado: 'Clear', parcial_nube: 'Partly cloudy', nublado: 'Cloudy', muy_nublado: 'Very cloudy',
     total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
-    max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events'
+    max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events',
+    parc_label: '☀️ Show partiality', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_diametro: 'of the Sun diameter', cobertura_max: 'Max coverage', del_sol: 'of the Sun'
   }
 };
 var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || localStorage.getItem('ecl_lang') || 'es';
@@ -362,6 +379,7 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp
 async function loadPhenomenon(year){
   currentYear = year;
   if (bandLayer) { map.removeLayer(bandLayer); bandLayer = null; }
+  if (year !== '2026' && parcLayer) { map.removeLayer(parcLayer); parcLayer = null; var pt = document.getElementById('parcToggle'); if (pt) pt.checked = false; document.querySelectorAll('.parcRow').forEach(function(el){ el.classList.add('hidden'); }); }
   Object.keys(markers).forEach(function(k){ map.removeLayer(markers[k]); delete markers[k]; });
   const [cj, fj] = await Promise.all([
     fetch('/data/' + year + '/cities.json').then(r => r.json()),
@@ -378,6 +396,21 @@ async function loadPhenomenon(year){
   loadSky();
   if (typeof map !== 'undefined') map.invalidateSize();
 }
+
+function loadParcialidad(on){
+  if (parcLayer) { map.removeLayer(parcLayer); parcLayer = null; }
+  if (!on || currentYear !== '2026') return;
+  fetch('/data/2026/parcialidad.geojson').then(function(r){ return r.json(); }).then(function(gj){
+    var colors = { 0.9:'#ff5f56', 0.7:'#ff9f43', 0.5:'#ffd54f', 0.3:'#8aa0c0', 0.1:'#4a5a72' };
+    parcLayer = L.geoJSON(gj, { style: function(f){ return { color: colors[f.properties.level] || '#888', weight: 1.6, fill: false, opacity: 0.95 }; } }).addTo(map);
+  }).catch(function(){});
+}
+var parcToggle = document.getElementById('parcToggle');
+if (parcToggle) parcToggle.addEventListener('change', function(){
+  var on = this.checked;
+  document.querySelectorAll('.parcRow').forEach(function(el){ el.classList.toggle('hidden', !on); });
+  loadParcialidad(on);
+});
 
 function cityCategory(id){
   if (!fcData) return 'desconocido';
@@ -405,6 +438,7 @@ function renderCities(){
     m.bindPopup(
       '<b>' + esc(c.name) + '</b> (' + esc(c.province) + ')<br>' +
       dur + timeInfo +
+      (c.cobertura_pct != null && c.cobertura_pct < 99.5 ? '<br>☀️ ' + t('cobertura_max') + ': <b>' + c.cobertura_pct + '%</b> ' + t('del_sol') : '') +
       '<br>Magnitud: ' + (c.magnitud || '—') + (c.altura ? ' · Altura Sol: ' + c.altura + '°' : '') +
       '<br>Nubes totalidad: <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
       (total ? '<br>☀️ Durante la totalidad puedes mirar sin gafas' : '<br>🕶️ Usa gafas ISO 12312-2 toda la observación')

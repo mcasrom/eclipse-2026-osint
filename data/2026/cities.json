@@ -1,7 +1,7 @@
 {
  "generated": "2026-08-05",
  "event": "Eclipse solar total 2026-08-12 (global)",
- "source": "IGN (Espania) + NASA GSFC (franja); Islandia/Europa estimado",
+ "source": "IGN (Espania) + NASA GSFC (franja); Islandia/Europa estimado ; parcialidad: elementos besselianos NASA + algoritmo Espenak/Meeus (limitado por atardecer)",
  "cities": [
   {
    "id": "a-coruna",
@@ -14,11 +14,12 @@
    "tot_inicio": "20:27:35",
    "tot_fin": "20:28:51",
    "totalidad_s": 76,
-   "magnitud": 1.03,
+   "magnitud": 1.002,
    "altura": 12,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "oviedo",
@@ -31,11 +32,12 @@
    "tot_inicio": "20:27:00",
    "tot_fin": "20:28:48",
    "totalidad_s": 108,
-   "magnitud": 1.03,
+   "magnitud": 1.01,
    "altura": 10,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "bilbao",
@@ -48,11 +50,12 @@
    "tot_inicio": "20:27:18",
    "tot_fin": "20:27:48",
    "totalidad_s": 30,
-   "magnitud": 1.03,
+   "magnitud": 0.999,
    "altura": 8,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 99.9
   },
   {
    "id": "leon",
@@ -65,11 +68,12 @@
    "tot_inicio": "20:28:15",
    "tot_fin": "20:30:00",
    "totalidad_s": 105,
-   "magnitud": 1.03,
+   "magnitud": 1.01,
    "altura": 10,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "burgos",
@@ -82,11 +86,12 @@
    "tot_inicio": "20:28:20",
    "tot_fin": "20:30:04",
    "totalidad_s": 104,
-   "magnitud": 1.03,
+   "magnitud": 1.008,
    "altura": 8,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "soria",
@@ -99,11 +104,12 @@
    "tot_inicio": "20:29:01",
    "tot_fin": "20:30:42",
    "totalidad_s": 101,
-   "magnitud": 1.03,
+   "magnitud": 1.011,
    "altura": 7,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "zaragoza",
@@ -116,11 +122,12 @@
    "tot_inicio": "20:28:57",
    "tot_fin": "20:30:20",
    "totalidad_s": 83,
-   "magnitud": 1.03,
+   "magnitud": 1.004,
    "altura": 6,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "teruel",
@@ -133,11 +140,12 @@
    "tot_inicio": "20:30:59",
    "tot_fin": "20:32:33",
    "totalidad_s": 94,
-   "magnitud": 1.03,
+   "magnitud": 1.005,
    "altura": 6,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "valencia",
@@ -150,11 +158,12 @@
    "tot_inicio": "20:32:24",
    "tot_fin": "20:33:24",
    "totalidad_s": 60,
-   "magnitud": 1.03,
+   "magnitud": 1.001,
    "altura": 5,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "palma",
@@ -167,11 +176,12 @@
    "tot_inicio": "20:31:00",
    "tot_fin": "20:32:36",
    "totalidad_s": 96,
-   "magnitud": 1.03,
+   "magnitud": 1.005,
    "altura": 3,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "castello",
@@ -184,11 +194,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 1.0,
+   "magnitud": 1.007,
    "altura": 4,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "",
+   "cobertura_pct": 100.0
   },
   {
    "id": "madrid",
@@ -205,7 +216,8 @@
    "altura": 7,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "Fuera de la franja por pocos km: cobertura maxima 100%.",
+   "cobertura_pct": 100.0
   },
   {
    "id": "barcelona",
@@ -218,11 +230,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 1.0,
+   "magnitud": 0.994,
    "altura": 4,
    "azimut": null,
    "max_estimado": null,
-   "nota": ""
+   "nota": "Fuera de la franja por pocos km: cobertura maxima 99%.",
+   "cobertura_pct": 99.3
   },
   {
    "id": "reykjavik",
@@ -235,11 +248,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 300,
-   "magnitud": 1.02,
+   "magnitud": 0.999,
    "altura": null,
    "azimut": null,
    "max_estimado": "17:47",
-   "nota": "~17:50 (hora local Islandia, UTC). Verifica con IGN."
+   "nota": "~17:50 (hora local Islandia, UTC). Verifica con IGN.",
+   "cobertura_pct": 99.9
   },
   {
    "id": "akureyri",
@@ -252,11 +266,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 0.6,
+   "magnitud": 0.976,
    "altura": null,
    "azimut": null,
    "max_estimado": null,
-   "nota": "Cerca del borde de la franja; parcial muy alto o totalidad breve segun el punto exacto."
+   "nota": "Justo al borde de la franja: 97% de cobertura maxima.",
+   "cobertura_pct": 96.9
   },
   {
    "id": "londres",
@@ -269,11 +284,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 0.6,
+   "magnitud": 0.924,
    "altura": null,
    "azimut": null,
    "max_estimado": null,
-   "nota": "Eclipse parcial visible (magnitud ~0.40 aprox.). Horas locales del Reino Unido."
+   "nota": "Cobertura maxima visible 90% del Sol.",
+   "cobertura_pct": 90.3
   },
   {
    "id": "paris",
@@ -286,11 +302,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 0.6,
+   "magnitud": 0.929,
    "altura": null,
    "azimut": null,
    "max_estimado": null,
-   "nota": "Eclipse parcial (~0.60 aprox.)."
+   "nota": "Cobertura maxima visible 91% del Sol.",
+   "cobertura_pct": 91.0
   },
   {
    "id": "lisboa",
@@ -303,11 +320,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 0.6,
+   "magnitud": 0.951,
    "altura": null,
    "azimut": null,
    "max_estimado": null,
-   "nota": "Eclipse parcial alto (~0.80 aprox.), cerca de la franja."
+   "nota": "Cobertura maxima visible 94% del Sol.",
+   "cobertura_pct": 93.8
   },
   {
    "id": "roma",
@@ -320,11 +338,12 @@
    "tot_inicio": null,
    "tot_fin": null,
    "totalidad_s": 0,
-   "magnitud": 0.6,
+   "magnitud": 0.714,
    "altura": null,
    "azimut": null,
    "max_estimado": null,
-   "nota": "Eclipse parcial (~0.60 aprox.)."
+   "nota": "Cobertura maxima visible 64% del Sol.",
+   "cobertura_pct": 64.0
   }
  ]
 }
