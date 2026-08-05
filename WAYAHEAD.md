@@ -98,6 +98,7 @@
 
 ### Sesiones pendientes (multiproyecto, para retomar ASAP)
 - **[REVISAR 1º] Funcionalidades rotas** (06-Ago, tras rebase/docker rebuild de MyIP y eliminación de emergency): revisar qué quedó afectado en MyIP (WIP/heatmap/snapshots/SSE vs contenedor) y en la landing (emergencies_history embebido). **Backups**: MyIP → `/home/deploy/backups/myip-20260805/myip-full.tgz`; WIP untracked → `/tmp/myip-untracked/`. Git MyIP sincronizado (`d1656c0`).
+- **[RESUELTO 06-Ago] Eclipse caía para el usuario**: el artefacto `127.0.0.1 eclipse.viajeinteligencia.com` en `/etc/hosts` del server (añadido para pruebas headless) hacía que AdGuardHome devolviera 127.0.0.1 → el navegador conectaba a localhost → `ERR_ECH_FALLBACK_CERTIFICATE_INVALID`. Fix: eliminar la entrada + `systemctl restart AdGuardHome`. Verificado 200. **Lección**: no dejar entradas de prueba en `/etc/hosts` (usar `--resolve` en curl; re-añadir solo temporalmente para CDP).
 - **[MyIP] Sprint 6 — Exportar Reporte PDF** (prioridad alta): endpoint `POST /api/export/pdf` + botón "📄 Exportar PDF" en dashboard/historial + i18n ES + pruebas. `PDFDocument` ya importado. 3-5 días. Detalle en `/home/deploy/myip/WAYAHEAD.md`.
 - **[MyIP] Sprint C — Blog técnico SEO** (continuo): guías CVE / "cómo interpretar vulnerabilidades".
 - **[MyIP] Pendientes menores**: CSP reconfigurar · 7 `portDefinitions` faltantes · unificar `sendEmail` (alerts.ts + server.ts) · **commit del WIP "refactor free"** (Snapshots Timeline, heatmap, SSE, SupportPanel) ya restaurado e integrado en git.
