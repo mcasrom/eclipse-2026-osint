@@ -97,6 +97,7 @@
 - **emergency.viajeinteligencia.com** (resuelto 6-Ago): el app está en `/var/www/emergency-dashboard` (Node, `PORT=3000`, `NODE_ENV=production`), PM2 `emergency-dashboard`. Se arregló liberando el puerto 3000 (myip PM2 redundante eliminado; el Docker myip sirve `myip.viajeinteligencia.com` en 3004). Verificado: web 200, `/api/health` 200, `/api/emergencies` 200.
 
 ### Sesiones pendientes (multiproyecto, para retomar ASAP)
+- **[REVISAR 1º] Funcionalidades rotas** (06-Ago, tras rebase/docker rebuild de MyIP y eliminación de emergency): revisar qué quedó afectado en MyIP (WIP/heatmap/snapshots/SSE vs contenedor) y en la landing (emergencies_history embebido). **Backups**: MyIP → `/home/deploy/backups/myip-20260805/myip-full.tgz`; WIP untracked → `/tmp/myip-untracked/`. Git MyIP sincronizado (`d1656c0`).
 - **[MyIP] Sprint 6 — Exportar Reporte PDF** (prioridad alta): endpoint `POST /api/export/pdf` + botón "📄 Exportar PDF" en dashboard/historial + i18n ES + pruebas. `PDFDocument` ya importado. 3-5 días. Detalle en `/home/deploy/myip/WAYAHEAD.md`.
 - **[MyIP] Sprint C — Blog técnico SEO** (continuo): guías CVE / "cómo interpretar vulnerabilidades".
 - **[MyIP] Pendientes menores**: CSP reconfigurar · 7 `portDefinitions` faltantes · unificar `sendEmail` (alerts.ts + server.ts) · **commit del WIP "refactor free"** (Snapshots Timeline, heatmap, SSE, SupportPanel) ya restaurado e integrado en git.
