@@ -82,6 +82,10 @@
   #spots { margin-bottom:4px; }
   .kofi { display:inline-block; background:#ff5e5b; color:#fff; border-radius:8px; padding:6px 14px; font-weight:700; text-decoration:none; font-size:.8em; }
   .kofi:hover { filter:brightness(1.1); }
+
+  .minimap { height:300px; border-radius:10px; border:1px solid var(--line); margin-top:10px; }
+  .minimap.perseidas { height:260px; }
+  #auroraInfo { font-size:.9em; line-height:1.6; margin-top:8px; }
 </style>
 <script type="application/ld+json">
 {
@@ -127,6 +131,8 @@
     <h2>☄️ Lluvia de Perseidas</h2>
     <div class="meta">12–13 de agosto de 2026 · pico la noche del eclipse</div>
     <p style="font-size:.9em;line-height:1.6;">El máximo de las Perseidas coincide con la noche del 12 al 13 de agosto: hasta ~100 meteoros/hora. Tras la puesta de sol, mira hacia el noreste (radiant en Perseo), lejos de luces. Los meteoros NO requieren protección ocular. Este año, además, el cielo se oscurecerá por el eclipse y podrás disfrutar de la lluvia ese mismo día.</p>
+    <div id="perseidasMap" class="minimap perseidas"></div>
+    <p style="font-size:.8em;color:var(--muted);margin-top:6px;">El punto dorado indica el <b>radiant</b> (dirección de la que parecen salir los meteoros, en Perseo). Se ve mejor tras la medianoche, lejos de luces, hacia el noreste. Con el cielo oscuro del eclipse de ese mismo día, doble espectáculo.</p>
   </div>
   <div id="ocard-2027" class="ocard hidden">
     <h2>🌒 Eclipse Total · 2 de agosto de 2027</h2>
@@ -137,6 +143,9 @@
     <h2>🌌 Auroras boreales</h2>
     <div class="meta">Máximo solar 2026</div>
     <p style="font-size:.9em;line-height:1.6;">Estamos en el pico del ciclo solar 25: con la actividad alta, las auroras son visibles desde el <b>norte peninsular</b> (Galicia, Cantábrico, Pirineos) en noches despejadas. Sigue la previsión de actividad geomagnética (índice Kp) y busca cielos oscuros. Un complemento perfecto a la temporada de eclipses.</p>
+    <div id="auroraInfo"></div>
+    <div id="auroraMap" class="minimap"></div>
+    <p style="font-size:.8em;color:var(--muted);margin-top:6px;">Estado en tiempo real del <b>índice Kp</b> (NOAA, caché 10 min). Los puntos se colorean según si su latitud permite ver la aurora con el Kp actual. Busca cielos oscuros y horizonte norte despejado.</p>
   </div>
 </div>
   <div id="ocard-calendario" class="ocard hidden">
@@ -369,6 +378,8 @@ document.querySelectorAll('#tabs .tab').forEach(function(b){
       document.getElementById('otherCards').classList.remove('hidden');
       document.querySelectorAll('#otherCards .ocard').forEach(function(c){ c.classList.add('hidden'); });
       document.getElementById('ocard-' + t).classList.remove('hidden');
+      if (t === 'auroras') initAuroraMap();
+      if (t === 'perseidas') initPerseidasMap();
     }
   };
 });
@@ -472,6 +483,45 @@ async function loadCalendar(){
       '<div style="font-size:.78em;color:var(--muted);line-height:1.5;">' + esc(x.note) + '</div>' +
       '</div>';
   }).join('');
+}
+
+// ===== Auroras (Kp) =====
+var auroraMap = null, auroraReady = false;
+function initAuroraMap(){
+  if (auroraReady) return;
+  auroraReady = true;
+  auroraMap = L.map('auroraMap').setView([60, 8], 4);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CARTO', subdomains:'abcd', maxZoom:19 }).addTo(auroraMap);
+  loadAurora();
+}
+async function loadAurora(){
+  var info = document.getElementById('auroraInfo');
+  var d;
+  try { d = await (await fetch('/api/aurora')).json(); } catch(e){ if (info) info.textContent = '🌌 Aurora: no disponible ahora.'; return; }
+  if (info) info.innerHTML = 'Kp actual: <b>' + d.kp + '</b> (' + (d.gscale||'') + ' · ' + (d.label||'') + ')' +
+    (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">cacheado</span>' : '') +
+    '<br>🌌 Auroras visibles desde ≈ <b>' + (d.aurora_lat||'—') + '°N</b> — Escandinavia, Islandia, Escocia' +
+    (d.aurora_lat && d.aurora_lat <= 50 ? ', norte peninsular' : '') + '.';
+  var spots = [['Tromsø',69.65,18.96],['Murmansk',68.97,33.08],['Reykjavik',64.15,-21.94],['Luleå',65.58,22.15],['Tórshavn',62.01,-6.77],['Helsinki',60.17,24.94],['Oslo',59.91,10.75],['Inverness',57.48,-4.22],['Edimburgo',55.95,-3.19],['Santiago',42.88,-8.54],['Oviedo',43.36,-5.84],['San Sebastián',43.32,-1.98]];
+  spots.forEach(function(s){
+    var likely = d.aurora_lat ? s[1] >= d.aurora_lat : false;
+    L.circleMarker([s[1], s[2]], { radius: 5, color:'#fff', weight:1, fillColor: likely ? (d.color||'#34d399') : '#475569', fillOpacity:.9 })
+      .bindPopup('<b>' + s[0] + '</b> (' + Math.round(s[1]) + '°N)<br>' + (likely ? '✅ Posible aurora' : '❌ Normalmente no'))
+      .addTo(auroraMap);
+  });
+  if (d.aurora_lat) L.polyline([[d.aurora_lat,-15],[d.aurora_lat,35]], { color:d.color||'#34d399', weight:1.5, dashArray:'4 4', opacity:.7 }).addTo(auroraMap);
+}
+
+// ===== Perseidas: radiant =====
+var perseidasMap = null, perseidasReady = false;
+function initPerseidasMap(){
+  if (perseidasReady) return;
+  perseidasReady = true;
+  perseidasMap = L.map('perseidasMap').setView([50, 5], 3);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CARTO', subdomains:'abcd', maxZoom:19 }).addTo(perseidasMap);
+  L.circleMarker([58, 40], { radius: 7, color:'#fff', weight:1, fillColor:'#ffd54f', fillOpacity:.9 })
+    .bindPopup('<b>Radiant: Perseo</b><br>Dirección de la que parecen salir los meteoros.<br>Mira hacia el noreste tras la medianoche.')
+    .addTo(perseidasMap);
 }
 
 loadPhenomenon('2026');

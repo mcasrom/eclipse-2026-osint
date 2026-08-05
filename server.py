@@ -6,6 +6,7 @@ Todo lo demás (HTML, JSON de ciudades, franja) lo sirve Nginx directamente.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src import aurora
 from src import forecast
 
 app = FastAPI(title="Eclipse 2026 OSINT",
@@ -24,6 +25,11 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "Eclipse 2026 OSINT"}
+
+
+@app.get("/api/aurora")
+async def api_aurora():
+    return await aurora.get_aurora()
 
 
 @app.get("/api/forecast")

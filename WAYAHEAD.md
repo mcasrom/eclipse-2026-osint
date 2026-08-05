@@ -55,6 +55,12 @@
 - **Causa**: `100vh`/flex se comporta distinto en movil y Leaflet mide el contenedor al iniciar; el overlay de bienvenida podia cubrirlo y el mapa quedaba a 0x0.
 - **Fix**: `height:100dvh` (viewport dinamico) + `min-height:50vh` en #map (55vh en el media query movil) + `map.invalidateSize()` al cerrar el funnel y en el evento resize (barra del navegador movil). Verificado en viewport 390x844 (mapa 390x464, tiles cargados, 0 errores). SW v6.
 
+## Sprint 5 — Opcion 4: Auroras (Kp) y Perseidas con mapa (5 Ago 2026)
+
+- **Auroras (amplio, hemisferio norte)**: nuevo endpoint `GET /api/aurora` (`src/aurora.py`) con el **Kp en tiempo real de NOAA SWPC** cacheado (TTL 10 min) + tabla Kp->latitud minima de visibilidad. Frontend: en el tab Auroras, mapa del norte de Europa con puntos de ciudades coloreados segun su latitud vs el Kp actual + linea de latitud auroral + lectura Kp/G-scale. ~+5MB RAM.
+- **Perseidas (amplio)**: el tab Perseidas ahora incluye un mapa con el **radiant** (Perseo, direccion noreste) + nota de mejor observacion.
+- Cobertura amplia (no solo España): son fenomenos del hemisferio norte; los contornos de PARCIALIDAD del eclipse (Europa/N.Africa) quedan para la opcion 5 (global), donde se traen datos de magnitud parcial de fuente fiable.
+
 ## 🔜 Próximos sprints
 
 ### Fase 2 — Cielos & Eventos (durable, post-12-Ago)
