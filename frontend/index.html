@@ -91,6 +91,7 @@
   #installBtn { display:none; }
   #installBtn.show { display:inline-block; }
   #pwaInstallBtn { cursor:pointer; }
+  .parcLabel { background:rgba(10,14,23,.82); border:1px solid rgba(255,255,255,.25); border-radius:10px; color:#fff; font-size:.74em; font-weight:700; text-align:center; line-height:20px; white-space:nowrap; box-shadow:0 1px 4px rgba(0,0,0,.4); }
   @media (min-width: 769px) { #pwaBanner { display:none; } }
   @media (max-width:720px) { .header-row { flex-direction:column; align-items:flex-start; } }
 
@@ -283,7 +284,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.34</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.35</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -332,7 +333,7 @@
 <script src="/vendor/leaflet.js"></script>
 <script>
 const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
-let cities = [], bandLayer = null, markers = {}, fcData = null, parcLayer = null;
+let cities = [], bandLayer = null, markers = {}, fcData = null, parcLayer = null, parcLabels = null;
 let currentYear = '2026';
 var I18N = {
   es: {
@@ -498,8 +499,24 @@ async function loadPhenomenon(year){
   if (typeof map !== 'undefined') map.invalidateSize();
 }
 
+function bandCentroid(feature){
+  var geoms = feature.geometry.type === 'MultiPolygon' ? feature.geometry.coordinates : [feature.geometry.coordinates];
+  var best = null, bestArea = -1;
+  geoms.forEach(function(rings){
+    var ring = rings[0];
+    var a = 0, cx = 0, cy = 0;
+    for (var i = 0; i < ring.length - 1; i++){
+      var x0 = ring[i][0], y0 = ring[i][1], x1 = ring[i+1][0], y1 = ring[i+1][1];
+      var cr = x0*y1 - x1*y0;
+      a += cr; cx += (x0+x1)*cr; cy += (y0+y1)*cr;
+    }
+    if (Math.abs(a) > bestArea){ bestArea = Math.abs(a); if (a !== 0){ best = [cx/(3*a), cy/(3*a)]; } }
+  });
+  return best;
+}
 function loadParcialidad(on){
   if (parcLayer) { map.removeLayer(parcLayer); parcLayer = null; }
+  if (parcLabels) { map.removeLayer(parcLabels); parcLabels = null; }
   if (!on || currentYear !== '2026') return;
   fetch('/data/2026/visibilidad.geojson').then(function(r){ return r.json(); }).then(function(gj){
     var style = { '100':['#ffd54f',0.30], '90':['#ffb020',0.42], '70':['#fb923c',0.32],
@@ -508,6 +525,17 @@ function loadParcialidad(on){
       var st = style[f.properties.band] || ['#888', 0.1];
       return { color: st[0], weight: 0.5, fillColor: st[0], fillOpacity: st[1], opacity: 0.6 };
     } }).addTo(map);
+    parcLabels = L.layerGroup();
+    gj.features.forEach(function(f){
+      var c = bandCentroid(f);
+      if (c) L.marker(c, { icon: L.divIcon({ className:'parcLabel', html: f.properties.band + '%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
+    });
+    var tot = cities.filter(function(c){ return c.tipo === 'total' && c.lon > -10; });
+    if (tot.length){
+      var lc = tot.reduce(function(acc,c){ acc[0]+=c.lon; acc[1]+=c.lat; return acc; },[0,0]);
+      L.marker([lc[1]/tot.length, lc[0]/tot.length], { icon: L.divIcon({ className:'parcLabel', html:'100%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
+    }
+    parcLabels.addTo(map);
   }).catch(function(){});
 }
 var parcToggle = document.getElementById('parcToggle');
@@ -919,8 +947,7 @@ document.addEventListener('click', function(e){ var p = document.getElementById(
 
 applyLang();
 
-loadPhenomenon('2026');
-loadParcialidad(true);
+loadPhenomenon('2026').then(function(){ loadParcialidad(true); });
 </script>
 <div id="sharePopup" class="hidden" style="position:fixed;top:64px;right:12px;z-index:2000;background:#111827;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;box-shadow:0 6px 20px rgba(0,0,0,.5);">
   <a id="shX" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">𝕏 / Twitter</a>
