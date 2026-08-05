@@ -61,7 +61,12 @@
   #locNote { font-size:.75em; color:var(--muted); margin-top:6px; }
   #foot { border-top:1px solid var(--line); padding:8px 14px; font-size:.72em; color:var(--muted); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
   .leaflet-popup-content { font-size:.82em; }
-  @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } #map { min-height:55vh; } }
+  @media (max-width:720px) {
+    body { height:auto; min-height:100dvh; }
+    #main { flex-direction:column; display:block; }
+    #map { height:44vh; min-height:44vh; }
+    #panel { width:100%; max-height:none; border-left:none; border-top:1px solid var(--line); overflow:visible; }
+  }
 
   #tabs { display:flex; gap:6px; padding:8px 14px; background:#0d1322; border-bottom:1px solid var(--line); flex-wrap:wrap; }
   #tabs .tab { background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:7px 14px; font-size:.85em; font-weight:600; cursor:pointer; }
@@ -234,7 +239,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.22</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.23</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
