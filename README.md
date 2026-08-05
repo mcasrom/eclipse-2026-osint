@@ -1,87 +1,101 @@
-# Eclipse 2026 OSINT
+<p align="center">
+  <img src="https://img.shields.io/badge/live-eclipse.viajeinteligencia.com-ffd54f?style=flat-square" alt="Live">
+  <img src="https://img.shields.io/badge/stack-FastAPI%20%2B%20Leaflet-00d4ff?style=flat-square" alt="Stack">
+  <img src="https://img.shields.io/badge/license-MIT-34d399?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/open%20source-%E2%9C%93-8aa0c0?style=flat-square" alt="Open source">
+</p>
 
-Micrositio/mapa interactivo del **eclipse solar total del 12 de agosto de 2026** en España — el primero visible desde la península en más de un siglo.
+<h1 align="center">🌑 Eclipse 2026 OSINT</h1>
 
-**Live:** https://eclipse.viajeinteligencia.com
-**Stack:** Python async (httpx) → FastAPI (solo previsión de nubosidad) → Nginx (todo lo estático) → Leaflet PWA.
+<p align="center">
+  <b>El primer eclipse solar total visible desde la península ibérica en más de un siglo.</b><br>
+  Mapa interactivo de la franja de totalidad sobre España y Baleares — con horarios por ciudad,<br>
+  duración, previsión de nubosidad y seguridad. Diseñado para aguantar el pico del <b>12 de agosto de 2026</b>.
+</p>
 
-## Filosofía de recursos
-Diseñado para aguantar el pico de tráfico del 12-Ago sin sobrecargar el servidor (compartido con ~15 servicios en PM2):
-- **Todo lo estático lo sirve Nginx directo** (HTML, `data/cities.json`, `data/franja.geojson`, Leaflet) — cero carga de backend/BD.
-- **Los datos del eclipse son pre-calculados y estáticos** (un solo evento, no hay pipeline de ingesta).
-- **Sin PostgreSQL**: los datos de ciudades viven en un JSON estático.
-- **Única parte dinámica**: la previsión de nubosidad, cacheada en un fichero con TTL de **3 horas** (un solo request por ventana a Open-Meteo).
-- Sin Redis, sin cronjobs, sin daemons pesados. ~50 MB de RAM total.
+<p align="center">
+  <a href="https://eclipse.viajeinteligencia.com"><b>→ Ver el mapa en vivo</b></a>
+</p>
 
-## Fenómenos celestes y meteorológicos (más allá del eclipse)
+---
 
-Este portal está diseñado para alojar **otros fenómenos** además del eclipse del 12-Ago-2026:
-próximos eclipses (2027), lluvias de meteoros, auroras, olas de calor, tormentas, etc.
+## ✨ Qué ofrece
 
-La arquitectura es extensible por diseño:
-- **Datos por fenómeno**: cada evento tiene su carpeta de datos estáticos (ej. el eclipse usa
-  `data/cities.json` + `data/franja.geojson`). Añadir un fenómeno = añadir sus datos estáticos
-  y referenciarlos en el frontend — sin tocar el backend.
-- **Previsión genérica**: el endpoint `/api/forecast` ya sirve nubosidad para cualquier
-  lat/lon/fecha (Open-Meteo, sin key) → sirve igual para una lluvia de meteoros que para una aurora.
-- **Cero carga extra**: todo sigue siendo estático servido por nginx + un solo request cacheado.
+| | |
+|---|---|
+| 🗺️ | **Franja de totalidad** sobre España y Baleares, construida desde la tabla de trayectoria de **NASA GSFC** |
+| 🕐 | **Horarios por ciudad** pre-calculados (inicio, totalidad, duración, altura, magnitud) del **IGN** |
+| ☁️ | **Previsión de nubosidad** por ciudad (la única parte dinámica), cacheada cada 3 h |
+| 📍 | **Geolocalización** para localizar tu ciudad más cercana a la franja |
+| 🛣️ | Enlaces de viaje por provincia hacia tu plataforma principal |
+| 🕶️ | Aviso de seguridad **ISO 12312-2** con enlaces oficiales (obligatorio, no decorativo) |
 
-Para añadir un fenómeno nuevo: crea `data/<fenomeno>/` con su JSON/GeoJSON, añade una pestaña/
-sección en `frontend/index.html`, y reutiliza `/api/forecast` para su previsión.
+## 🏗️ Arquitectura (pensada para el pico de tráfico)
 
-## Estructura
 ```
-eclipse-2026-osint/
-├── server.py            # FastAPI mínimo: /api/forecast + /health (puerto 8700)
-├── src/
-│   ├── config.py        # constantes (puerto, TTL caché, fechas)
-│   └── forecast.py      # previsión de nubosidad (Open-Meteo) + caché en fichero
-├── data/
-│   ├── cities.json      # 13 ciudades con horarios pre-calculados
-│   ├── franja.geojson   # polígono de la franja de totalidad
-│   └── forecast_cache.json  # caché (generado)
-├── frontend/
-│   ├── index.html       # Leaflet PWA (mapa, marcadores, nubosidad, seguridad)
-│   ├── sw.js / manifest.json / icon.svg
-│   └── vendor/          # Leaflet self-hosted
-├── deploy.sh            # despliegue desde el server
-└── README.md
+                    ┌──────────────────────────────────────────────┐
+  Usuario ──► Cloudflare (opcional: edge cache) ──► Nginx ──────► │  Frontend estático (Leaflet PWA) │
+                    │  todo lo estático directo (0 backend)       │  data/cities.json · franja.geojson │
+                    └──────────────────────────────────────────────┘
+                        └─► /api/forecast ──► FastAPI (127.0.0.1:8700)
+                            └─► caché en fichero (TTL 3 h) ──► Open-Meteo
 ```
 
-## Datos (fuentes)
-- **Horarios por ciudad** (inicio, totalidad, magnitud, altura, azimut): **Instituto Geográfico Nacional (IGN)** vía eclipsetotal.info (horas locales CEST).
-- **Franja de totalidad**: tabla de trayectoria de **NASA GSFC** (límites N/S WGS84, intervalos 120s) convertida a polígono GeoJSON.
-- **Nubosidad**: **Open-Meteo** (sin API key, cobertura horaria por lat/lon). Alternativa: AEMET (requiere key + códigos municipio INE) — Open-Meteo es más robusto para el pico.
+- **Sin PostgreSQL** — los datos del evento viven en JSON estáticos servidos por nginx.
+- **Sin pipeline ni cron** — un solo evento, todo pre-calculado.
+- **Un solo request dinámico por ventana** de 3 h para la previsión.
+- Coste real: **~50 MB de RAM**, CPU ≈ 0.
 
-## Despliegue (Ubuntu + PM2 + Nginx)
+## 📊 Fuentes de datos
 
-### 1. Código
+| Dato | Fuente | Tipo |
+|---|---|---|
+| Horarios por ciudad | [IGN](https://astronomia.ign.es) | Estático |
+| Franja de totalidad | [NASA GSFC](https://eclipse.gsfc.nasa.gov) | Estático (GeoJSON) |
+| Nubosidad | [Open-Meteo](https://open-meteo.com) | Dinámico, cacheado 3 h |
+
+> Alternativa de nubosidad: AEMET (requiere API key + códigos municipio INE). Open-Meteo se eligió por robustez: sin key, cobertura horaria directa por lat/lon.
+
+## 🌌 Más allá del eclipse
+
+Este portal está pensado como base para **otros fenómenos celestes y meteorológicos**:
+próximos eclipses (2027), lluvias de meteoros, auroras, olas de calor…
+
+- Los datos son **por fenómeno** (carpetas estáticas independientes).
+- `/api/forecast` sirve nubosidad para **cualquier lat/lon/fecha** → reutilizable sin cambios.
+- Añadir un fenómeno = añadir sus datos estáticos + una sección en el frontend.
+
+## 🚀 Despliegue
+
 ```bash
-cd /home/deploy/eclipse-2026-osint
+# 1. Código
 python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
-```
 
-### 2. DNS + Cloudflare (IMPORTANTE, lo más crítico)
-- Añade en Cloudflare: **A `eclipse` → 178.105.80.193** (gris/DNS-only primero).
-- Emite el certificado: `sudo certbot --nginx -d eclipse.viajeinteligencia.com`
-- Cuando funcione, activa el **proxy naranja (Cloudflare)** en ese registro A → Cloudflare cachea los estáticos en el edge y absorbe el grueso del pico del 12-Ago.
+# 2. DNS + certificado
+#    Cloudflare: A eclipse → 178.105.80.193 (DNS only primero)
+sudo certbot --nginx -d eclipse.viajeinteligencia.com
 
-### 3. Nginx
-Config ya instalada en `/etc/nginx/sites-enabled/eclipse`: estáticos servidos directo, `/api/` → `127.0.0.1:8700`, `/sw.js` sin cache. Tras el cert, `sudo nginx -s reload`.
-
-### 4. PM2
-```bash
+# 3. PM2
 pm2 start ./venv/bin/python --name eclipse-api -- -m uvicorn server:app --host 127.0.0.1 --port 8700
 pm2 save
-```
 
-### 5. Verificar
-```bash
+# 4. Verificar
 curl -s https://eclipse.viajeinteligencia.com/health
-curl -s https://eclipse.viajeinteligencia.com/api/forecast | python3 -m json.tool
+curl -s https://eclipse.viajeinteligencia.com/api/forecast
 ```
 
-## Notas de seguridad
-El sitio incluye aviso obligatorio (ISO 12312-2) y enlaces a información oficial de observación segura. Es contenido de seguridad real, no decorativo.
+La configuración de nginx está en `/etc/nginx/sites-enabled/eclipse`: estáticos directos,
+`/api/` → `127.0.0.1:8700`, `/sw.js` sin cache.
 
-MIT License. Código abierto, sin tracking, sin cookies.
+## 🛠️ Proyectos del mismo autor
+
+- [NearMe OSINT](https://github.com/mcasrom/nearme-osint) — radar de incidencias en tiempo real
+- [MigrationFlow OSINT](https://github.com/mcasrom/migrationflow-osint) — flujos migratorios globales
+
+## 📬 Contacto
+
+[eclipse@viajeinteligencia.com](mailto:eclipse@viajeinteligencia.com)
+
+## ⚖️ Licencia
+
+MIT — código abierto. Sin tracking, sin cookies, sin dependencias externas a la observación del cielo. ☀️
