@@ -64,8 +64,8 @@
   @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } #map { min-height:55vh; } }
 
   #tabs { display:flex; gap:6px; padding:8px 14px; background:#0d1322; border-bottom:1px solid var(--line); flex-wrap:wrap; }
-  #tabs .tab { background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:6px 14px; font-size:.8em; cursor:pointer; }
-  #tabs .tab.active { background:var(--accent); color:#0a0e17; border-color:var(--accent); font-weight:600; }
+  #tabs .tab { background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:7px 14px; font-size:.85em; font-weight:600; cursor:pointer; }
+  #tabs .tab.active { background:var(--accent); color:#0a0e17; border-color:var(--accent); font-weight:700; }
   .hidden { display:none !important; }
   .overlay { position:fixed; inset:0; background:rgba(5,8,14,.93); z-index:10000; display:flex; align-items:center; justify-content:center; padding:18px; }
   .welcome { background:var(--panel); border:1px solid var(--line); border-radius:14px; max-width:540px; padding:26px; }
@@ -137,6 +137,13 @@
       <button class="btn ghost" id="helpBtn" style="padding:7px 12px;">❓ Ayuda</button>
       <button class="btn" id="installBtn" style="padding:7px 12px;">⬇️ Instalar</button>
     </div>
+    <select id="headerPhen" style="width:100%;margin-top:8px;padding:10px;border-radius:8px;border:1px solid var(--line);background:#111827;color:var(--text);font-size:.95em;">
+      <option value="eclipse">🌑 Eclipse 2026</option>
+      <option value="perseidas">☄️ Perseidas</option>
+      <option value="2027">🌒 Eclipse 2027</option>
+      <option value="auroras">🌌 Auroras</option>
+      <option value="calendario">📅 Calendario</option>
+    </select>
   </div>
 </header>
 <div id="countdown"></div>
@@ -145,6 +152,7 @@
 <div id="pwaBanner" style="text-align:center;padding:8px 12px;background:#132a24;border-bottom:1px solid var(--line);">
   <button id="pwaInstallBtn" class="btn" style="padding:8px 16px;">📲 Instalar la app (gratis)</button>
 </div>
+<div style="padding:8px 14px 0;background:#0d1322;color:var(--muted);font-size:.72em;text-transform:uppercase;letter-spacing:.8px;">🌒 Fenómenos</div>
 <div id="tabs">
   <button class="tab active" data-tab="eclipse">🌑 Eclipse 2026</button>
   <button class="tab" data-tab="perseidas">☄️ Perseidas</button>
@@ -226,7 +234,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.21</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.22</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -421,6 +429,7 @@ if (navigator.serviceWorker) {
 function switchTab(t){
   document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('active', x.dataset.tab === t); });
   var sel = document.getElementById('phenSelect'); if (sel) sel.value = t;
+  var hsel = document.getElementById('headerPhen'); if (hsel) hsel.value = t;
   if (t === 'eclipse' || t === '2027') {
     document.getElementById('main').classList.remove('hidden');
     document.getElementById('otherCards').classList.add('hidden');
@@ -439,6 +448,8 @@ function switchTab(t){
 document.querySelectorAll('#tabs .tab').forEach(function(b){ b.onclick = function(){ switchTab(b.dataset.tab); }; });
 var phenSelect = document.getElementById('phenSelect');
 if (phenSelect) phenSelect.onchange = function(){ switchTab(this.value); };
+var headerPhen = document.getElementById('headerPhen');
+if (headerPhen) headerPhen.onchange = function(){ switchTab(this.value); };
 
 // ===== Ayuda =====
 function openHelp(){ document.getElementById('helpModal').classList.remove('hidden'); }
