@@ -74,9 +74,9 @@
 - [x] **Eclipse 2026 global**: franja completa NASA GSFC (Islandia → España → Mediterráneo) con 19 ciudades; **Reykjavik (Islandia) total** + Akureyri parcial + europeas de referencia (Londres, París, Lisboa, Roma) con nota de parcialidad. Forecast de nubosidad ampliado a 19 ciudades.
 - [x] **i18n ES/EN** con toggle (botón EN/ES en header, param lang + localStorage): título, tabs, botones, títulos de sección, countdown, next-event, cielo, leyendas y popups — diccionario I18N + t() + data-i18n (el contenido profundo de Guías/Ayuda/Calendario sigue en ES de momento).
 - [x] **Compartir RRSS** (v0.25): Web Share + X/WhatsApp/Telegram/Facebook + copiar.
-- [ ] **Contornos de parcialidad (%)** sobre Europa/N.África — pendiente de fuente fiable (NO inventar %).
+- [x] **Contornos de parcialidad (%)** (v0.27): isomagnéticas 90/70/50/30/10% del diámetro solar, calculadas con **elementos besselianos NASA + algoritmo Espenak/Meeus**, limitadas por atardecer, validadas contra 24 ciudades de Wikipedia (±1.5%). Toggle + leyenda + cobertura en popups.
 - [ ] Tras el 12-Ago: el eclipse 2026 pasa a "pasado" en el calendario (la app ya lo marca).
-- [ ] Traducción completa del contenido profundo (Guías, Ayuda, Calendario, cadenas de popup).
+- [x] **i18n contenido profundo** (v0.28): Guías, Ayuda, Perseidas/2027/Auroras/Calendario, safety, popups, eventos (name/visible/note_en) y ciudades internacionales (name_en) — verificado ES↔EN en móvil headless.
 
 ### Fase 2 — Cielos & Eventos (avance)
 - [x] **Eclipse 2027 con mapa** (Sprint 4): Cádiz/Málaga/Ceuta/Melilla total · Granada/Almería parcial (borde norte). Horarios estimados de la línea central NASA.
@@ -87,7 +87,7 @@
 ### Mejores opciones (roadmap evaluado)
 - **Hecho (T1 + sprites)**: Ko-fi · contador + totalidad restante · mejores spots (duración×nubosidad) · enlace planificador IA · JSON-LD · PWA (instalar visible, iOS, offline, mapa móvil) · funnel · ayuda genérica · SEO/RRSS completo (og:image, @graph, robots/sitemap).
 - **Hecho (Sprint 7)**: global 2026 (Islandia + europeas) · i18n ES/EN core · compartir RRSS.
-- **Próximo**: contornos de parcialidad (%) con fuente fiable · i18n contenido profundo.
+- **Próximo**: i18n contenido restante (spots, instalación, toast) · alertas Telegram · previsión Kp 3 días.
 - **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador · previsión Kp a 3 días para auroras.
 
 ### No aquí (pertenece a viajeinteligencia.com)
