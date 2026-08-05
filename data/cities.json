@@ -1,0 +1,21 @@
+{
+  "generated": "2026-08-05",
+  "event": "Eclipse solar total 2026-08-12",
+  "source": "Instituto Geográfico Nacional (IGN) via eclipsetotal.info / NASA GSFC",
+  "note": "Horas en hora local de España (CEST, UTC+2).",
+  "cities": [
+    { "id": "a-coruna", "name": "A Coruña", "lat": 43.3623, "lon": -8.4115, "province": "A Coruña", "inicio": "19:30:51", "tot_inicio": "20:27:35", "tot_fin": "20:28:51", "totalidad_s": 76, "magnitud": 1.03, "altura": 12, "azimut": 279, "tipo": "total" },
+    { "id": "oviedo", "name": "Oviedo", "lat": 43.3619, "lon": -5.8448, "province": "Asturias", "inicio": "19:31:15", "tot_inicio": "20:27:00", "tot_fin": "20:28:48", "totalidad_s": 108, "magnitud": 1.03, "altura": 10, "azimut": 281, "tipo": "total" },
+    { "id": "bilbao", "name": "Bilbao", "lat": 43.2630, "lon": -2.9350, "province": "Bizkaia", "inicio": "19:31:43", "tot_inicio": "20:27:18", "tot_fin": "20:27:48", "totalidad_s": 30, "magnitud": 1.03, "altura": 8, "azimut": 283, "tipo": "total" },
+    { "id": "leon", "name": "León", "lat": 42.5987, "lon": -5.5671, "province": "León", "inicio": "19:32:39", "tot_inicio": "20:28:15", "tot_fin": "20:30:00", "totalidad_s": 105, "magnitud": 1.03, "altura": 10, "azimut": 281, "tipo": "total" },
+    { "id": "burgos", "name": "Burgos", "lat": 42.3439, "lon": -3.6966, "province": "Burgos", "inicio": "19:33:17", "tot_inicio": "20:28:20", "tot_fin": "20:30:04", "totalidad_s": 104, "magnitud": 1.03, "altura": 8, "azimut": 283, "tipo": "total" },
+    { "id": "soria", "name": "Soria", "lat": 41.7637, "lon": -2.4653, "province": "Soria", "inicio": "19:34:22", "tot_inicio": "20:29:01", "tot_fin": "20:30:42", "totalidad_s": 101, "magnitud": 1.03, "altura": 7, "azimut": 284, "tipo": "total" },
+    { "id": "zaragoza", "name": "Zaragoza", "lat": 41.6488, "lon": -0.8891, "province": "Zaragoza", "inicio": "19:34:35", "tot_inicio": "20:28:57", "tot_fin": "20:30:20", "totalidad_s": 83, "magnitud": 1.03, "altura": 6, "azimut": 285, "tipo": "total" },
+    { "id": "teruel", "name": "Teruel", "lat": 40.3456, "lon": -1.1065, "province": "Teruel", "inicio": "19:36:50", "tot_inicio": "20:30:59", "tot_fin": "20:32:33", "totalidad_s": 94, "magnitud": 1.03, "altura": 6, "azimut": 285, "tipo": "total" },
+    { "id": "valencia", "name": "València", "lat": 39.4699, "lon": -0.3763, "province": "València", "inicio": "19:38:18", "tot_inicio": "20:32:24", "tot_fin": "20:33:24", "totalidad_s": 60, "magnitud": 1.03, "altura": 5, "azimut": 286, "tipo": "total" },
+    { "id": "palma", "name": "Palma", "lat": 39.5696, "lon": 2.6502, "province": "Illes Balears", "inicio": "19:37:58", "tot_inicio": "20:31:00", "tot_fin": "20:32:36", "totalidad_s": 96, "magnitud": 1.03, "altura": 3, "azimut": 287, "tipo": "total" },
+    { "id": "castello", "name": "Castelló de la Plana", "lat": 39.9864, "lon": -0.0514, "province": "Castelló", "inicio": "19:38:59", "tot_inicio": null, "tot_fin": null, "totalidad_s": 0, "magnitud": 1.0, "altura": 4, "azimut": 286, "tipo": "parcial" },
+    { "id": "madrid", "name": "Madrid", "lat": 40.4168, "lon": -3.7038, "province": "Madrid", "inicio": "19:36:41", "tot_inicio": null, "tot_fin": null, "totalidad_s": 0, "magnitud": 1.0, "altura": 7, "azimut": 283, "tipo": "parcial" },
+    { "id": "barcelona", "name": "Barcelona", "lat": 41.3851, "lon": 2.1734, "province": "Barcelona", "inicio": "19:34:59", "tot_inicio": null, "tot_fin": null, "totalidad_s": 0, "magnitud": 1.0, "altura": 4, "azimut": 286, "tipo": "parcial" }
+  ]
+}

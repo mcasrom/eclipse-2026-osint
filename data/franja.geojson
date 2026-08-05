@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "source": "NASA GSFC — Path Table del eclipse total de 2026-08-12 (límites N/S + línea central, WGS84)",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Franja de totalidad", "source": "NASA GSFC", "note": "Polígono aproximado construido a partir de los límites N/S de la tabla oficial de NASA (intervalos 120s) sobre España y Baleares." },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-13.008, 45.983],
+          [-11.420, 44.832],
+          [-9.552, 43.607],
+          [-7.237, 42.263],
+          [-4.040, 40.683],
+          [4.540, 37.690],
+          [6.340, 39.708],
+          [3.295, 40.665],
+          [-2.085, 42.908],
+          [-4.948, 44.457],
+          [-7.077, 45.802],
+          [-13.008, 45.983]
+        ]]
+      }
+    }
+  ]
+}

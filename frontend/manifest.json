@@ -1,0 +1,14 @@
+{
+  "name": "Eclipse Total 12 Ago 2026 · España",
+  "short_name": "Eclipse 2026",
+  "description": "Mapa de la franja de totalidad del eclipse solar del 12-08-2026: horarios por ciudad, duración y previsión de nubosidad.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "lang": "es",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eclipse Total 12 Ago 2026 · España — Mapa de la totalidad</title>
+<meta name="description" content="Mapa interactivo de la franja de totalidad del eclipse solar total del 12 de agosto de 2026 en España: horarios por ciudad, duración, previsión de nubosidad y seguridad.">
+<meta name="theme-color" content="#0a0e17">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23000'/><circle cx='50' cy='50' r='30' fill='%23ffd54f'/></svg>">
+<link rel="stylesheet" href="/vendor/leaflet.css">
+<style>
+  :root { --bg:#0a0e17; --panel:#111827; --line:#1e293b; --text:#dbe4f0; --muted:#8aa0c0; --accent:#ffd54f; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; }
+  body { font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
+  header { padding:10px 14px; border-bottom:1px solid var(--line); background:#0d1322; }
+  header h1 { font-size:1.05em; color:var(--accent); }
+  header .sub { font-size:.72em; color:var(--muted); margin-top:2px; }
+  #safety { background:#3b0a0a; border-bottom:1px solid #5a1515; color:#ffb4b4; font-size:.8em; padding:8px 14px; line-height:1.45; }
+  #safety b { color:#ff6b6b; }
+  #main { flex:1; display:flex; min-height:0; }
+  #map { flex:1; min-width:0; }
+  #panel { width:340px; max-width:100%; background:var(--panel); border-left:1px solid var(--line); overflow-y:auto; padding:12px; font-size:.82em; }
+  #panel h3 { color:var(--accent); font-size:.9em; text-transform:uppercase; letter-spacing:.8px; margin:12px 0 6px; }
+  #panel h3:first-child { margin-top:0; }
+  .city { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 8px; border:1px solid var(--line); border-radius:8px; margin-bottom:6px; cursor:pointer; }
+  .city:hover { border-color:var(--accent); }
+  .city .cname { font-weight:600; }
+  .city .ctime { color:var(--muted); font-size:.78em; }
+  .city .cdot { width:10px; height:10px; border-radius:50%; flex:none; }
+  .city.total { border-left:3px solid var(--accent); }
+  .legend { font-size:.75em; color:var(--muted); }
+  .legend .row { display:flex; align-items:center; gap:6px; margin-bottom:3px; }
+  .sw { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .btn { display:inline-block; background:var(--accent); color:#0a0e17; border:none; border-radius:8px; padding:8px 12px; font-weight:600; cursor:pointer; font-size:.8em; }
+  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--text); }
+  .link { color:var(--accent); text-decoration:none; }
+  #locNote { font-size:.75em; color:var(--muted); margin-top:6px; }
+  #foot { border-top:1px solid var(--line); padding:8px 14px; font-size:.72em; color:var(--muted); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .leaflet-popup-content { font-size:.82em; }
+  @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🌑 Eclipse Solar Total · 12 de agosto de 2026 · España</h1>
+  <div class="sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
+</header>
+<div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
+<div id="main">
+  <div id="map"></div>
+  <div id="panel">
+    <h3>📍 Mi ubicación</h3>
+    <button class="btn" id="locBtn">📍 Usar mi ubicación</button>
+    <div id="locNote"></div>
+    <h3>🗓️ Horarios por ciudad (hora local)</h3>
+    <div id="cityList"><div class="legend">Cargando…</div></div>
+    <h3>☁️ Previsión de nubosidad (20:00)</h3>
+    <div id="fcNote" class="legend">Actualizando…</div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:#34d399"></span>Despejado (&lt;20%)</div>
+      <div class="row"><span class="sw" style="background:#fbbf24"></span>Parcialmente nublado</div>
+      <div class="row"><span class="sw" style="background:#fb923c"></span>Nublado</div>
+      <div class="row"><span class="sw" style="background:#f87171"></span>Muy nublado</div>
+    </div>
+    <h3>🌒 Leyenda del mapa</h3>
+    <div class="legend">
+      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#000;border:2px solid #ffd54f;display:inline-block"></span> Ciudad con eclipse TOTAL</div>
+      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#111827;border:2px solid #8aa0c0;display:inline-block"></span> Ciudad con eclipse PARCIAL</div>
+      <div class="row"><span style="width:22px;height:14px;background:rgba(255,213,79,.35);border:1px solid #ffd54f;display:inline-block"></span> Franja de totalidad</div>
+    </div>
+    <h3>🛣️ Planifica tu viaje</h3>
+    <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
+    <h3>ℹ️ Sobre los datos</h3>
+    <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja: tabla de trayectoria de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
+  </div>
+</div>
+<div id="foot">
+  <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️</span>
+</div>
+<script src="/vendor/leaflet.js"></script>
+<script>
+const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
+let cities = [], bandLayer = null, markers = {}, fcData = null;
+const map = L.map('map').setView([40.5, -3.5], 6);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19 }).addTo(map);
+
+function fmtT(s){ return s || '—'; }
+function fmtDur(sec){ return sec > 0 ? Math.floor(sec/60) + 'm ' + (sec%60) + 's' : '—'; }
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+async function loadData(){
+  const [cj, fj] = await Promise.all([
+    fetch('/data/cities.json').then(r => r.json()),
+    fetch('/data/franja.geojson').then(r => r.json())
+  ]);
+  cities = cj.cities;
+  L.geoJSON(fj, { style:{ color:'#ffd54f', weight:1.5, fillColor:'#ffd54f', fillOpacity:0.18 } }).addTo(map);
+  renderCities();
+  renderList();
+  buildTravelLinks();
+  loadForecast();
+}
+
+function cityCategory(id){
+  if (!fcData) return 'desconocido';
+  const c = fcData.cities && fcData.cities.find(x => x.id === id);
+  return c ? c.category : 'desconocido';
+}
+
+function renderCities(){
+  for (const c of cities){
+    const total = c.tipo === 'total';
+    const cat = cityCategory(c.id);
+    const col = total ? CC[cat] || CC.desconocido : '#8aa0c0';
+    const m = L.circleMarker([c.lat, c.lon], {
+      radius: total ? 8 : 5,
+      color: total ? '#ffd54f' : '#8aa0c0',
+      weight: 2,
+      fillColor: col,
+      fillOpacity: 0.9
+    }).addTo(map);
+    const dur = total ? '<b>Totalidad: ' + fmtDur(c.totalidad_s) + '</b>' : '<b>Eclipse parcial</b>';
+    m.bindPopup(
+      '<b>' + esc(c.name) + '</b> (' + esc(c.province) + ')<br>' +
+      dur +
+      '<br>Inicio: <b>' + fmtT(c.inicio) + '</b>' +
+      (total ? '<br>Totalidad: <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b>' : '') +
+      '<br>Magnitud: ' + (c.magnitud || '—') + ' · Altura Sol: ' + (c.altura || '—') + '°' +
+      '<br>Nubes 20:00: <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
+      (total ? '<br>☀️ Durante la totalidad puedes mirar sin gafas' : '<br>🕶️ Usa gafas ISO 12312-2 toda la observación')
+    );
+    markers[c.id] = m;
+  }
+}
+
+function renderList(){
+  const box = document.getElementById('cityList');
+  box.innerHTML = cities.map(c => {
+    const cat = cityCategory(c.id);
+    const total = c.tipo === 'total';
+    return '<div class="city ' + (total ? 'total' : '') + '" onclick="map.setView([' + c.lat + ',' + c.lon + '],9);map.closePopup();">' +
+      '<div><div class="cname">' + esc(c.name) + '</div><div class="ctime">' +
+      (total ? 'Totalidad ' + fmtT(c.tot_inicio) + ' · ' + fmtDur(c.totalidad_s) : 'Parcial · ' + fmtT(c.inicio)) +
+      '</div></div>' +
+      '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '" title="' + esc(cat.replace(/_/g,' ')) + '"></span>' +
+      '</div>';
+  }).join('');
+}
+
+async function loadForecast(){
+  const note = document.getElementById('fcNote');
+  try {
+    const r = await fetch('/api/forecast');
+    fcData = await r.json();
+    note.textContent = fcData.cached ? '☁️ Datos cacheados · ' + (fcData.stale ? 'última disponible' : 'actualizado') + (fcData.updated ? ' · ' + fcData.updated.slice(11,16) + ' UTC' : '') : '☁️ Actualizado · ' + (fcData.updated ? fcData.updated.slice(11,16) + ' UTC' : '');
+  } catch(e) {
+    note.textContent = '☁️ Previsión no disponible ahora (se reintentará)';
+  }
+  renderCities();
+  renderList();
+}
+
+function nearestCity(lat, lon){
+  let best = null, bd = 1e9;
+  for (const c of cities){
+    const d = Math.hypot(c.lat - lat, c.lon - lon);
+    if (d < bd){ bd = d; best = c; }
+  }
+  return best;
+}
+
+function useMyLocation(){
+  const note = document.getElementById('locNote');
+  if (!navigator.geolocation){ note.textContent = 'Geolocalización no disponible.'; return; }
+  note.textContent = 'Localizando…';
+  navigator.geolocation.getCurrentPosition(pos => {
+    const lat = pos.coords.latitude, lon = pos.coords.longitude;
+    map.setView([lat, lon], 8);
+    const n = nearestCity(lat, lon);
+    note.textContent = n ? '📍 Tu ciudad más cercana: ' + n.name + ' (' + n.province + ')' : '📍 Posición fijada';
+  }, () => { note.textContent = 'No se pudo obtener tu ubicación. Actívala en el navegador.'; });
+}
+document.getElementById('locBtn').addEventListener('click', useMyLocation);
+
+function buildTravelLinks(){
+  const provs = [...new Set(cities.map(c => c.province))];
+  document.getElementById('travelLinks').innerHTML =
+    'Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia: ' +
+    provs.map(p => '<a class="link" href="https://viajeinteligencia.com/?q=' + encodeURIComponent(p) + '" target="_blank" rel="noopener">' + esc(p) + '</a>').join(' · ');
+}
+
+loadData();
+</script>
+</body>
+</html>
