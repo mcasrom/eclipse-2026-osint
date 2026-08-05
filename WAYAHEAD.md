@@ -70,11 +70,13 @@
 
 ## 🔜 Próximos sprints
 
-### Sprint 7 — Opción 5: Global + i18n ES/EN + parcialidad (post-12-Ago)
-- [ ] **Eclipse 2026 global**: ampliar a Islandia (total) y resto de la franja; **contornos de parcialidad** (%) sobre Europa y N.África desde fuente fiable (no inventar).
-- [ ] **Más ciudades europeas** en zona parcial con su % de ocultación.
-- [ ] **i18n ES/EN** con toggle (diccionario + data-i18n), como NearMe/MigrationFlow — el mayor esfuerzo (todas las cadenas del frontend).
+### Sprint 7 — Global + i18n ES/EN (5 Ago 2026)
+- [x] **Eclipse 2026 global**: franja completa NASA GSFC (Islandia → España → Mediterráneo) con 19 ciudades; **Reykjavik (Islandia) total** + Akureyri parcial + europeas de referencia (Londres, París, Lisboa, Roma) con nota de parcialidad. Forecast de nubosidad ampliado a 19 ciudades.
+- [x] **i18n ES/EN** con toggle (botón EN/ES en header, param lang + localStorage): título, tabs, botones, títulos de sección, countdown, next-event, cielo, leyendas y popups — diccionario I18N + t() + data-i18n (el contenido profundo de Guías/Ayuda/Calendario sigue en ES de momento).
+- [x] **Compartir RRSS** (v0.25): Web Share + X/WhatsApp/Telegram/Facebook + copiar.
+- [ ] **Contornos de parcialidad (%)** sobre Europa/N.África — pendiente de fuente fiable (NO inventar %).
 - [ ] Tras el 12-Ago: el eclipse 2026 pasa a "pasado" en el calendario (la app ya lo marca).
+- [ ] Traducción completa del contenido profundo (Guías, Ayuda, Calendario, cadenas de popup).
 
 ### Fase 2 — Cielos & Eventos (avance)
 - [x] **Eclipse 2027 con mapa** (Sprint 4): Cádiz/Málaga/Ceuta/Melilla total · Granada/Almería parcial (borde norte). Horarios estimados de la línea central NASA.
@@ -84,7 +86,8 @@
 
 ### Mejores opciones (roadmap evaluado)
 - **Hecho (T1 + sprites)**: Ko-fi · contador + totalidad restante · mejores spots (duración×nubosidad) · enlace planificador IA · JSON-LD · PWA (instalar visible, iOS, offline, mapa móvil) · funnel · ayuda genérica · SEO/RRSS completo (og:image, @graph, robots/sitemap).
-- **Próximo**: opción 5 (global + i18n + parcialidad).
+- **Hecho (Sprint 7)**: global 2026 (Islandia + europeas) · i18n ES/EN core · compartir RRSS.
+- **Próximo**: contornos de parcialidad (%) con fuente fiable · i18n contenido profundo.
 - **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador · previsión Kp a 3 días para auroras.
 
 ### No aquí (pertenece a viajeinteligencia.com)

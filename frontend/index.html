@@ -135,10 +135,11 @@
 <header>
   <div class="header-row">
     <div>
-      <h1>🌑 Eclipse Solar Total · 12 de agosto de 2026 · España</h1>
-      <div class="sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
+      <h1 data-i18n="brand_title">🌑 Eclipse Solar Total · 12 de agosto de 2026 · España</h1>
+      <div class="sub" data-i18n="brand_sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
     </div>
     <div class="btns">
+      <button class="btn ghost" id="langBtn" style="padding:7px 12px;">EN</button>
       <button class="btn ghost" id="shareBtn" style="padding:7px 12px;">📤 Compartir</button>
       <button class="btn ghost" id="helpBtn" style="padding:7px 12px;">❓ Ayuda</button>
       <button class="btn" id="installBtn" style="padding:7px 12px;">⬇️ Instalar</button>
@@ -161,12 +162,12 @@
 </div>
 <div style="padding:8px 14px 0;background:#0d1322;color:var(--muted);font-size:.72em;text-transform:uppercase;letter-spacing:.8px;">🌒 Fenómenos</div>
 <div id="tabs">
-  <button class="tab active" data-tab="eclipse">🌑 Eclipse 2026</button>
-  <button class="tab" data-tab="perseidas">☄️ Perseidas</button>
-  <button class="tab" data-tab="2027">🌒 Eclipse 2027</button>
-  <button class="tab" data-tab="auroras">🌌 Auroras</button>
-  <button class="tab" data-tab="calendario">📅 Calendario</button>
-  <button class="tab" data-tab="guias">📖 Guías</button>
+  <button class="tab active" data-tab="eclipse" data-i18n="tab_eclipse">🌑 Eclipse 2026</button>
+  <button class="tab" data-tab="perseidas" data-i18n="tab_perseidas">☄️ Perseidas</button>
+  <button class="tab" data-tab="2027" data-i18n="tab_2027">🌒 Eclipse 2027</button>
+  <button class="tab" data-tab="auroras" data-i18n="tab_auroras">🌌 Auroras</button>
+  <button class="tab" data-tab="calendario" data-i18n="tab_calendario">📅 Calendario</button>
+  <button class="tab" data-tab="guias" data-i18n="tab_guias">📖 Guías</button>
 </div>
 <div id="otherCards" class="hidden">
   <div id="ocard-perseidas" class="ocard hidden">
@@ -211,7 +212,7 @@
   <div id="map"></div>
   <div id="panel">
     <div style="margin-bottom:12px;">
-      <label style="font-size:.8em;color:var(--muted);display:block;margin-bottom:4px;">Fenómeno:</label>
+      <label style="font-size:.8em;color:var(--muted);display:block;margin-bottom:4px;" data-i18n="phen_label">Fenómeno:</label>
       <select id="phenSelect" style="width:100%;padding:9px;border-radius:8px;border:1px solid var(--line);background:#111827;color:var(--text);font-size:.92em;">
         <option value="eclipse">🌑 Eclipse 2026</option>
         <option value="perseidas">☄️ Perseidas</option>
@@ -220,34 +221,34 @@
         <option value="calendario">📅 Calendario</option>
       </select>
     </div>
-    <h3>📍 Mi ubicación</h3>
+    <h3 data-i18n="sec_ubicacion">📍 Mi ubicación</h3>
     <button class="btn" id="locBtn">📍 Usar mi ubicación</button>
     <div id="locNote"></div>
     <div style="margin-top:10px;"><button class="btn ghost" id="panelInstall" style="padding:7px 12px;">📲 Instalar app</button> <span id="installHint" style="font-size:.72em;color:var(--muted);display:block;margin-top:4px;"></span></div>
     <h3>🗓️ Horarios por ciudad (hora local)</h3>
     <div id="cityList"><div class="legend">Cargando…</div></div>
-    <h3>☀️ Hoy en el cielo</h3>
+    <h3 data-i18n="sec_hoy">☀️ Hoy en el cielo</h3>
     <div id="skyInfo" class="legend">Cargando…</div>
-    <h3>☁️ Previsión de nubosidad (totalidad)</h3>
+    <h3 data-i18n="sec_nubosidad">☁️ Previsión de nubosidad (totalidad)</h3>
     <div id="fcNote" class="legend">Actualizando…</div>
     <div class="legend">
-      <div class="row"><span class="sw" style="background:#34d399"></span>Despejado (&lt;20%)</div>
-      <div class="row"><span class="sw" style="background:#fbbf24"></span>Parcialmente nublado</div>
-      <div class="row"><span class="sw" style="background:#fb923c"></span>Nublado</div>
-      <div class="row"><span class="sw" style="background:#f87171"></span>Muy nublado</div>
+      <div class="row"><span class="sw" style="background:#34d399"></span><span data-i18n="despejado">Despejado (&lt;20%)</span></div>
+      <div class="row"><span class="sw" style="background:#fbbf24"></span><span data-i18n="parcial_nube">Parcialmente nublado</span></div>
+      <div class="row"><span class="sw" style="background:#fb923c"></span><span data-i18n="nublado">Nublado</span></div>
+      <div class="row"><span class="sw" style="background:#f87171"></span><span data-i18n="muy_nublado">Muy nublado</span></div>
     </div>
-    <h3>⭐ Mejores spots (duración × nubosidad)</h3>
+    <h3 data-i18n="sec_spots">⭐ Mejores spots (duración × nubosidad)</h3>
     <div id="spots"></div>
-    <h3>🌒 Leyenda del mapa</h3>
+    <h3 data-i18n="sec_leyenda">🌒 Leyenda del mapa</h3>
     <div class="legend">
-      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#000;border:2px solid #ffd54f;display:inline-block"></span> Ciudad con eclipse TOTAL</div>
-      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#111827;border:2px solid #8aa0c0;display:inline-block"></span> Ciudad con eclipse PARCIAL</div>
-      <div class="row"><span style="width:22px;height:14px;background:rgba(255,213,79,.35);border:1px solid #ffd54f;display:inline-block"></span> Franja de totalidad</div>
+      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#000;border:2px solid #ffd54f;display:inline-block"></span> <span data-i18n="total_ciudad">Ciudad con eclipse TOTAL</span></div>
+      <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#111827;border:2px solid #8aa0c0;display:inline-block"></span> <span data-i18n="parcial_ciudad">Ciudad con eclipse PARCIAL</span></div>
+      <div class="row"><span style="width:22px;height:14px;background:rgba(255,213,79,.35);border:1px solid #ffd54f;display:inline-block"></span> <span data-i18n="franja_total">Franja de totalidad</span></div>
     </div>
-    <h3>🛣️ Planifica tu viaje</h3>
+    <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
     <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
     <div class="legend" style="margin-top:6px;">🤖 Planifica tu viaje 2-3 días con IA: <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a></div>
-    <h3>ℹ️ Sobre los datos</h3>
+    <h3 data-i18n="sec_datos">ℹ️ Sobre los datos</h3>
     <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja: tabla de trayectoria de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
     <div class="legend" style="margin-top:6px;">📬 Contacto: <a class="link" href="mailto:eclipse@viajeinteligencia.com">eclipse@viajeinteligencia.com</a></div>
     <div class="legend" style="margin-top:4px;">🔭 Este portal abre la vía a más <b>fenómenos celestes y meteorológicos</b> (próximos eclipses, lluvias de meteoros, auroras…).</div>
@@ -256,7 +257,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.25</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.26</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -269,8 +270,8 @@
       <div>☁️ Consulta la <b>previsión de nubosidad</b> por ciudad</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn" id="welcomeGo">Explorar el mapa →</button>
-      <button class="btn ghost" id="welcomeHelp">❓ Ayuda y seguridad</button>
+      <button class="btn" id="welcomeGo" data-i18n="btn_explorar">Explorar el mapa →</button>
+      <button class="btn ghost" id="welcomeHelp" data-i18n="btn_ayuda_seg">❓ Ayuda y seguridad</button>
     </div>
   </div>
 </div>
@@ -303,6 +304,53 @@
 const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
 let cities = [], bandLayer = null, markers = {}, fcData = null;
 let currentYear = '2026';
+var I18N = {
+  es: {
+    brand_title: '🌑 Eclipse Solar Total · 12 de agosto de 2026 · España',
+    brand_sub: 'Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares',
+    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseidas', tab_2027: '🌒 Eclipse 2027',
+    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendario', tab_guias: '📖 Guías',
+    btn_ayuda: '❓ Ayuda', btn_instalar: '⬇️ Instalar', btn_explorar: 'Explorar el mapa →',
+    btn_ayuda_seg: '❓ Ayuda y seguridad', phen_label: 'Fenómeno:',
+    sec_ubicacion: '📍 Mi ubicación', sec_hoy: '☀️ Hoy en el cielo',
+    sec_nubosidad: '☁️ Previsión de nubosidad (totalidad)', sec_spots: '⭐ Mejores spots (duración × nubosidad)',
+    sec_leyenda: '🌒 Leyenda del mapa', sec_viaje: '🛣️ Planifica tu viaje', sec_datos: 'ℹ️ Sobre los datos',
+    proximo: 'PRÓXIMO', hasta: 'hasta', totalidad_en: 'hasta la totalidad en',
+    amanecer: '🌅 Amanecer', atardecer: '🌇 Atardecer', fase: '🌙 Fase', uv: '☀️ UV máx', cacheado: 'cacheado',
+    despejado: 'Despejado', parcial_nube: 'Parcialmente nublado', nublado: 'Nublado', muy_nublado: 'Muy nublado',
+    total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
+    max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos'
+  },
+  en: {
+    brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
+    brand_sub: 'First total eclipse visible from the Iberian peninsula in over a century · Totality band over Spain and the Balearics',
+    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseids', tab_2027: '🌒 Eclipse 2027',
+    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendar', tab_guias: '📖 Guides',
+    btn_ayuda: '❓ Help', btn_instalar: '⬇️ Install', btn_explorar: 'Explore the map →',
+    btn_ayuda_seg: '❓ Help & safety', phen_label: 'Phenomenon:',
+    sec_ubicacion: '📍 My location', sec_hoy: '☀️ Sky today',
+    sec_nubosidad: '☁️ Cloud forecast (totality)', sec_spots: '⭐ Best spots (duration × clouds)',
+    sec_leyenda: '🌒 Map legend', sec_viaje: '🛣️ Plan your trip', sec_datos: 'ℹ️ About the data',
+    proximo: 'NEXT', hasta: 'until', totalidad_en: 'until totality in',
+    amanecer: '🌅 Sunrise', atardecer: '🌇 Sunset', fase: '🌙 Moon', uv: '☀️ UV max', cacheado: 'cached',
+    despejado: 'Clear', parcial_nube: 'Partly cloudy', nublado: 'Cloudy', muy_nublado: 'Very cloudy',
+    total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
+    max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events'
+  }
+};
+var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || localStorage.getItem('ecl_lang') || 'es';
+function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.es[key] || key; }
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.dataset.i18n); });
+  var lb = document.getElementById('langBtn'); if (lb) lb.textContent = LANG === 'es' ? 'EN' : 'ES';
+  updateCountdown(); renderNextEvent();
+  if (typeof renderList === 'function') renderList();
+  if (typeof renderSpots === 'function') renderSpots();
+  if (typeof renderCities === 'function') renderCities();
+}
+var langBtn = document.getElementById('langBtn');
+if (langBtn) langBtn.onclick = function(){ LANG = LANG === 'es' ? 'en' : 'es'; localStorage.setItem('ecl_lang', LANG); applyLang(); };
 const map = L.map('map').setView([40.5, -3.5], 6);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19 }).addTo(map);
 
@@ -352,7 +400,7 @@ function renderCities(){
     const dur = total ? '<b>Totalidad: ' + fmtDur(c.totalidad_s) + '</b>' : '<b>Eclipse parcial</b>';
     var timeInfo;
     if (c.tot_inicio) timeInfo = '<br>Totalidad: <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b> · Inicio: ' + fmtT(c.inicio);
-    else if (c.max_estimado) timeInfo = '<br>Máximo ≈ <b>' + c.max_estimado + '</b> <span style="font-size:.72em;color:var(--muted)">(estimado línea central NASA)</span>';
+    else if (c.max_estimado) timeInfo = '<br>' + t('max_estimado') + ' <b>' + c.max_estimado + '</b> <span style="font-size:.72em;color:var(--muted)">' + t('estimado_nasa') + '</span>';
     else timeInfo = '<br>Inicio: ' + fmtT(c.inicio);
     m.bindPopup(
       '<b>' + esc(c.name) + '</b> (' + esc(c.province) + ')<br>' +
@@ -576,18 +624,18 @@ function renderNextEvent(){
   if (!ev) { el.style.display = 'none'; return; }
   el.style.display = 'block';
   var tabMap = { eclipse_total:'eclipse', meteoros:'perseidas', oposicion:'calendario', eclipse_lunar:'calendario' };
-  var t = tabMap[ev.type] || 'calendario';
-  el.innerHTML = '🌠 <b>PRÓXIMO:</b> ' + esc(ev.name) + ' · ' + esc(ev.date) +
-    ' <button class="btn ghost" style="padding:4px 10px;font-size:.75em;margin-left:6px;" onclick="switchTab(\'' + t + '\')">Ver</button>';
+  var tab = tabMap[ev.type] || 'calendario';
+  el.innerHTML = '🌠 <b>' + t('proximo') + ':</b> ' + esc(ev.name) + ' · ' + esc(ev.date) +
+    ' <button class="btn ghost" style="padding:4px 10px;font-size:.75em;margin-left:6px;" onclick="switchTab(\'' + tab + '\')">Ver</button>';
 }
 async function loadSky(){
   var el = document.getElementById('skyInfo');
   if (!el) return;
   try {
     var d = await (await fetch('/api/sky')).json();
-    el.innerHTML = '🌅 Amanecer <b>' + String(d.sunrise||'—').slice(11,16) + '</b> · 🌇 Atardecer <b>' + String(d.sunset||'—').slice(11,16) + '</b>' +
-      '<br>🌙 Fase: <b>' + (d.moon_phase_name||'—') + '</b> · ☀️ UV máx: <b>' + (d.uv_max||'—') + '</b>' +
-      (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">cacheado</span>' : '');
+    el.innerHTML = t('amanecer') + ' <b>' + String(d.sunrise||'—').slice(11,16) + '</b> · ' + t('atardecer') + ' <b>' + String(d.sunset||'—').slice(11,16) + '</b>' +
+      '<br>' + t('fase') + ': <b>' + (d.moon_phase_name||'—') + '</b> · ' + t('uv') + ': <b>' + (d.uv_max||'—') + '</b>' +
+      (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">' + t('cacheado') + '</span>' : '');
   } catch(e){ el.innerHTML = '☀️ No disponible ahora.'; }
 }
 function updateCountdown(){
@@ -595,11 +643,11 @@ function updateCountdown(){
   if (!el) return;
   var now = new Date();
   if (selectedCity && selectedCity.tipo === 'total' && selectedCity.tot_inicio){
-    el.textContent = cdText(now, targetTime(selectedCity.tot_inicio), ' hasta la totalidad en ' + selectedCity.name);
+    el.textContent = cdText(now, targetTime(selectedCity.tot_inicio), ' ' + t('totalidad_en') + ' ' + selectedCity.name);
   } else {
     var ev = getNextEvent();
-    if (ev) el.textContent = cdText(now, nextEventTarget(ev), ' hasta: ' + ev.name);
-    else el.textContent = '☀️ Sin eventos próximos';
+    if (ev) el.textContent = cdText(now, nextEventTarget(ev), ' ' + t('hasta') + ': ' + ev.name);
+    else el.textContent = t('sin_eventos');
   }
 }
 setInterval(updateCountdown, 1000);
@@ -722,6 +770,9 @@ function shareSite(){
 }
 document.getElementById('shareBtn').onclick = function(e){ e.stopPropagation(); shareSite(); };
 document.addEventListener('click', function(e){ var p = document.getElementById('sharePopup'); if (p && !p.classList.contains('hidden') && !p.contains(e.target) && e.target.id !== 'shareBtn') p.classList.add('hidden'); });
+
+
+applyLang();
 
 loadPhenomenon('2026');
 </script>
