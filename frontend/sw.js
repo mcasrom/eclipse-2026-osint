@@ -1,4 +1,4 @@
-const CACHE = 'eclipse-2026-v10';
+const CACHE = 'eclipse-2026-v11';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/icon.svg',
   '/vendor/leaflet.js', '/vendor/leaflet.css',
@@ -20,6 +20,9 @@ self.addEventListener('activate', (e) => {
     Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
   ));
   self.clients.claim();
+  self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(cls){
+    cls.forEach(function(c){ c.postMessage({ type: 'NEW_VERSION' }); });
+  });
 });
 
 self.addEventListener('fetch', (e) => {
