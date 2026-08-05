@@ -226,7 +226,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️</span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.21</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -503,6 +503,11 @@ window.addEventListener('offline', function(){ setOffline(true); });
 window.addEventListener('resize', function(){ if (typeof map !== 'undefined') map.invalidateSize(); });
 window.addEventListener('online', function(){ setOffline(false); });
 setOffline(!navigator.onLine);
+(function(){
+  var ua = navigator.userAgent || '';
+  var u = document.getElementById('uaInfo');
+  if (u) u.textContent = (ua.indexOf('iPhone')!==-1||ua.indexOf('iPad')!==-1 ? 'iOS Safari' : (ua.indexOf('Android')!==-1 ? 'Android' : 'Desktop')) + ' · tabs:' + document.querySelectorAll('#tabs .tab').length + ' · select:' + (!!document.getElementById('phenSelect')) + ' · seguridad:' + (!!document.getElementById('safety'));
+})();
 
 
 // ===== Contador + totalidad restante =====
