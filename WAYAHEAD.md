@@ -87,9 +87,10 @@
 ### Mejores opciones (roadmap evaluado)
 - **Hecho (T1 + sprites)**: Ko-fi · contador + totalidad restante · mejores spots (duración×nubosidad) · enlace planificador IA · JSON-LD · PWA (instalar visible, iOS, offline, mapa móvil) · funnel · ayuda genérica · SEO/RRSS completo (og:image, @graph, robots/sitemap).
 - **Hecho (Sprint 7)**: global 2026 (Islandia + europeas) · i18n ES/EN core · compartir RRSS.
-- **Hecho (6 Ago)**: i18n residual (welcome, offline, toast, instalación, spots, forecast) · **previsión Kp 3 días** (NOAA SWPC, pestaña Auroras, cache 10 min) · **Alertas Telegram** (canal `@eclipse2026osint` + bot `@eclipse_2026_osint_bot` admin; script `scripts/telegram_alert.py` con alerta diaria 09:00 y modo forecast; token en `.secrets/` fuera del repo). v0.29.
-- **Próximo**: ajustar alertas tras el 12-Ago (cadencia) · calibración horarios 2027 con IGN · previsión Kp 3 días ya activa.
-- **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador · previsión Kp a 3 días para auroras.
+- **Hecho (6 Ago, v0.29)**: i18n residual (welcome, offline, toast, instalación, spots, forecast) · **previsión Kp 3 días** (NOAA SWPC, pestaña Auroras, cache 10 min) · **Alertas Telegram** (canal `@eclipse2026osint` + bot `@eclipse_2026_osint_bot` admin; script `scripts/telegram_alert.py` con alerta diaria 09:00 y modo forecast; token en `.secrets/` fuera del repo).
+- **Hecho (6 Ago, v0.30-v0.35)**: **icono Telegram** del canal generado y subido (`setChatPhoto`) · **bandas de visibilidad sombreadas por %** (isobandas 10/30/50/70/90/100 del diámetro solar; elementos besselianos NASA + Espenak/Meeus limitado por atardecer; **fusionadas con shapely → 9 KB**; 100% = franja NASA) · **etiquetas de % sobre el mapa** (en el punto de cada banda más cercano a la totalidad española) · **parcialidad activa por defecto** · **localStorage seguro para incógnito** · **optimización de pantalla** (mapa ~2× más alto: banner PRÓXIMO redundante eliminado, SEGURIDAD/countdown compactos, etiqueta "Fenómenos" fuera, banner de instalación solo móvil) · PWA instalable desde header/panel.
+- **Próximo**: ajustar alertas tras el 12-Ago (cadencia) · calibración horarios 2027 con datos oficiales IGN · contornos de parcialidad con resolución más fina si se quiere (a costa de tamaño).
+- **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador.
 
 ### No aquí (pertenece a viajeinteligencia.com)
 - Chat IA / planificador (solo enlace). Email capture / alertas push con BD (choca con sin-tracking; si se hace, en la plataforma). API pública con backend (los datos ya son JSON estáticos servidos por nginx).
@@ -103,7 +104,7 @@ eclipse-2026-osint/
 │   ├── forecast.py      # Open-Meteo + caché fichero por año (TTL 3h)
 │   └── aurora.py        # Kp NOAA SWPC + caché (TTL 10 min)
 ├── data/
-│   ├── 2026/cities.json + franja.geojson   # eclipse 2026 (IGN + NASA)
+│   ├── 2026/cities.json + franja.geojson + visibilidad.geojson  # eclipse 2026 (IGN + NASA + bandas %)
 │   ├── 2027/cities.json + franja.geojson   # eclipse 2027 (NASA línea central)
 │   ├── events.json      # calendario 15 fenómenos 2026-2027
 │   └── forecast_cache_{year}.json + aurora_cache.json  # cachés (generados)
@@ -111,6 +112,7 @@ eclipse-2026-osint/
 │   ├── index.html       # Leaflet PWA (tabs multi-fenómeno, contador, spots, ayuda, funnel, og, SEO)
 │   ├── sw.js / manifest.json / iconos / og-image / robots.txt / sitemap.xml
 │   └── vendor/          # Leaflet self-hosted
+├── scripts/telegram_alert.py  # publica alertas al canal @eclipse2026osint (token en .secrets/)
 ├── deploy.sh
 ├── README.md
 └── WAYAHEAD.md
