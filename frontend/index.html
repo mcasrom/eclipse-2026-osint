@@ -395,8 +395,10 @@ function buildTravelLinks(){
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
 if (navigator.serviceWorker) {
+  var __reloaded = false;
   navigator.serviceWorker.addEventListener('message', function(e){
     if (e.data && e.data.type === 'NEW_VERSION') {
+      if (!__reloaded) { __reloaded = true; setTimeout(function(){ location.reload(); }, 800); return; }
       var t = document.getElementById('toast');
       if (!t) { t = document.createElement('div'); t.id = 'toast'; t.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:20000;background:#ffd54f;color:#0a0e17;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.85em;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;'; document.body.appendChild(t); }
       t.textContent = '🆕 Nueva versión disponible — recarga';
