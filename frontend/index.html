@@ -259,13 +259,14 @@
           <input type="checkbox" id="parcToggle" style="accent-color:var(--accent)"> <span data-i18n="parc_label">☀️ Mostrar parcialidad</span>
         </label>
       </div>
-      <div class="row parcRow hidden" style="margin-top:2px;">
-        <span style="width:22px;height:3px;background:#ff5f56;display:inline-block"></span> <span data-i18n="parc_90">90%</span> ·
-        <span style="width:22px;height:3px;background:#ff9f43;display:inline-block"></span> <span data-i18n="parc_70">70%</span> ·
-        <span style="width:22px;height:3px;background:#ffd54f;display:inline-block"></span> <span data-i18n="parc_50">50%</span> ·
-        <span style="width:22px;height:3px;background:#8aa0c0;display:inline-block"></span> <span data-i18n="parc_30">30%</span> ·
-        <span style="width:22px;height:3px;background:#4a5a72;display:inline-block"></span> <span data-i18n="parc_10">10%</span>
-        <span style="color:var(--muted);font-size:.72em;margin-left:2px;" data-i18n="parc_diametro">del diámetro solar</span>
+      <div class="row parcRow hidden" style="margin-top:2px;flex-wrap:wrap;gap:2px;">
+        <span style="width:14px;height:10px;background:#ffd54f;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_100">100%</span>
+        <span style="width:14px;height:10px;background:#ffb020;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_90">90%</span>
+        <span style="width:14px;height:10px;background:#fb923c;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_70">70%</span>
+        <span style="width:14px;height:10px;background:#f87171;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_50">50%</span>
+        <span style="width:14px;height:10px;background:#c084fc;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_30">30%</span>
+        <span style="width:14px;height:10px;background:#60a5fa;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_10">10%</span>
+        <span style="color:var(--muted);font-size:.72em;margin-left:2px;width:100%;" data-i18n="parc_diametro">del diámetro solar</span>
       </div>
     </div>
     <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
@@ -283,7 +284,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.29</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.30</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -350,7 +351,7 @@ var I18N = {
     despejado: 'Despejado', parcial_nube: 'Parcialmente nublado', nublado: 'Nublado', muy_nublado: 'Muy nublado',
     total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
     max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos',
-    parc_label: '☀️ Mostrar parcialidad', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_label: '☀️ Mostrar parcialidad', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
     parc_diametro: 'del diámetro solar', cobertura_max: 'Cobertura máx', del_sol: 'del Sol',
     pop_totalidad: 'Totalidad', pop_parcial: 'Eclipse parcial', pop_inicio: 'Inicio', pop_magnitud: 'Magnitud',
     pop_altura: 'Altura Sol', pop_nubes: 'Nubes totalidad', pop_sin_gafas: '☀️ Durante la totalidad puedes mirar sin gafas',
@@ -385,7 +386,7 @@ var I18N = {
     despejado: 'Clear', parcial_nube: 'Partly cloudy', nublado: 'Cloudy', muy_nublado: 'Very cloudy',
     total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
     max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events',
-    parc_label: '☀️ Show partiality', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_label: '☀️ Show partiality', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
     parc_diametro: 'of the Sun diameter', cobertura_max: 'Max coverage', del_sol: 'of the Sun',
     pop_totalidad: 'Totality', pop_parcial: 'Partial eclipse', pop_inicio: 'Start', pop_magnitud: 'Magnitude',
     pop_altura: 'Sun altitude', pop_nubes: 'Clouds at totality', pop_sin_gafas: '☀️ During totality you can look without glasses',
@@ -499,9 +500,13 @@ async function loadPhenomenon(year){
 function loadParcialidad(on){
   if (parcLayer) { map.removeLayer(parcLayer); parcLayer = null; }
   if (!on || currentYear !== '2026') return;
-  fetch('/data/2026/parcialidad.geojson').then(function(r){ return r.json(); }).then(function(gj){
-    var colors = { 0.9:'#ff5f56', 0.7:'#ff9f43', 0.5:'#ffd54f', 0.3:'#8aa0c0', 0.1:'#4a5a72' };
-    parcLayer = L.geoJSON(gj, { style: function(f){ return { color: colors[f.properties.level] || '#888', weight: 1.6, fill: false, opacity: 0.95 }; } }).addTo(map);
+  fetch('/data/2026/visibilidad.geojson').then(function(r){ return r.json(); }).then(function(gj){
+    var style = { '100':['#ffd54f',0.40], '90':['#ffb020',0.32], '70':['#fb923c',0.25],
+                   '50':['#f87171',0.18], '30':['#c084fc',0.12], '10':['#60a5fa',0.08] };
+    parcLayer = L.geoJSON(gj, { style: function(f){
+      var st = style[f.properties.band] || ['#888', 0.1];
+      return { color: st[0], weight: 0.5, fillColor: st[0], fillOpacity: st[1], opacity: 0.6 };
+    } }).addTo(map);
   }).catch(function(){});
 }
 var parcToggle = document.getElementById('parcToggle');
