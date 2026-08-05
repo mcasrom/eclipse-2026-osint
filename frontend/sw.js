@@ -1,8 +1,8 @@
-const CACHE = 'eclipse-2026-v3';
+const CACHE = 'eclipse-2026-v4';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/icon.svg',
   '/vendor/leaflet.js', '/vendor/leaflet.css',
-  '/data/cities.json', '/data/franja.geojson'
+  '/data/2026/cities.json', '/data/2026/franja.geojson', '/data/events.json'
 ];
 
 self.addEventListener('install', (e) => {

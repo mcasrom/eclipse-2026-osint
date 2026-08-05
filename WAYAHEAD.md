@@ -36,6 +36,12 @@
 - **Offline PWA**: verificado que SW precachea cities.json + franja.geojson + Leaflet.
 - **JSON-LD `Event`** (SEO estructurado).
 
+## Sprint 3 — Refactor por fenomeno + Calendario Cielos y Eventos (5 Ago 2026)
+
+- **Refactor por fenomeno**: datos del 2026 movidos a `data/2026/` (cities.json + franja.geojson); nginx alias `/data/` sirve la arbol completa. El frontend carga `/data/2026/...`.
+- **Calendario durable**: `data/events.json` con 15 fenomenos 2026-2027 (eclipses solares, lunares, lluvias de meteoros Perseidas/Geminidas/Cuadrantidas/Liridas/etc., oposiciones Saturno/Jupiter/Marte). Nuevo tab **📅 Calendario** con listado ordenado, destacando los eclipses y marcando los pasados.
+- Esto deja el sitio listo para el resto de fenomenos (2027, auroras, perseidas globales) sin tocar el backend.
+
 ## 🔜 Próximos sprints
 
 ### Fase 2 — Cielos & Eventos (durable, post-12-Ago)

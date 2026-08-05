@@ -120,6 +120,7 @@
   <button class="tab" data-tab="perseidas">☄️ Perseidas</button>
   <button class="tab" data-tab="2027">🌒 Eclipse 2027</button>
   <button class="tab" data-tab="auroras">🌌 Auroras</button>
+  <button class="tab" data-tab="calendario">📅 Calendario</button>
 </div>
 <div id="otherCards" class="hidden">
   <div id="ocard-perseidas" class="ocard hidden">
@@ -138,6 +139,11 @@
     <p style="font-size:.9em;line-height:1.6;">Estamos en el pico del ciclo solar 25: con la actividad alta, las auroras son visibles desde el <b>norte peninsular</b> (Galicia, Cantábrico, Pirineos) en noches despejadas. Sigue la previsión de actividad geomagnética (índice Kp) y busca cielos oscuros. Un complemento perfecto a la temporada de eclipses.</p>
   </div>
 </div>
+  <div id="ocard-calendario" class="ocard hidden">
+    <h2>📅 Calendario de fenómenos celestes</h2>
+    <div class="meta">2026–2027 · lluvias de meteoros, eclipses, oposiciones</div>
+    <div id="calendarList" style="font-size:.9em;"></div>
+  </div>
 <div id="main">
   <div id="map"></div>
   <div id="panel">
@@ -223,8 +229,8 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp
 
 async function loadData(){
   const [cj, fj] = await Promise.all([
-    fetch('/data/cities.json').then(r => r.json()),
-    fetch('/data/franja.geojson').then(r => r.json())
+    fetch('/data/2026/cities.json').then(r => r.json()),
+    fetch('/data/2026/franja.geojson').then(r => r.json())
   ]);
   cities = cj.cities;
   L.geoJSON(fj, { style:{ color:'#ffd54f', weight:1.5, fillColor:'#ffd54f', fillOpacity:0.18 } }).addTo(map);
@@ -232,6 +238,7 @@ async function loadData(){
   renderList();
   buildTravelLinks();
   loadForecast();
+  loadCalendar();
 }
 
 function cityCategory(id){
@@ -426,6 +433,26 @@ function renderSpots(){
     return '<div class="city total" onclick="pickCity(\'' + r.c.id + '\')">' +
       '<div><div class="cname">⭐ ' + esc(r.c.name) + '</div><div class="ctime">' + fmtDur(r.c.totalidad_s) + ' · ' + esc(cat.replace(/_/g,' ')) + '</div></div>' +
       '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '"></span></div>';
+  }).join('');
+}
+
+// ===== Calendario de fenomenos =====
+async function loadCalendar(){
+  var ev = [];
+  try { ev = (await (await fetch('/data/events.json')).json()).events || []; } catch(e){ ev = []; }
+  var list = document.getElementById('calendarList');
+  if (!list) return;
+  if (!ev.length){ list.innerHTML = '<p>No disponible.</p>'; return; }
+  var now = new Date();
+  ev.sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+  list.innerHTML = ev.map(function(x){
+    var isEclipse = x.type.indexOf('eclipse') !== -1;
+    var passed = new Date(x.date + 'T12:00:00') < now;
+    return '<div style="padding:8px 0;border-bottom:1px solid var(--line);' + (isEclipse ? 'border-left:3px solid var(--accent);padding-left:8px;' : '') + '">' +
+      '<div style="font-weight:600;color:' + (isEclipse ? 'var(--accent)' : 'var(--text)') + '">' + (isEclipse ? '🌑 ' : '☄️ ') + esc(x.name) + '</div>' +
+      '<div style="font-size:.82em;color:var(--muted);">' + esc(x.visible) + ' · <b>' + esc(x.date) + '</b>' + (passed ? ' · pasado' : '') + '</div>' +
+      '<div style="font-size:.78em;color:var(--muted);line-height:1.5;">' + esc(x.note) + '</div>' +
+      '</div>';
   }).join('');
 }
 
