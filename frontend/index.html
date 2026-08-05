@@ -77,7 +77,27 @@
   #installBtn { display:none; }
   #installBtn.show { display:inline-block; }
   @media (max-width:720px) { .header-row { flex-direction:column; align-items:flex-start; } }
+
+  #countdown { text-align:center; padding:8px 12px; background:#0d1322; border-bottom:1px solid var(--line); color:var(--accent); font-weight:600; font-size:.92em; font-variant-numeric:tabular-nums; }
+  #spots { margin-bottom:4px; }
+  .kofi { display:inline-block; background:#ff5e5b; color:#fff; border-radius:8px; padding:6px 14px; font-weight:700; text-decoration:none; font-size:.8em; }
+  .kofi:hover { filter:brightness(1.1); }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Eclipse solar total del 12 de agosto de 2026",
+  "startDate": "2026-08-12T19:30:00+02:00",
+  "endDate": "2026-08-12T21:30:00+02:00",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": { "@type": "Place", "name": "España (franja de totalidad)", "address": { "@type": "Country", "name": "ES" } },
+  "description": "Primer eclipse solar total visible desde la peninsula iberica en mas de un siglo. Franja de totalidad sobre A Coruna, Oviedo, Leon, Burgos, Soria, Zaragoza, Teruel, Valencia y Baleares.",
+  "organizer": { "@type": "Organization", "name": "Viaje con Inteligencia", "url": "https://viajeinteligencia.com" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+}
+</script>
 </head>
 <body>
 <header>
@@ -92,6 +112,7 @@
     </div>
   </div>
 </header>
+<div id="countdown"></div>
 <div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
 <div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
 <div id="tabs">
@@ -133,6 +154,8 @@
       <div class="row"><span class="sw" style="background:#fb923c"></span>Nublado</div>
       <div class="row"><span class="sw" style="background:#f87171"></span>Muy nublado</div>
     </div>
+    <h3>⭐ Mejores spots (duración × nubosidad)</h3>
+    <div id="spots"></div>
     <h3>🌒 Leyenda del mapa</h3>
     <div class="legend">
       <div class="row"><span style="width:14px;height:14px;border-radius:50%;background:#000;border:2px solid #ffd54f;display:inline-block"></span> Ciudad con eclipse TOTAL</div>
@@ -141,6 +164,7 @@
     </div>
     <h3>🛣️ Planifica tu viaje</h3>
     <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
+    <div class="legend" style="margin-top:6px;">🤖 Planifica tu viaje 2-3 días con IA: <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a></div>
     <h3>ℹ️ Sobre los datos</h3>
     <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja: tabla de trayectoria de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
     <div class="legend" style="margin-top:6px;">📬 Contacto: <a class="link" href="mailto:eclipse@viajeinteligencia.com">eclipse@viajeinteligencia.com</a></div>
@@ -149,6 +173,7 @@
 </div>
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
+  <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
   <span>Hecho con datos públicos · Disfruta con seguridad ☀️</span>
 </div>
 <div id="welcome" class="overlay hidden">
@@ -246,7 +271,7 @@ function renderList(){
   box.innerHTML = cities.map(c => {
     const cat = cityCategory(c.id);
     const total = c.tipo === 'total';
-    return '<div class="city ' + (total ? 'total' : '') + '" onclick="map.setView([' + c.lat + ',' + c.lon + '],9);map.closePopup();">' +
+    return '<div class="city ' + (total ? 'total' : '') + '" onclick="pickCity(\'' + c.id + '\');">' +
       '<div><div class="cname">' + esc(c.name) + '</div><div class="ctime">' +
       (total ? 'Totalidad ' + fmtT(c.tot_inicio) + ' · ' + fmtDur(c.totalidad_s) : 'Parcial · ' + fmtT(c.inicio)) +
       '</div></div>' +
@@ -266,6 +291,7 @@ async function loadForecast(){
   }
   renderCities();
   renderList();
+  renderSpots();
 }
 
 function nearestCity(lat, lon){
@@ -345,6 +371,63 @@ function setOffline(off){ document.getElementById('offlineBanner').classList.tog
 window.addEventListener('offline', function(){ setOffline(true); });
 window.addEventListener('online', function(){ setOffline(false); });
 setOffline(!navigator.onLine);
+
+
+// ===== Contador + totalidad restante =====
+var selectedCity = null;
+function targetTime(hhmmss){
+  var p = hhmmss.split(':').map(Number);
+  return new Date(Date.UTC(2026, 7, 12, p[0]-2, p[1], p[2]));
+}
+function cdText(now, t, label){
+  var d = t - now;
+  if (d <= 0) return '🌑 Totalidad ' + (selectedCity ? ('en ' + selectedCity.name) : '') + ' ya ha pasado · proxima: Eclipse 2027 (2-Ago)';
+  var days = Math.floor(d/86400000), h = Math.floor(d/3600000)%24, mi = Math.floor(d/60000)%60, se = Math.floor(d/1000)%60;
+  return '⏳ Faltan ' + days + 'd ' + h + 'h ' + mi + 'm ' + se + 's' + label;
+}
+function updateCountdown(){
+  var el = document.getElementById('countdown');
+  if (!el) return;
+  var now = new Date();
+  if (selectedCity && selectedCity.tipo === 'total' && selectedCity.tot_inicio){
+    el.textContent = cdText(now, targetTime(selectedCity.tot_inicio), ' hasta la totalidad en ' + selectedCity.name);
+  } else {
+    el.textContent = cdText(now, new Date(Date.UTC(2026, 7, 12, 20-2, 28, 0)), ' hasta la totalidad (~20:28)');
+  }
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+function pickCity(id){
+  var c = cities.find(function(x){ return x.id === id; });
+  if (!c) return;
+  selectedCity = c;
+  updateCountdown();
+  var m = markers[id];
+  if (m) m.openPopup();
+  map.setView([c.lat, c.lon], 9);
+}
+
+// ===== Mejores spots (duración x nubosidad) =====
+function spotScore(c){
+  if (c.tipo !== 'total' || !c.totalidad_s) return 0;
+  var cat = cityCategory(c.id);
+  var cloud = { despejado:1, parcialmente_nublado:0.7, nublado:0.4, muy_nublado:0.1, desconocido:0.5 }[cat] || 0.5;
+  return c.totalidad_s * cloud;
+}
+function renderSpots(){
+  var box = document.getElementById('spots');
+  if (!box) return;
+  var ranked = cities.filter(function(c){ return c.tipo === 'total'; })
+    .map(function(c){ return { c: c, score: spotScore(c) }; })
+    .sort(function(a,b){ return b.score - a.score; }).slice(0,5);
+  box.innerHTML = ranked.map(function(r){
+    var cat = cityCategory(r.c.id);
+    return '<div class="city total" onclick="pickCity(\'' + r.c.id + '\')">' +
+      '<div><div class="cname">⭐ ' + esc(r.c.name) + '</div><div class="ctime">' + fmtDur(r.c.totalidad_s) + ' · ' + esc(cat.replace(/_/g,' ')) + '</div></div>' +
+      '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '"></span></div>';
+  }).join('');
+}
 
 loadData();
 </script>
