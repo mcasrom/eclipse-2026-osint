@@ -92,6 +92,10 @@
 - **Próximo**: ajustar alertas tras el 12-Ago (cadencia) · calibración horarios 2027 con datos oficiales IGN · contornos de parcialidad con resolución más fina si se quiere (a costa de tamaño).
 - **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador.
 
+### Pendientes de infraestructura (servidor)
+- **[PENDIENTE DECOMISIÓN] `deploy-anonimation`** (Docker, puerto 5000): anonimizador de documentos con IA (Flask + Gemini/Groq). **Parado manualmente** desde el 2-Ago-2026; `anonimizacion.viajeinteligencia.com` devuelve **502**. Para decomisar: `docker compose -f /home/deploy/anomination/deploy/docker-compose.yml down -v` + `docker image rm deploy-anonimation` (libera ~750 MB: imagen 702MB + volumen `deploy_uploads` 41MB) + **rotar la GEMINI_API_KEY** (visible en la config del contenedor) + decidir sobre `anomination_backup_20260724_1703` y sobre el DNS/nginx de anonimizacion.viajeinteligencia.com.
+- **emergency.viajeinteligencia.com** (resuelto 6-Ago): el app está en `/var/www/emergency-dashboard` (Node, `PORT=3000`, `NODE_ENV=production`), PM2 `emergency-dashboard`. Se arregló liberando el puerto 3000 (myip PM2 redundante eliminado; el Docker myip sirve `myip.viajeinteligencia.com` en 3004). Verificado: web 200, `/api/health` 200, `/api/emergencies` 200.
+
 ### No aquí (pertenece a viajeinteligencia.com)
 - Chat IA / planificador (solo enlace). Email capture / alertas push con BD (choca con sin-tracking; si se hace, en la plataforma). API pública con backend (los datos ya son JSON estáticos servidos por nginx).
 
