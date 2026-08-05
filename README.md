@@ -13,6 +13,22 @@ Diseñado para aguantar el pico de tráfico del 12-Ago sin sobrecargar el servid
 - **Única parte dinámica**: la previsión de nubosidad, cacheada en un fichero con TTL de **3 horas** (un solo request por ventana a Open-Meteo).
 - Sin Redis, sin cronjobs, sin daemons pesados. ~50 MB de RAM total.
 
+## Fenómenos celestes y meteorológicos (más allá del eclipse)
+
+Este portal está diseñado para alojar **otros fenómenos** además del eclipse del 12-Ago-2026:
+próximos eclipses (2027), lluvias de meteoros, auroras, olas de calor, tormentas, etc.
+
+La arquitectura es extensible por diseño:
+- **Datos por fenómeno**: cada evento tiene su carpeta de datos estáticos (ej. el eclipse usa
+  `data/cities.json` + `data/franja.geojson`). Añadir un fenómeno = añadir sus datos estáticos
+  y referenciarlos en el frontend — sin tocar el backend.
+- **Previsión genérica**: el endpoint `/api/forecast` ya sirve nubosidad para cualquier
+  lat/lon/fecha (Open-Meteo, sin key) → sirve igual para una lluvia de meteoros que para una aurora.
+- **Cero carga extra**: todo sigue siendo estático servido por nginx + un solo request cacheado.
+
+Para añadir un fenómeno nuevo: crea `data/<fenomeno>/` con su JSON/GeoJSON, añade una pestaña/
+sección en `frontend/index.html`, y reutiliza `/api/forecast` para su previsión.
+
 ## Estructura
 ```
 eclipse-2026-osint/
