@@ -9,6 +9,10 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eclipse.viajeinteligencia.com/">
 <meta name="theme-color" content="#0a0e17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Eclipse 2026">
 <link rel="manifest" href="/manifest.json">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
@@ -81,6 +85,7 @@
   .header-row .btns { display:flex; gap:6px; flex:none; }
   #installBtn { display:none; }
   #installBtn.show { display:inline-block; }
+  #pwaInstallBtn { cursor:pointer; }
   @media (max-width:720px) { .header-row { flex-direction:column; align-items:flex-start; } }
 
   #countdown { text-align:center; padding:8px 12px; background:#0d1322; border-bottom:1px solid var(--line); color:var(--accent); font-weight:600; font-size:.92em; font-variant-numeric:tabular-nums; }
@@ -137,6 +142,9 @@
 <div id="countdown"></div>
 <div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
 <div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
+<div id="pwaBanner" style="text-align:center;padding:8px 12px;background:#132a24;border-bottom:1px solid var(--line);">
+  <button id="pwaInstallBtn" class="btn" style="padding:8px 16px;">📲 Instalar la app (gratis)</button>
+</div>
 <div id="tabs">
   <button class="tab active" data-tab="eclipse">🌑 Eclipse 2026</button>
   <button class="tab" data-tab="perseidas">☄️ Perseidas</button>
@@ -224,6 +232,13 @@
       <button class="btn" id="welcomeGo">Explorar el mapa →</button>
       <button class="btn ghost" id="welcomeHelp">❓ Ayuda y seguridad</button>
     </div>
+  </div>
+</div>
+<div id="installModal" class="hidden">
+  <div id="helpBox">
+    <button class="btn ghost" style="float:right;padding:4px 10px;" onclick="document.getElementById('installModal').classList.add('hidden')">✕</button>
+    <h2 style="color:var(--accent)">📲 Instalar la app</h2>
+    <div id="installSteps"></div>
   </div>
 </div>
 <div id="helpModal" class="hidden">
@@ -409,10 +424,52 @@ document.getElementById('helpModal').onclick = function(e){ if (e.target === doc
 
 // ===== Instalación PWA =====
 var deferredInstall = null;
-window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredInstall = e; document.getElementById('installBtn').classList.add('show'); });
+
 document.getElementById('installBtn').onclick = async function(){ if (!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); };
 window.addEventListener('appinstalled', function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); });
 function showInstallHint(msg){ var h = document.getElementById('installHint'); if (h) h.textContent = msg; }
+
+function isIOS(){ return /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
+function installStepsHtml(){
+  if (isIOS()){
+    return '<ol style="font-size:.9em;line-height:1.9;padding-left:20px;">' +
+      '<li>Abre la página en <b>Safari</b>.</li>' +
+      '<li>Pulsa el botón <b>Compartir</b> <span style="font-size:1.2em;">⬆️</span> (abajo).</li>' +
+      '<li>Elige <b>"Añadir a pantalla de inicio"</b>.</li>' +
+      '<li>Confirma y la app se instala como un icono más.</li></ol>' +
+      '<p style="font-size:.85em;color:var(--muted);">Funciona offline y en pantalla completa.</p>';
+  }
+  return '<ol style="font-size:.9em;line-height:1.9;padding-left:20px;">' +
+    '<li>Pulsa <b>📲 Instalar la app</b> arriba (o el menú <b>⋮</b> del navegador).</li>' +
+    '<li>Elige <b>"Instalar app"</b> / <b>"Añadir a pantalla de inicio"</b>.</li></ol>';
+}
+function openInstallModal(){
+  document.getElementById('installSteps').innerHTML = installStepsHtml();
+  document.getElementById('installModal').classList.remove('hidden');
+}
+function tryInstall(){
+  if (deferredInstall) {
+    try {
+      var p = deferredInstall.prompt();
+      if (p && p.then) {
+        p.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); })
+         .catch(function(){ openInstallModal(); });
+      } else {
+        deferredInstall.userChoice.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); }).catch(function(){});
+      }
+    } catch(e) { openInstallModal(); }
+  } else {
+    openInstallModal();
+  }
+}
+document.getElementById('pwaInstallBtn').onclick = tryInstall;
+document.getElementById('installModal').onclick = function(e){ if (e.target === document.getElementById('installModal')) document.getElementById('installModal').classList.add('hidden'); };
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault(); deferredInstall = e;
+  document.getElementById('installBtn').classList.add('show');
+  var p = document.getElementById('pwaInstallBtn');
+  if (p) p.textContent = '📲 Instalar la app';
+});
 var panelInstall = document.getElementById('panelInstall');
 if (panelInstall) panelInstall.onclick = function(){
   if (deferredInstall) { deferredInstall.prompt(); deferredInstall.userChoice.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); }); }

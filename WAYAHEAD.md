@@ -112,6 +112,13 @@ eclipse-2026-osint/
 └── WAYAHEAD.md
 ```
 
+## Sprint 7b — Instalacion PWA visible en moviles y tablets (5 Ago 2026)
+
+- **Banner siempre visible** "📲 Instalar la app (gratis)" bajo el aviso de seguridad (antes el boton solo aparecia cuando el navegador disparaba beforeinstallprompt, que en iOS nunca ocurre y en Android exige interaccion).
+- **Deteccion de plataforma**: Android/escritorio -> dialogo nativo de instalacion (prompt), con fallback robusto (catch de la promesa) a un modal con pasos; iOS -> pasos exactos "Compartir -> Anadir a pantalla de inicio".
+- **Metas iOS** anadidas (apple-mobile-web-app-capable/status-bar/title) para modo standalone.
+- Verificado headless: banner visible, modal con pasos Android y pasos iOS, 0 errores. SW v9.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
