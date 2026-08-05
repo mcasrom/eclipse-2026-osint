@@ -1,22 +1,154 @@
 {
-  "generated": "2026-08-05",
-  "source": "calendario astronomico 2026-2027",
-  "note": "Fechas de lluvias de meteoros y oposiciones aproximadas (pico). Las fechas exactas se verifican en cada caso.",
-  "events": [
-    { "date": "2026-08-12", "type": "eclipse_total", "name": "Eclipse solar total (España)", "visible": "España + Baleares", "note": "El gran evento: totalidad sobre la peninsula ~20:28 (hora local). Franja A Coruña → Valencia → Baleares." },
-    { "date": "2026-08-12", "type": "meteoros", "name": "Perseidas (pico)", "visible": "Norte peninsular", "note": "Noche del 12 al 13 de agosto. Hasta ~100 meteoros/hora, coincide con la noche del eclipse." },
-    { "date": "2026-08-20", "type": "oposicion", "name": "Oposicion de Saturno (aprox.)", "visible": "Global", "note": "Saturno al maximo brillo y tamano aparente del anio. Visible toda la noche." },
-    { "date": "2026-08-28", "type": "eclipse_lunar", "name": "Eclipse lunar parcial (aprox.)", "visible": "España", "note": "La Luna atraviesa parte de la sombra terrestre: oscurecimiento parcial del disco lunar." },
-    { "date": "2026-09-26", "type": "oposicion", "name": "Oposicion de Jupiter (aprox.)", "visible": "Global", "note": "Jupiter al maximo brillo del anio, ideal para ver sus lunas con prismaticos." },
-    { "date": "2026-10-09", "type": "meteoros", "name": "Dracónidas (aprox.)", "visible": "Noche en España", "note": "Lluvia menor; mejor en las primeras horas de la noche." },
-    { "date": "2026-10-21", "type": "meteoros", "name": "Oriónidas (pico aprox.)", "visible": "Global", "note": "Hasta ~20 meteoros/hora tras la medianoche. Restos del cometa Halley." },
-    { "date": "2026-11-17", "type": "meteoros", "name": "Leónidas (pico aprox.)", "visible": "Global", "note": "Lluvia variable; algunos anios es espectacular (tormenta de meteoros)." },
-    { "date": "2026-12-13", "type": "meteoros", "name": "Gemínidas (pico)", "visible": "Global", "note": "Una de las mejores lluvias del anio: hasta ~150 meteoros/hora." },
-    { "date": "2027-01-03", "type": "meteoros", "name": "Cuadrántidas (pico)", "visible": "Norte peninsular", "note": "Maximo breve pero intenso, antes del amanecer." },
-    { "date": "2027-02-15", "type": "oposicion", "name": "Oposicion de Marte (aprox.)", "visible": "Global", "note": "Marte al maximo brillo en ~15 meses; gran momento para observar el planeta rojo." },
-    { "date": "2027-04-22", "type": "meteoros", "name": "Líridas (pico aprox.)", "visible": "Global", "note": "Hasta ~18 meteoros/hora, con bolas de fuego ocasionales." },
-    { "date": "2027-05-06", "type": "meteoros", "name": "Eta Acuáridas (pico aprox.)", "visible": "Sur de España", "note": "Restos del cometa Halley; mejor justo antes del amanecer." },
-    { "date": "2027-08-02", "type": "eclipse_total", "name": "Eclipse solar total (sur peninsular + N.África)", "visible": "Sur de España + N.África", "note": "Totalidad hasta ~6 min en algunas zonas. El siguiente gran eclipse visible desde España." },
-    { "date": "2027-08-12", "type": "meteoros", "name": "Perseidas (pico)", "visible": "Norte peninsular", "note": "Perseidas anual de 2027." }
-  ]
+ "generated": "2026-08-05",
+ "source": "calendario astronomico 2026-2027",
+ "note": "Fechas de lluvias de meteoros y oposiciones aproximadas (pico). Las fechas exactas se verifican en cada caso.",
+ "events": [
+  {
+   "date": "2026-08-12",
+   "type": "eclipse_total",
+   "name": "Eclipse solar total (España)",
+   "visible": "España + Baleares",
+   "note": "El gran evento: totalidad sobre la peninsula ~20:28 (hora local). Franja A Coruña → Valencia → Baleares.",
+   "name_en": "Total solar eclipse (Spain)",
+   "visible_en": "Spain + Balearics",
+   "note_en": "The big one: totality over the peninsula ~20:28 (local time). Band A Coruña → Valencia → Balearics."
+  },
+  {
+   "date": "2026-08-12",
+   "type": "meteoros",
+   "name": "Perseidas (pico)",
+   "visible": "Norte peninsular",
+   "note": "Noche del 12 al 13 de agosto. Hasta ~100 meteoros/hora, coincide con la noche del eclipse."
+  },
+  {
+   "date": "2026-08-20",
+   "type": "oposicion",
+   "name": "Oposicion de Saturno (aprox.)",
+   "visible": "Global",
+   "note": "Saturno al maximo brillo y tamano aparente del anio. Visible toda la noche.",
+   "name_en": "Saturn opposition (approx.)",
+   "visible_en": "Global",
+   "note_en": "Saturn at maximum brightness and apparent size of the year. Visible all night."
+  },
+  {
+   "date": "2026-08-28",
+   "type": "eclipse_lunar",
+   "name": "Eclipse lunar parcial (aprox.)",
+   "visible": "España",
+   "note": "La Luna atraviesa parte de la sombra terrestre: oscurecimiento parcial del disco lunar.",
+   "name_en": "Partial lunar eclipse (approx.)",
+   "visible_en": "Spain",
+   "note_en": "The Moon crosses part of the Earth's shadow: partial darkening of the lunar disc."
+  },
+  {
+   "date": "2026-09-26",
+   "type": "oposicion",
+   "name": "Oposicion de Jupiter (aprox.)",
+   "visible": "Global",
+   "note": "Jupiter al maximo brillo del anio, ideal para ver sus lunas con prismaticos.",
+   "name_en": "Jupiter opposition (approx.)",
+   "visible_en": "Global",
+   "note_en": "Jupiter at maximum brightness of the year, ideal for spotting its moons with binoculars."
+  },
+  {
+   "date": "2026-10-09",
+   "type": "meteoros",
+   "name": "Dracónidas (aprox.)",
+   "visible": "Noche en España",
+   "note": "Lluvia menor; mejor en las primeras horas de la noche.",
+   "name_en": "Draconids (approx.)",
+   "visible_en": "Night in Spain",
+   "note_en": "Minor shower; best in the early hours of the night."
+  },
+  {
+   "date": "2026-10-21",
+   "type": "meteoros",
+   "name": "Oriónidas (pico aprox.)",
+   "visible": "Global",
+   "note": "Hasta ~20 meteoros/hora tras la medianoche. Restos del cometa Halley.",
+   "name_en": "Orionids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Up to ~20 meteors/hour after midnight. Debris of Halley's comet."
+  },
+  {
+   "date": "2026-11-17",
+   "type": "meteoros",
+   "name": "Leónidas (pico aprox.)",
+   "visible": "Global",
+   "note": "Lluvia variable; algunos anios es espectacular (tormenta de meteoros).",
+   "name_en": "Leonids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Variable shower; some years spectacular (meteor storm)."
+  },
+  {
+   "date": "2026-12-13",
+   "type": "meteoros",
+   "name": "Gemínidas (pico)",
+   "visible": "Global",
+   "note": "Una de las mejores lluvias del anio: hasta ~150 meteoros/hora.",
+   "name_en": "Geminids (peak)",
+   "visible_en": "Global",
+   "note_en": "One of the best showers of the year: up to ~150 meteors/hour."
+  },
+  {
+   "date": "2027-01-03",
+   "type": "meteoros",
+   "name": "Cuadrántidas (pico)",
+   "visible": "Norte peninsular",
+   "note": "Maximo breve pero intenso, antes del amanecer.",
+   "name_en": "Quadrantids (peak)",
+   "visible_en": "Northern peninsula",
+   "note_en": "Short but intense maximum, before dawn."
+  },
+  {
+   "date": "2027-02-15",
+   "type": "oposicion",
+   "name": "Oposicion de Marte (aprox.)",
+   "visible": "Global",
+   "note": "Marte al maximo brillo en ~15 meses; gran momento para observar el planeta rojo.",
+   "name_en": "Mars opposition (approx.)",
+   "visible_en": "Global",
+   "note_en": "Mars at maximum brightness in ~15 months; a great moment to observe the Red Planet."
+  },
+  {
+   "date": "2027-04-22",
+   "type": "meteoros",
+   "name": "Líridas (pico aprox.)",
+   "visible": "Global",
+   "note": "Hasta ~18 meteoros/hora, con bolas de fuego ocasionales.",
+   "name_en": "Lyrids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Up to ~18 meteors/hour, with occasional fireballs."
+  },
+  {
+   "date": "2027-05-06",
+   "type": "meteoros",
+   "name": "Eta Acuáridas (pico aprox.)",
+   "visible": "Sur de España",
+   "note": "Restos del cometa Halley; mejor justo antes del amanecer.",
+   "name_en": "Eta Aquariids (peak approx.)",
+   "visible_en": "Southern Spain",
+   "note_en": "Debris of Halley's comet; best just before dawn."
+  },
+  {
+   "date": "2027-08-02",
+   "type": "eclipse_total",
+   "name": "Eclipse solar total (sur peninsular + N.África)",
+   "visible": "Sur de España + N.África",
+   "note": "Totalidad hasta ~6 min en algunas zonas. El siguiente gran eclipse visible desde España.",
+   "name_en": "Total solar eclipse (southern peninsula + N. Africa)",
+   "visible_en": "Southern Spain + N. Africa",
+   "note_en": "Totality up to ~6 min in some areas. The next great eclipse visible from Spain."
+  },
+  {
+   "date": "2027-08-12",
+   "type": "meteoros",
+   "name": "Perseidas (pico)",
+   "visible": "Norte peninsular",
+   "note": "Perseidas anual de 2027.",
+   "name_en": "Perseids (peak)",
+   "visible_en": "Northern peninsula",
+   "note_en": "Annual Perseids of 2027."
+  }
+ ]
 }

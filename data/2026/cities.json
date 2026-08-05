@@ -253,7 +253,9 @@
    "azimut": null,
    "max_estimado": "17:47",
    "nota": "~17:50 (hora local Islandia, UTC). Verifica con IGN.",
-   "cobertura_pct": 99.9
+   "cobertura_pct": 99.9,
+   "name_en": "Reykjavik",
+   "province_en": "Iceland"
   },
   {
    "id": "akureyri",
@@ -271,7 +273,9 @@
    "azimut": null,
    "max_estimado": null,
    "nota": "Justo al borde de la franja: 97% de cobertura maxima.",
-   "cobertura_pct": 96.9
+   "cobertura_pct": 96.9,
+   "name_en": "Akureyri",
+   "province_en": "Iceland"
   },
   {
    "id": "londres",
@@ -289,7 +293,9 @@
    "azimut": null,
    "max_estimado": null,
    "nota": "Cobertura maxima visible 90% del Sol.",
-   "cobertura_pct": 90.3
+   "cobertura_pct": 90.3,
+   "name_en": "London",
+   "province_en": "United Kingdom"
   },
   {
    "id": "paris",
@@ -307,7 +313,9 @@
    "azimut": null,
    "max_estimado": null,
    "nota": "Cobertura maxima visible 91% del Sol.",
-   "cobertura_pct": 91.0
+   "cobertura_pct": 91.0,
+   "name_en": "Paris",
+   "province_en": "France"
   },
   {
    "id": "lisboa",
@@ -325,7 +333,9 @@
    "azimut": null,
    "max_estimado": null,
    "nota": "Cobertura maxima visible 94% del Sol.",
-   "cobertura_pct": 93.8
+   "cobertura_pct": 93.8,
+   "name_en": "Lisbon",
+   "province_en": "Portugal"
   },
   {
    "id": "roma",
@@ -343,7 +353,9 @@
    "azimut": null,
    "max_estimado": null,
    "nota": "Cobertura maxima visible 64% del Sol.",
-   "cobertura_pct": 64.0
+   "cobertura_pct": 64.0,
+   "name_en": "Rome",
+   "province_en": "Italy"
   }
  ]
 }

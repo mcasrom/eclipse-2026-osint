@@ -155,12 +155,12 @@
 </header>
 <div id="countdown"></div>
 <div id="nextEvent" style="text-align:center;padding:8px 12px;background:#0d1322;border-bottom:1px solid var(--line);font-size:.85em;color:var(--text);"></div>
-<div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
+<div id="safety" data-i18n-html="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
 <div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
 <div id="pwaBanner" style="text-align:center;padding:8px 12px;background:#132a24;border-bottom:1px solid var(--line);">
-  <button id="pwaInstallBtn" class="btn" style="padding:8px 16px;">📲 Instalar la app (gratis)</button>
+  <button id="pwaInstallBtn" class="btn" style="padding:8px 16px;" data-i18n="btn_instalar_pwa">📲 Instalar la app (gratis)</button>
 </div>
-<div style="padding:8px 14px 0;background:#0d1322;color:var(--muted);font-size:.72em;text-transform:uppercase;letter-spacing:.8px;">🌒 Fenómenos</div>
+<div style="padding:8px 14px 0;background:#0d1322;color:var(--muted);font-size:.72em;text-transform:uppercase;letter-spacing:.8px;" data-i18n="feno_label">🌒 Fenómenos</div>
 <div id="tabs">
   <button class="tab active" data-tab="eclipse" data-i18n="tab_eclipse">🌑 Eclipse 2026</button>
   <button class="tab" data-tab="perseidas" data-i18n="tab_perseidas">☄️ Perseidas</button>
@@ -171,32 +171,41 @@
 </div>
 <div id="otherCards" class="hidden">
   <div id="ocard-perseidas" class="ocard hidden">
+    <div data-i18n-html="perseidas">
     <h2>☄️ Lluvia de Perseidas</h2>
     <div class="meta">12–13 de agosto de 2026 · pico la noche del eclipse</div>
     <p style="font-size:.9em;line-height:1.6;">El máximo de las Perseidas coincide con la noche del 12 al 13 de agosto: hasta ~100 meteoros/hora. Tras la puesta de sol, mira hacia el noreste (radiant en Perseo), lejos de luces. Los meteoros NO requieren protección ocular. Este año, además, el cielo se oscurecerá por el eclipse y podrás disfrutar de la lluvia ese mismo día.</p>
     <div id="perseidasMap" class="minimap perseidas"></div>
     <p style="font-size:.8em;color:var(--muted);margin-top:6px;">El punto dorado indica el <b>radiant</b> (dirección de la que parecen salir los meteoros, en Perseo). Se ve mejor tras la medianoche, lejos de luces, hacia el noreste. Con el cielo oscuro del eclipse de ese mismo día, doble espectáculo.</p>
+    </div>
   </div>
   <div id="ocard-2027" class="ocard hidden">
+    <div data-i18n-html="eclipse2027">
     <h2>🌒 Eclipse Total · 2 de agosto de 2027</h2>
     <div class="meta">El siguiente eclipse total en España</div>
     <p style="font-size:.9em;line-height:1.6;">El 2 de agosto de 2027 la franja de totalidad cruza el <b>sur peninsular</b> (Cádiz, Málaga, Granada, Almería) con una totalidad de hasta ~6 minutos, la mayor en España continental en décadas. Marca la fecha: será aún más espectacular que el de 2026. Este portal lo cubrirá.</p>
+    </div>
   </div>
   <div id="ocard-auroras" class="ocard hidden">
+    <div data-i18n-html="auroras">
     <h2>🌌 Auroras boreales</h2>
     <div class="meta">Máximo solar 2026</div>
     <p style="font-size:.9em;line-height:1.6;">Estamos en el pico del ciclo solar 25: con la actividad alta, las auroras son visibles desde el <b>norte peninsular</b> (Galicia, Cantábrico, Pirineos) en noches despejadas. Sigue la previsión de actividad geomagnética (índice Kp) y busca cielos oscuros. Un complemento perfecto a la temporada de eclipses.</p>
     <div id="auroraInfo"></div>
     <div id="auroraMap" class="minimap"></div>
     <p style="font-size:.8em;color:var(--muted);margin-top:6px;">Estado en tiempo real del <b>índice Kp</b> (NOAA, caché 10 min). Los puntos se colorean según si su latitud permite ver la aurora con el Kp actual. Busca cielos oscuros y horizonte norte despejado.</p>
+    </div>
   </div>
 </div>
   <div id="ocard-calendario" class="ocard hidden">
+    <div data-i18n-html="calendario">
     <h2>📅 Calendario de fenómenos celestes</h2>
     <div class="meta">2026–2027 · lluvias de meteoros, eclipses, oposiciones</div>
     <div id="calendarList" style="font-size:.9em;"></div>
+    </div>
   </div>
   <div id="ocard-guias" class="ocard hidden">
+    <div data-i18n-html="guias">
     <h2>📖 Guías de observación</h2>
     <div class="meta">Cómo disfrutar de los fenómenos del cielo con seguridad</div>
     <h3 style="color:var(--accent);margin:12px 0 4px;">🌑 Eclipse solar</h3>
@@ -207,6 +216,7 @@
     <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Necesitan <b>Kp alto</b> y cielo despejado. Mira hacia el norte, en lugares oscuros y altos. En el norte de España son posibles con tormentas geomagnéticas fuertes (Kp≥7).</p>
     <h3 style="color:var(--accent);margin:12px 0 4px;">📷 Fotografía</h3>
     <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Para el Sol: filtro solar certificado SIEMPRE en el objetivo (nunca en el ocular). Para meteoros: exposición larga con trípode. Para auroras: ISO alto y 2-4 s de exposición.</p>
+    </div>
   </div>
 <div id="main">
   <div id="map"></div>
@@ -222,13 +232,13 @@
       </select>
     </div>
     <h3 data-i18n="sec_ubicacion">📍 Mi ubicación</h3>
-    <button class="btn" id="locBtn">📍 Usar mi ubicación</button>
+    <button class="btn" id="locBtn" data-i18n="btn_ubicacion">📍 Usar mi ubicación</button>
     <div id="locNote"></div>
-    <div style="margin-top:10px;"><button class="btn ghost" id="panelInstall" style="padding:7px 12px;">📲 Instalar app</button> <span id="installHint" style="font-size:.72em;color:var(--muted);display:block;margin-top:4px;"></span></div>
-    <h3>🗓️ Horarios por ciudad (hora local)</h3>
-    <div id="cityList"><div class="legend">Cargando…</div></div>
+    <div style="margin-top:10px;"><button class="btn ghost" id="panelInstall" style="padding:7px 12px;" data-i18n="btn_instalar_app">📲 Instalar app</button> <span id="installHint" style="font-size:.72em;color:var(--muted);display:block;margin-top:4px;"></span></div>
+    <h3 data-i18n="sec_horarios">🗓️ Horarios por ciudad (hora local)</h3>
+    <div id="cityList"><div class="legend" data-i18n="cargando">Cargando…</div></div>
     <h3 data-i18n="sec_hoy">☀️ Hoy en el cielo</h3>
-    <div id="skyInfo" class="legend">Cargando…</div>
+    <div id="skyInfo" class="legend" data-i18n="cargando">Cargando…</div>
     <h3 data-i18n="sec_nubosidad">☁️ Previsión de nubosidad (totalidad)</h3>
     <div id="fcNote" class="legend">Actualizando…</div>
     <div class="legend">
@@ -269,8 +279,8 @@
 </div>
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
-  <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.27</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.28</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -289,7 +299,7 @@
   </div>
 </div>
 <div id="installModal" class="hidden">
-  <div id="helpBox">
+  <div id="installBox">
     <button class="btn ghost" style="float:right;padding:4px 10px;" onclick="document.getElementById('installModal').classList.add('hidden')">✕</button>
     <h2 style="color:var(--accent)">📲 Instalar la app</h2>
     <div id="installSteps"></div>
@@ -298,6 +308,7 @@
 <div id="helpModal" class="hidden">
   <div id="helpBox">
     <button class="btn ghost" style="float:right;padding:4px 10px;" onclick="document.getElementById('helpModal').classList.add('hidden')">✕</button>
+    <div data-i18n-html="ayuda">
     <h2 style="color:var(--accent)">❓ Ayuda</h2>
     <h3>🗺️ Cómo leer el mapa</h3>
     <p>La <b>franja amarilla</b> es la zona de totalidad. Los puntos de colores son ciudades, con su previsión de nubosidad a las 20:00. Clic en una ciudad para ver sus horarios.</p>
@@ -309,6 +320,7 @@
     <p>Nunca mires al Sol sin <b>gafas certificadas ISO 12312-2</b>. Las gafas de sol normales NO sirven. Solo durante los segundos de totalidad puedes mirar sin filtro. Con prismáticos/telescopio: filtro solar certificado SIEMPRE. <a class="link" href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener">Más info (IGN)</a></p>
     <h3>📊 Fuentes</h3>
     <p>Horarios por ciudad: <b>IGN</b>. Franja de totalidad: <b>NASA GSFC</b>. Nubosidad: <b>Open-Meteo</b>. Código abierto · sin tracking · sin cookies.</p>
+    </div>
   </div>
 </div>
 
@@ -334,7 +346,14 @@ var I18N = {
     total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
     max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos',
     parc_label: '☀️ Mostrar parcialidad', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
-    parc_diametro: 'del diámetro solar', cobertura_max: 'Cobertura máx', del_sol: 'del Sol'
+    parc_diametro: 'del diámetro solar', cobertura_max: 'Cobertura máx', del_sol: 'del Sol',
+    pop_totalidad: 'Totalidad', pop_parcial: 'Eclipse parcial', pop_inicio: 'Inicio', pop_magnitud: 'Magnitud',
+    pop_altura: 'Altura Sol', pop_nubes: 'Nubes totalidad', pop_sin_gafas: '☀️ Durante la totalidad puedes mirar sin gafas',
+    pop_gafas: '🕶️ Usa gafas ISO 12312-2 toda la observación', btn_ubicacion: '📍 Usar mi ubicación',
+    btn_instalar_app: '📲 Instalar app', sec_horarios: '🗓️ Horarios por ciudad (hora local)', cargando: 'Cargando…',
+    feno_label: '🌒 Fenómenos', btn_instalar_pwa: '📲 Instalar la app (gratis)', kofi: '☕ Apóyanos en Ko-fi',
+    pasado: 'pasado', no_disponible: 'No disponible.', kp_actual: 'Kp actual:', aurora_visible: 'Auroras visibles desde ≈',
+    norte_pen: 'norte peninsular', aurora_no: '🌌 Aurora: no disponible ahora.', maxima: 'máx'
   },
   en: {
     brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
@@ -352,7 +371,14 @@ var I18N = {
     total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
     max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events',
     parc_label: '☀️ Show partiality', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
-    parc_diametro: 'of the Sun diameter', cobertura_max: 'Max coverage', del_sol: 'of the Sun'
+    parc_diametro: 'of the Sun diameter', cobertura_max: 'Max coverage', del_sol: 'of the Sun',
+    pop_totalidad: 'Totality', pop_parcial: 'Partial eclipse', pop_inicio: 'Start', pop_magnitud: 'Magnitude',
+    pop_altura: 'Sun altitude', pop_nubes: 'Clouds at totality', pop_sin_gafas: '☀️ During totality you can look without glasses',
+    pop_gafas: '🕶️ Use ISO 12312-2 glasses for the whole observation', btn_ubicacion: '📍 Use my location',
+    btn_instalar_app: '📲 Install app', sec_horarios: '🗓️ Times by city (local time)', cargando: 'Loading…',
+    feno_label: '🌒 Phenomena', btn_instalar_pwa: '📲 Install the app (free)', kofi: '☕ Support us on Ko-fi',
+    pasado: 'past', no_disponible: 'Not available.', kp_actual: 'Kp now:', aurora_visible: 'Auroras visible from ≈',
+    norte_pen: 'northern peninsula', aurora_no: '🌌 Aurora: not available now.', maxima: 'max'
   }
 };
 var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || localStorage.getItem('ecl_lang') || 'es';
@@ -360,12 +386,51 @@ function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.es[key] || key; 
 function applyLang(){
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+    var key = el.dataset.i18nHtml;
+    el.innerHTML = LANG === 'en' ? (DEEP_EN[key] || _origHtml[key]) : (_origHtml[key] || '');
+  });
+  var curTabEl = document.querySelector('#tabs .tab.active');
+  if (curTabEl) {
+    var cur = curTabEl.dataset.tab;
+    if (cur === 'auroras') { auroraReady = false; initAuroraMap(); }
+    else if (cur === 'perseidas') { perseidasReady = false; initPerseidasMap(); }
+  }
+  if (typeof loadCalendar === 'function') loadCalendar();
   var lb = document.getElementById('langBtn'); if (lb) lb.textContent = LANG === 'es' ? 'EN' : 'ES';
   updateCountdown(); renderNextEvent();
   if (typeof renderList === 'function') renderList();
   if (typeof renderSpots === 'function') renderSpots();
   if (typeof renderCities === 'function') renderCities();
 }
+var DEEP_EN = {
+  guias: '<h2>📖 Observing guides</h2><div class="meta">How to enjoy the sky events safely</div>' +
+    '<h3 style="color:var(--accent);margin:12px 0 4px;">🌑 Solar eclipse</h3><p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Never look at the Sun without <b>ISO 12312-2</b> glasses. Only during the seconds of totality can you look without a filter. Arrive early, look for a clear western horizon and check the cloud forecast.</p>' +
+    '<h3 style="color:var(--accent);margin:12px 0 4px;">☄️ Meteor showers</h3><p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Visible with the naked eye, no protection needed. Best after midnight, far from lights, lying down facing the radiant. Give your eyes 30 minutes to adapt.</p>' +
+    '<h3 style="color:var(--accent);margin:12px 0 4px;">🌌 Northern lights</h3><p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">They need a <b>high Kp</b> and clear skies. Look north from dark, elevated places. In northern Spain they are possible during strong geomagnetic storms (Kp≥7).</p>' +
+    '<h3 style="color:var(--accent);margin:12px 0 4px;">📷 Photography</h3><p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">For the Sun: certified solar filter ALWAYS on the objective (never on the eyepiece). For meteors: long exposure on a tripod. For auroras: high ISO and 2-4 s exposure.</p>',
+  ayuda: '<h2 style="color:var(--accent)">❓ Help</h2>' +
+    '<h3>🗺️ How to read the map</h3><p>The <b>yellow band</b> is the totality zone. The coloured dots are cities, with their cloud forecast. Click a city to see its times.</p>' +
+    '<h3>🕐 Times</h3><p>All times are <b>local Spanish time</b> (CEST) for the active phenomenon (2026 / 2027 eclipse). In 2026 totality is ≈ <b>20:28</b> (30 s – 1 m 48 s depending on location); in 2027 ≈ <b>10:47</b> a.m. (up to ~5 min). The 2027 times are estimates of the NASA central line, refinable with the IGN.</p>' +
+    '<h3>☁️ Cloud colours</h3><p>🟢 Clear · 🟡 Partly cloudy · 🟠 Cloudy · 🔴 Very cloudy. Open-Meteo forecast, updated every 3 hours.</p>' +
+    '<h3>🕶️ Safety (important)</h3><p>Never look at the Sun without <b>ISO 12312-2 certified glasses</b>. Regular sunglasses are NOT enough. Only during the seconds of totality can you look without a filter. With binoculars/telescope: certified solar filter ALWAYS. <a class="link" href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener">More info (IGN)</a></p>' +
+    '<h3>📊 Sources</h3><p>City times: <b>IGN</b>. Totality band and partiality: <b>NASA GSFC</b> (Besselian elements). Cloud: <b>Open-Meteo</b>. Open source · no tracking · no cookies.</p>',
+  perseidas: '<h2>☄️ Perseid meteor shower</h2><div class="meta">August 12–13, 2026 · peak on eclipse night</div>' +
+    '<p style="font-size:.9em;line-height:1.6;">The Perseid peak coincides with the night of August 12–13: up to ~100 meteors/hour. After sunset, look northeast (radiant in Perseus), away from lights. Meteors need NO eye protection. This year the sky will also darken from the eclipse, so you can enjoy the shower that very day.</p>' +
+    '<div id="perseidasMap" class="minimap perseidas"></div>' +
+    '<p style="font-size:.8em;color:var(--muted);margin-top:6px;">The golden dot marks the <b>radiant</b> (the direction meteors appear to come from, in Perseus). Best seen after midnight, away from lights, facing northeast. With the dark eclipse sky that same day, a double show.</p>',
+  eclipse2027: '<h2>🌒 Total Eclipse · August 2, 2027</h2><div class="meta">The next total eclipse in Spain</div>' +
+    '<p style="font-size:.9em;line-height:1.6;">On August 2, 2027 the totality band crosses the <b>southern peninsula</b> (Cádiz, Málaga, Granada, Almería) with up to ~6 minutes of totality, the longest in mainland Spain in decades. Mark the date: it will be even more spectacular than 2026. This portal will cover it.</p>',
+  auroras: '<h2>🌌 Northern lights</h2><div class="meta">Solar maximum 2026</div>' +
+    '<p style="font-size:.9em;line-height:1.6;">We are at the peak of solar cycle 25: with high activity, auroras are visible from the <b>northern peninsula</b> (Galicia, Cantabrian coast, Pyrenees) on clear nights. Follow the geomagnetic activity forecast (Kp index) and look for dark skies. A perfect complement to the eclipse season.</p>' +
+    '<div id="auroraInfo"></div><div id="auroraMap" class="minimap"></div>' +
+    '<p style="font-size:.8em;color:var(--muted);margin-top:6px;">Real-time status of the <b>Kp index</b> (NOAA, 10 min cache). Dots are coloured according to whether their latitude allows seeing the aurora at the current Kp. Look for dark skies and a clear northern horizon.</p>',
+  calendario: '<h2>📅 Sky events calendar</h2><div class="meta">2026–2027 · meteor showers, eclipses, oppositions</div><div id="calendarList" style="font-size:.9em;"></div>',
+  safety: '<b>⚠️ SAFETY:</b> Do not look directly at the Sun without protection. Use certified eclipse glasses <b>ISO 12312-2</b> (regular sunglasses are not enough). Only during the seconds of totality can you look without a filter. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">More info (IGN)</a>'
+};
+var _origHtml = {};
+document.querySelectorAll('[data-i18n-html]').forEach(function(el){ _origHtml[el.dataset.i18nHtml] = el.innerHTML; });
+
 var langBtn = document.getElementById('langBtn');
 if (langBtn) langBtn.onclick = function(){ LANG = LANG === 'es' ? 'en' : 'es'; localStorage.setItem('ecl_lang', LANG); applyLang(); };
 const map = L.map('map').setView([40.5, -3.5], 6);
@@ -430,18 +495,18 @@ function renderCities(){
       fillColor: col,
       fillOpacity: 0.9
     }).addTo(map);
-    const dur = total ? '<b>Totalidad: ' + fmtDur(c.totalidad_s) + '</b>' : '<b>Eclipse parcial</b>';
+    const dur = total ? '<b>' + t('pop_totalidad') + ': ' + fmtDur(c.totalidad_s) + '</b>' : '<b>' + t('pop_parcial') + '</b>';
     var timeInfo;
-    if (c.tot_inicio) timeInfo = '<br>Totalidad: <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b> · Inicio: ' + fmtT(c.inicio);
+    if (c.tot_inicio) timeInfo = '<br>' + t('pop_totalidad') + ': <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b> · ' + t('pop_inicio') + ': ' + fmtT(c.inicio);
     else if (c.max_estimado) timeInfo = '<br>' + t('max_estimado') + ' <b>' + c.max_estimado + '</b> <span style="font-size:.72em;color:var(--muted)">' + t('estimado_nasa') + '</span>';
-    else timeInfo = '<br>Inicio: ' + fmtT(c.inicio);
+    else timeInfo = '<br>' + t('pop_inicio') + ': ' + fmtT(c.inicio);
     m.bindPopup(
-      '<b>' + esc(c.name) + '</b> (' + esc(c.province) + ')<br>' +
+      '<b>' + esc(LANG==='en'&&c.name_en?c.name_en:c.name) + '</b> (' + esc(LANG==='en'&&c.province_en?c.province_en:c.province) + ')<br>' +
       dur + timeInfo +
       (c.cobertura_pct != null && c.cobertura_pct < 99.5 ? '<br>☀️ ' + t('cobertura_max') + ': <b>' + c.cobertura_pct + '%</b> ' + t('del_sol') : '') +
-      '<br>Magnitud: ' + (c.magnitud || '—') + (c.altura ? ' · Altura Sol: ' + c.altura + '°' : '') +
-      '<br>Nubes totalidad: <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
-      (total ? '<br>☀️ Durante la totalidad puedes mirar sin gafas' : '<br>🕶️ Usa gafas ISO 12312-2 toda la observación')
+      '<br>' + t('pop_magnitud') + ': ' + (c.magnitud || '—') + (c.altura ? ' · ' + t('pop_altura') + ': ' + c.altura + '°' : '') +
+      '<br>' + t('pop_nubes') + ': <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
+      (total ? '<br>' + t('pop_sin_gafas') : '<br>' + t('pop_gafas'))
     );
     markers[c.id] = m;
   }
@@ -453,8 +518,8 @@ function renderList(){
     const cat = cityCategory(c.id);
     const total = c.tipo === 'total';
     return '<div class="city ' + (total ? 'total' : '') + '" onclick="pickCity(\'' + c.id + '\');">' +
-      '<div><div class="cname">' + esc(c.name) + '</div><div class="ctime">' +
-      (total ? 'Totalidad ' + (fmtT(c.tot_inicio) || '~' + (c.max_estimado||'')) + ' · ' + fmtDur(c.totalidad_s) : 'Parcial · ' + (fmtT(c.inicio) || (c.max_estimado ? 'máx ' + c.max_estimado : '—'))) +
+      '<div><div class="cname">' + esc(LANG==='en'&&c.name_en?c.name_en:c.name) + '</div><div class="ctime">' +
+      (total ? t('pop_totalidad') + ': ' + (fmtT(c.tot_inicio) || '~' + (c.max_estimado||'')) + ' · ' + fmtDur(c.totalidad_s) : t('pop_parcial') + ' · ' + (fmtT(c.inicio) || (c.max_estimado ? t('maxima') + ' ' + c.max_estimado : '—'))) +
       '</div></div>' +
       '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '" title="' + esc(cat.replace(/_/g,' ')) + '"></span>' +
       '</div>';
@@ -726,16 +791,16 @@ async function loadCalendar(){
   skyEvents = ev;
   var list = document.getElementById('calendarList');
   if (!list) return;
-  if (!ev.length){ list.innerHTML = '<p>No disponible.</p>'; return; }
+  if (!ev.length){ list.innerHTML = '<p>' + t('no_disponible') + '</p>'; return; }
   var now = new Date();
   ev.sort(function(a,b){ return a.date < b.date ? -1 : 1; });
   list.innerHTML = ev.map(function(x){
     var isEclipse = x.type.indexOf('eclipse') !== -1;
     var passed = new Date(x.date + 'T12:00:00') < now;
     return '<div style="padding:8px 0;border-bottom:1px solid var(--line);' + (isEclipse ? 'border-left:3px solid var(--accent);padding-left:8px;' : '') + '">' +
-      '<div style="font-weight:600;color:' + (isEclipse ? 'var(--accent)' : 'var(--text)') + '">' + (isEclipse ? '🌑 ' : '☄️ ') + esc(x.name) + '</div>' +
-      '<div style="font-size:.82em;color:var(--muted);">' + esc(x.visible) + ' · <b>' + esc(x.date) + '</b>' + (passed ? ' · pasado' : '') + '</div>' +
-      '<div style="font-size:.78em;color:var(--muted);line-height:1.5;">' + esc(x.note) + '</div>' +
+      '<div style="font-weight:600;color:' + (isEclipse ? 'var(--accent)' : 'var(--text)') + '">' + (isEclipse ? '🌑 ' : '☄️ ') + esc(LANG==='en'&&x.name_en?x.name_en:x.name) + '</div>' +
+      '<div style="font-size:.82em;color:var(--muted);">' + esc(LANG==='en'&&x.visible_en?x.visible_en:x.visible) + ' · <b>' + esc(x.date) + '</b>' + (passed ? ' · ' + t('pasado') : '') + '</div>' +
+      '<div style="font-size:.78em;color:var(--muted);line-height:1.5;">' + esc(LANG==='en'&&x.note_en?x.note_en:x.note) + '</div>' +
       '</div>';
   }).join('');
   renderNextEvent();
@@ -753,11 +818,11 @@ function initAuroraMap(){
 async function loadAurora(){
   var info = document.getElementById('auroraInfo');
   var d;
-  try { d = await (await fetch('/api/aurora')).json(); } catch(e){ if (info) info.textContent = '🌌 Aurora: no disponible ahora.'; return; }
-  if (info) info.innerHTML = 'Kp actual: <b>' + d.kp + '</b> (' + (d.gscale||'') + ' · ' + (d.label||'') + ')' +
+  try { d = await (await fetch('/api/aurora')).json(); } catch(e){ if (info) info.textContent = t('aurora_no'); return; }
+  if (info) info.innerHTML = t('kp_actual') + ' <b>' + d.kp + '</b> (' + (d.gscale||'') + ' · ' + (d.label||'') + ')' +
     (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">cacheado</span>' : '') +
-    '<br>🌌 Auroras visibles desde ≈ <b>' + (d.aurora_lat||'—') + '°N</b> — Escandinavia, Islandia, Escocia' +
-    (d.aurora_lat && d.aurora_lat <= 50 ? ', norte peninsular' : '') + '.';
+    '<br>🌌 ' + t('aurora_visible') + ' <b>' + (d.aurora_lat||'—') + '°N</b> — Escandinavia, Islandia, Escocia' +
+    (d.aurora_lat && d.aurora_lat <= 50 ? ', ' + t('norte_pen') : '') + '.';
   var spots = [['Tromsø',69.65,18.96],['Murmansk',68.97,33.08],['Reykjavik',64.15,-21.94],['Luleå',65.58,22.15],['Tórshavn',62.01,-6.77],['Helsinki',60.17,24.94],['Oslo',59.91,10.75],['Inverness',57.48,-4.22],['Edimburgo',55.95,-3.19],['Santiago',42.88,-8.54],['Oviedo',43.36,-5.84],['San Sebastián',43.32,-1.98]];
   spots.forEach(function(s){
     var likely = d.aurora_lat ? s[1] >= d.aurora_lat : false;
