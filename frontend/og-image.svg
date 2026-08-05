@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1322"/>
+      <stop offset="1" stop-color="#05080e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="250" cy="315" r="210" fill="#000"/>
+  <circle cx="295" cy="265" r="125" fill="#ffd54f"/>
+  <circle cx="295" cy="265" r="62" fill="#f5c542"/>
+  <text x="560" y="250" font-family="DejaVu Sans, Arial, sans-serif" font-size="74" font-weight="700" fill="#ffd54f">Eclipse Solar Total</text>
+  <text x="560" y="330" font-family="DejaVu Sans, Arial, sans-serif" font-size="48" font-weight="600" fill="#dbe4f0">12 de agosto de 2026 · España</text>
+  <text x="560" y="410" font-family="DejaVu Sans, Arial, sans-serif" font-size="30" fill="#8aa0c0">Franja de totalidad · horarios por ciudad</text>
+  <text x="560" y="455" font-family="DejaVu Sans, Arial, sans-serif" font-size="30" fill="#8aa0c0">previsión de nubosidad · seguridad</text>
+  <text x="560" y="540" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" fill="#5a6a80">eclipse.viajeinteligencia.com</text>
+</svg>
