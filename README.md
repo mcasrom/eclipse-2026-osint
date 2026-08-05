@@ -65,6 +65,17 @@ próximos eclipses (2027), lluvias de meteoros, auroras, olas de calor…
 - `/api/forecast` sirve nubosidad para **cualquier lat/lon/fecha** → reutilizable sin cambios.
 - Añadir un fenómeno = añadir sus datos estáticos + una sección en el frontend.
 
+## 🌍 Fase 2 — Expansión global (post-lanzamiento 12-Ago)
+
+El eclipse de 2026 es un fenómeno global: la franja cruza **Islandia** (total) → Atlántico → **España**, y es **parcial** en toda Europa y el norte de África. Tras el lanzamiento del 12-Ago, la expansión natural es:
+
+- **Path global completo** de NASA (ya disponible en la tabla de trayectoria) + **zonas de parcialidad** (%) sobre Europa/N.África.
+- **Más ciudades**: Islandia y capitales europeas con sus horarios.
+- **i18n ES/EN** para audiencia global.
+- **Otros fenómenos**: Eclipse 2027 (sur peninsular + N.África, ~6 min), 2028 (Australia), eclipses lunares, Perseidas, auroras — encajan en los tabs + datos estáticos + `/api/forecast` genérico.
+
+La arquitectura ya lo soporta: datos por fenómeno (JSON/GeoJSON estáticos) + forecast por lat/lon/fecha sin cambios de backend.
+
 ## 🚀 Despliegue
 
 ```bash
