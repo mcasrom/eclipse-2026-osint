@@ -1,4 +1,5 @@
 venv/
 __pycache__/
 *.pyc
-data/forecast_cache.json
+data/forecast_cache*.json
+data/aurora_cache.json
