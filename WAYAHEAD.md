@@ -87,7 +87,8 @@
 ### Mejores opciones (roadmap evaluado)
 - **Hecho (T1 + sprites)**: Ko-fi · contador + totalidad restante · mejores spots (duración×nubosidad) · enlace planificador IA · JSON-LD · PWA (instalar visible, iOS, offline, mapa móvil) · funnel · ayuda genérica · SEO/RRSS completo (og:image, @graph, robots/sitemap).
 - **Hecho (Sprint 7)**: global 2026 (Islandia + europeas) · i18n ES/EN core · compartir RRSS.
-- **Próximo**: i18n contenido restante (spots, instalación, toast) · alertas Telegram · previsión Kp 3 días.
+- **Hecho (6 Ago)**: i18n residual (welcome, offline, toast, instalación, spots, forecast) · **previsión Kp 3 días** (NOAA SWPC, pestaña Auroras, cache 10 min) · **Alertas Telegram** (canal `@eclipse2026osint` + bot `@eclipse_2026_osint_bot` admin; script `scripts/telegram_alert.py` con alerta diaria 09:00 y modo forecast; token en `.secrets/` fuera del repo). v0.29.
+- **Próximo**: ajustar alertas tras el 12-Ago (cadencia) · calibración horarios 2027 con IGN · previsión Kp 3 días ya activa.
 - **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador · previsión Kp a 3 días para auroras.
 
 ### No aquí (pertenece a viajeinteligencia.com)

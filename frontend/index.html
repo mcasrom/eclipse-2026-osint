@@ -156,7 +156,7 @@
 <div id="countdown"></div>
 <div id="nextEvent" style="text-align:center;padding:8px 12px;background:#0d1322;border-bottom:1px solid var(--line);font-size:.85em;color:var(--text);"></div>
 <div id="safety" data-i18n-html="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
-<div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
+<div id="offlineBanner" class="hidden" data-i18n="offline">📡 Sin conexión — mostrando datos guardados</div>
 <div id="pwaBanner" style="text-align:center;padding:8px 12px;background:#132a24;border-bottom:1px solid var(--line);">
   <button id="pwaInstallBtn" class="btn" style="padding:8px 16px;" data-i18n="btn_instalar_pwa">📲 Instalar la app (gratis)</button>
 </div>
@@ -271,6 +271,9 @@
     <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
     <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
     <div class="legend" style="margin-top:6px;">🤖 Planifica tu viaje 2-3 días con IA: <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a></div>
+    <h3 data-i18n="sec_alertas">🔔 Alertas</h3>
+    <div class="legend" data-i18n="al_note">📣 Avisos de próximos eventos, nubosidad y auroras en Telegram.</div>
+    <a class="btn" id="tgBtn" href="https://t.me/eclipse2026osint" target="_blank" rel="noopener" style="margin-top:8px;display:inline-block;" data-i18n="btn_tg">📣 Únete al canal de Telegram</a>
     <h3 data-i18n="sec_datos">ℹ️ Sobre los datos</h3>
     <div class="legend">Horarios y magnitud: <a class="link" href="https://astronomia.ign.es" target="_blank" rel="noopener">IGN</a>. Franja y parcialidad: elementos besselianos de <a class="link" href="https://eclipse.gsfc.nasa.gov" target="_blank" rel="noopener">NASA GSFC</a>. Nubosidad: <a class="link" href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (se actualiza cada 3 h). Código abierto · sin tracking · sin cookies.</div>
     <div class="legend" style="margin-top:6px;">📬 Contacto: <a class="link" href="mailto:eclipse@viajeinteligencia.com">eclipse@viajeinteligencia.com</a></div>
@@ -280,10 +283,11 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.28</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.29</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
+    <div data-i18n-html="welcome">
     <h2>🌑 Eclipse Solar Total · 12-Ago-2026</h2>
     <p class="sub" style="color:var(--muted);font-size:.92em;">El primero visible desde la península ibérica en más de un siglo</p>
     <div class="facts">
@@ -291,6 +295,7 @@
       <div>🕐 Totalidad sobre España ≈ <b>20:28</b> (hora local)</div>
       <div>🕶️ Imprescindible <b>gafas ISO 12312-2</b> salvo durante la totalidad</div>
       <div>☁️ Consulta la <b>previsión de nubosidad</b> por ciudad</div>
+    </div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <button class="btn" id="welcomeGo" data-i18n="btn_explorar">Explorar el mapa →</button>
@@ -353,7 +358,17 @@ var I18N = {
     btn_instalar_app: '📲 Instalar app', sec_horarios: '🗓️ Horarios por ciudad (hora local)', cargando: 'Cargando…',
     feno_label: '🌒 Fenómenos', btn_instalar_pwa: '📲 Instalar la app (gratis)', kofi: '☕ Apóyanos en Ko-fi',
     pasado: 'pasado', no_disponible: 'No disponible.', kp_actual: 'Kp actual:', aurora_visible: 'Auroras visibles desde ≈',
-    norte_pen: 'norte peninsular', aurora_no: '🌌 Aurora: no disponible ahora.', maxima: 'máx'
+    norte_pen: 'norte peninsular', aurora_no: '🌌 Aurora: no disponible ahora.', maxima: 'máx',
+    offline: '📡 Sin conexión — mostrando datos guardados', nueva_version: '🆕 Nueva versión disponible — recarga',
+    instalada: '✓ Instalada', instalar_menu: 'Usa el menú del navegador → "Instalar app" / "Añadir a pantalla de inicio".',
+    inst_ios1: 'Abre la página en <b>Safari</b>.', inst_ios2: 'Pulsa el botón <b>Compartir</b> <span style="font-size:1.2em;">⬆️</span> (abajo).',
+    inst_ios3: 'Elige <b>"Añadir a pantalla de inicio"</b>.', inst_ios4: 'Confirma y la app se instala como un icono más.',
+    inst_offline: 'Funciona offline y en pantalla completa.',
+    inst_a1: 'Pulsa <b>📲 Instalar la app</b> arriba (o el menú <b>⋮</b> del navegador).',
+    inst_a2: 'Elige <b>"Instalar app"</b> / <b>"Añadir a pantalla de inicio"</b>.',
+    enlaces_prov: 'Enlaces a', fc_cached: '☁️ Datos cacheados', fc_stale: 'última disponible',
+    fc_updated: 'actualizado', fc_actualizado: '☁️ Actualizado', prev_kp: 'Previsión Kp (NOAA)',
+    sec_alertas: '🔔 Alertas', al_note: '📣 Avisos de próximos eventos, nubosidad y auroras en Telegram.', btn_tg: '📣 Únete al canal de Telegram'
   },
   en: {
     brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
@@ -378,7 +393,17 @@ var I18N = {
     btn_instalar_app: '📲 Install app', sec_horarios: '🗓️ Times by city (local time)', cargando: 'Loading…',
     feno_label: '🌒 Phenomena', btn_instalar_pwa: '📲 Install the app (free)', kofi: '☕ Support us on Ko-fi',
     pasado: 'past', no_disponible: 'Not available.', kp_actual: 'Kp now:', aurora_visible: 'Auroras visible from ≈',
-    norte_pen: 'northern peninsula', aurora_no: '🌌 Aurora: not available now.', maxima: 'max'
+    norte_pen: 'northern peninsula', aurora_no: '🌌 Aurora: not available now.', maxima: 'max',
+    offline: '📡 Offline — showing saved data', nueva_version: '🆕 New version available — reload',
+    instalada: '✓ Installed', instalar_menu: 'Use the browser menu → "Install app" / "Add to home screen".',
+    inst_ios1: 'Open the page in <b>Safari</b>.', inst_ios2: 'Tap the <b>Share</b> button <span style="font-size:1.2em;">⬆️</span> (below).',
+    inst_ios3: 'Choose <b>"Add to Home Screen"</b>.', inst_ios4: 'Confirm and the app installs as another icon.',
+    inst_offline: 'Works offline and fullscreen.',
+    inst_a1: 'Tap <b>📲 Install the app</b> above (or the browser <b>⋮</b> menu).',
+    inst_a2: 'Choose <b>"Install app"</b> / <b>"Add to home screen"</b>.',
+    enlaces_prov: 'Links to', fc_cached: '☁️ Cached data', fc_stale: 'latest available',
+    fc_updated: 'updated', fc_actualizado: '☁️ Updated', prev_kp: 'Kp forecast (NOAA)',
+    sec_alertas: '🔔 Alerts', al_note: '📣 Alerts on upcoming events, clouds and auroras via Telegram.', btn_tg: '📣 Join the Telegram channel'
   }
 };
 var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || localStorage.getItem('ecl_lang') || 'es';
@@ -397,6 +422,7 @@ function applyLang(){
     else if (cur === 'perseidas') { perseidasReady = false; initPerseidasMap(); }
   }
   if (typeof loadCalendar === 'function') loadCalendar();
+  if (typeof loadForecast === 'function') loadForecast();
   var lb = document.getElementById('langBtn'); if (lb) lb.textContent = LANG === 'es' ? 'EN' : 'ES';
   updateCountdown(); renderNextEvent();
   if (typeof renderList === 'function') renderList();
@@ -426,6 +452,14 @@ var DEEP_EN = {
     '<div id="auroraInfo"></div><div id="auroraMap" class="minimap"></div>' +
     '<p style="font-size:.8em;color:var(--muted);margin-top:6px;">Real-time status of the <b>Kp index</b> (NOAA, 10 min cache). Dots are coloured according to whether their latitude allows seeing the aurora at the current Kp. Look for dark skies and a clear northern horizon.</p>',
   calendario: '<h2>📅 Sky events calendar</h2><div class="meta">2026–2027 · meteor showers, eclipses, oppositions</div><div id="calendarList" style="font-size:.9em;"></div>',
+  welcome: '<h2>🌑 Total Solar Eclipse · Aug 12, 2026</h2>' +
+    '<p class="sub" style="color:var(--muted);font-size:.92em;">The first one visible from the Iberian peninsula in over a century</p>' +
+    '<div class="facts">' +
+    '<div>🗺️ The <b>totality band</b> crosses A Coruña → Valencia → Balearics</div>' +
+    '<div>🕐 Totality over Spain ≈ <b>20:28</b> (local time)</div>' +
+    '<div>🕶️ <b>ISO 12312-2 glasses</b> essential except during totality</div>' +
+    '<div>☁️ Check the <b>cloud forecast</b> by city</div>' +
+    '</div>',
   safety: '<b>⚠️ SAFETY:</b> Do not look directly at the Sun without protection. Use certified eclipse glasses <b>ISO 12312-2</b> (regular sunglasses are not enough). Only during the seconds of totality can you look without a filter. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">More info (IGN)</a>'
 };
 var _origHtml = {};
@@ -477,6 +511,10 @@ if (parcToggle) parcToggle.addEventListener('change', function(){
   loadParcialidad(on);
 });
 
+function catLabel(cat){
+  var m = { despejado:t('despejado'), parcialmente_nublado:t('parcial_nube'), nublado:t('nublado'), muy_nublado:t('muy_nublado'), desconocido:'?' };
+  return m[cat] || cat;
+}
 function cityCategory(id){
   if (!fcData) return 'desconocido';
   const c = fcData.cities && fcData.cities.find(x => x.id === id);
@@ -505,7 +543,7 @@ function renderCities(){
       dur + timeInfo +
       (c.cobertura_pct != null && c.cobertura_pct < 99.5 ? '<br>☀️ ' + t('cobertura_max') + ': <b>' + c.cobertura_pct + '%</b> ' + t('del_sol') : '') +
       '<br>' + t('pop_magnitud') + ': ' + (c.magnitud || '—') + (c.altura ? ' · ' + t('pop_altura') + ': ' + c.altura + '°' : '') +
-      '<br>' + t('pop_nubes') + ': <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
+      '<br>' + t('pop_nubes') + ': <span style="color:' + (CC[cat]||'#fff') + '">' + esc(catLabel(cat)) + '</span>' +
       (total ? '<br>' + t('pop_sin_gafas') : '<br>' + t('pop_gafas'))
     );
     markers[c.id] = m;
@@ -531,7 +569,7 @@ async function loadForecast(){
   try {
     const r = await fetch('/api/forecast?year=' + currentYear);
     fcData = await r.json();
-    note.textContent = fcData.cached ? '☁️ Datos cacheados · ' + (fcData.stale ? 'última disponible' : 'actualizado') + (fcData.updated ? ' · ' + fcData.updated.slice(11,16) + ' UTC' : '') : '☁️ Actualizado · ' + (fcData.updated ? fcData.updated.slice(11,16) + ' UTC' : '');
+    note.textContent = fcData.cached ? t('fc_cached') + ' · ' + (fcData.stale ? t('fc_stale') : t('fc_updated')) + (fcData.updated ? ' · ' + fcData.updated.slice(11,16) + ' UTC' : '') : t('fc_actualizado') + ' · ' + (fcData.updated ? fcData.updated.slice(11,16) + ' UTC' : '');
   } catch(e) {
     note.textContent = '☁️ Previsión no disponible ahora (se reintentará)';
   }
@@ -565,7 +603,7 @@ document.getElementById('locBtn').addEventListener('click', useMyLocation);
 function buildTravelLinks(){
   const provs = [...new Set(cities.map(c => c.province))];
   document.getElementById('travelLinks').innerHTML =
-    'Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia: ' +
+    t('enlaces_prov') + ' <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a>: ' +
     provs.map(p => '<a class="link" href="https://viajeinteligencia.com/?q=' + encodeURIComponent(p) + '" target="_blank" rel="noopener">' + esc(p) + '</a>').join(' · ');
 }
 
@@ -579,7 +617,7 @@ if (navigator.serviceWorker) {
       if (!__reloaded) { __reloaded = true; setTimeout(function(){ location.reload(); }, 800); return; }
       var t = document.getElementById('toast');
       if (!t) { t = document.createElement('div'); t.id = 'toast'; t.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:20000;background:#ffd54f;color:#0a0e17;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.85em;box-shadow:0 4px 12px rgba(0,0,0,.5);cursor:pointer;'; document.body.appendChild(t); }
-      t.textContent = '🆕 Nueva versión disponible — recarga';
+      t.textContent = t('nueva_version');
       t.onclick = function(){ location.reload(); };
       setTimeout(function(){ if (t && t.parentNode) t.parentNode.removeChild(t); }, 12000);
     }
@@ -637,15 +675,15 @@ function isIOS(){ return /iPhone|iPad|iPod/.test(navigator.userAgent) || (naviga
 function installStepsHtml(){
   if (isIOS()){
     return '<ol style="font-size:.9em;line-height:1.9;padding-left:20px;">' +
-      '<li>Abre la página en <b>Safari</b>.</li>' +
-      '<li>Pulsa el botón <b>Compartir</b> <span style="font-size:1.2em;">⬆️</span> (abajo).</li>' +
-      '<li>Elige <b>"Añadir a pantalla de inicio"</b>.</li>' +
-      '<li>Confirma y la app se instala como un icono más.</li></ol>' +
-      '<p style="font-size:.85em;color:var(--muted);">Funciona offline y en pantalla completa.</p>';
+      '<li>' + t('inst_ios1') + '</li>' +
+      '<li>' + t('inst_ios2') + '</li>' +
+      '<li>' + t('inst_ios3') + '</li>' +
+      '<li>' + t('inst_ios4') + '</li></ol>' +
+      '<p style="font-size:.85em;color:var(--muted);">' + t('inst_offline') + '</p>';
   }
   return '<ol style="font-size:.9em;line-height:1.9;padding-left:20px;">' +
-    '<li>Pulsa <b>📲 Instalar la app</b> arriba (o el menú <b>⋮</b> del navegador).</li>' +
-    '<li>Elige <b>"Instalar app"</b> / <b>"Añadir a pantalla de inicio"</b>.</li></ol>';
+    '<li>' + t('inst_a1') + '</li>' +
+    '<li>' + t('inst_a2') + '</li></ol>';
 }
 function openInstallModal(){
   document.getElementById('installSteps').innerHTML = installStepsHtml();
@@ -656,7 +694,7 @@ function tryInstall(){
     try {
       var p = deferredInstall.prompt();
       if (p && p.then) {
-        p.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); })
+        p.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint(t('instalada')); })
          .catch(function(){ openInstallModal(); });
       } else {
         deferredInstall.userChoice.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); }).catch(function(){});
@@ -677,7 +715,7 @@ window.addEventListener('beforeinstallprompt', function(e){
 var panelInstall = document.getElementById('panelInstall');
 if (panelInstall) panelInstall.onclick = function(){
   if (deferredInstall) { deferredInstall.prompt(); deferredInstall.userChoice.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); }); }
-  else showInstallHint('Usa el menú del navegador → "Instalar app" / "Añadir a pantalla de inicio".');
+  else showInstallHint(t('instalar_menu'));
 };
 
 // ===== Offline =====
@@ -778,7 +816,7 @@ function renderSpots(){
   box.innerHTML = ranked.map(function(r){
     var cat = cityCategory(r.c.id);
     return '<div class="city total" onclick="pickCity(\'' + r.c.id + '\')">' +
-      '<div><div class="cname">⭐ ' + esc(r.c.name) + '</div><div class="ctime">' + fmtDur(r.c.totalidad_s) + ' · ' + esc(cat.replace(/_/g,' ')) + '</div></div>' +
+      '<div><div class="cname">⭐ ' + esc(LANG==='en'&&r.c.name_en?r.c.name_en:r.c.name) + '</div><div class="ctime">' + fmtDur(r.c.totalidad_s) + ' · ' + esc(catLabel(cat)) + '</div></div>' +
       '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '"></span></div>';
   }).join('');
 }
@@ -820,9 +858,11 @@ async function loadAurora(){
   var d;
   try { d = await (await fetch('/api/aurora')).json(); } catch(e){ if (info) info.textContent = t('aurora_no'); return; }
   if (info) info.innerHTML = t('kp_actual') + ' <b>' + d.kp + '</b> (' + (d.gscale||'') + ' · ' + (d.label||'') + ')' +
-    (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">cacheado</span>' : '') +
+    (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">' + t('cacheado') + '</span>' : '') +
     '<br>🌌 ' + t('aurora_visible') + ' <b>' + (d.aurora_lat||'—') + '°N</b> — Escandinavia, Islandia, Escocia' +
-    (d.aurora_lat && d.aurora_lat <= 50 ? ', ' + t('norte_pen') : '') + '.';
+    (d.aurora_lat && d.aurora_lat <= 50 ? ', ' + t('norte_pen') : '') + '.' +
+    ((d.forecast && d.forecast.length) ? '<div style="margin-top:8px;font-size:.85em;">📈 <b>' + t('prev_kp') + '</b>: ' +
+      d.forecast.map(function(f){ return f.date.slice(5) + ' → Kp <b style="color:' + f.color + '">' + f.max_kp + '</b>'; }).join(' · ') + '</div>' : '');
   var spots = [['Tromsø',69.65,18.96],['Murmansk',68.97,33.08],['Reykjavik',64.15,-21.94],['Luleå',65.58,22.15],['Tórshavn',62.01,-6.77],['Helsinki',60.17,24.94],['Oslo',59.91,10.75],['Inverness',57.48,-4.22],['Edimburgo',55.95,-3.19],['Santiago',42.88,-8.54],['Oviedo',43.36,-5.84],['San Sebastián',43.32,-1.98]];
   spots.forEach(function(s){
     var likely = d.aurora_lat ? s[1] >= d.aurora_lat : false;
