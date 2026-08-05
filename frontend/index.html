@@ -182,6 +182,16 @@
 <div id="main">
   <div id="map"></div>
   <div id="panel">
+    <div style="margin-bottom:12px;">
+      <label style="font-size:.8em;color:var(--muted);display:block;margin-bottom:4px;">Fenómeno:</label>
+      <select id="phenSelect" style="width:100%;padding:9px;border-radius:8px;border:1px solid var(--line);background:#111827;color:var(--text);font-size:.92em;">
+        <option value="eclipse">🌑 Eclipse 2026</option>
+        <option value="perseidas">☄️ Perseidas</option>
+        <option value="2027">🌒 Eclipse 2027</option>
+        <option value="auroras">🌌 Auroras</option>
+        <option value="calendario">📅 Calendario</option>
+      </select>
+    </div>
     <h3>📍 Mi ubicación</h3>
     <button class="btn" id="locBtn">📍 Usar mi ubicación</button>
     <div id="locNote"></div>
@@ -406,27 +416,27 @@ if (navigator.serviceWorker) {
 })();
 
 // ===== Tabs de fenómenos =====
-document.querySelectorAll('#tabs .tab').forEach(function(b){
-  b.onclick = function(){
-    document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.remove('active'); });
-    b.classList.add('active');
-    var t = b.dataset.tab;
-    if (t === 'eclipse' || t === '2027') {
-      document.getElementById('main').classList.remove('hidden');
-      document.getElementById('otherCards').classList.add('hidden');
-      var yr = (t === '2027') ? '2027' : '2026';
-      if (currentYear !== yr) loadPhenomenon(yr);
-      if (typeof map !== undefined) map.invalidateSize();
-    } else {
-      document.getElementById('main').classList.add('hidden');
-      document.getElementById('otherCards').classList.remove('hidden');
-      document.querySelectorAll('#otherCards .ocard').forEach(function(c){ c.classList.add('hidden'); });
-      document.getElementById('ocard-' + t).classList.remove('hidden');
-      if (t === 'auroras') initAuroraMap();
-      if (t === 'perseidas') initPerseidasMap();
-    }
-  };
-});
+function switchTab(t){
+  document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('active', x.dataset.tab === t); });
+  var sel = document.getElementById('phenSelect'); if (sel) sel.value = t;
+  if (t === 'eclipse' || t === '2027') {
+    document.getElementById('main').classList.remove('hidden');
+    document.getElementById('otherCards').classList.add('hidden');
+    var yr = (t === '2027') ? '2027' : '2026';
+    if (currentYear !== yr) loadPhenomenon(yr);
+    if (typeof map !== undefined) map.invalidateSize();
+  } else {
+    document.getElementById('main').classList.add('hidden');
+    document.getElementById('otherCards').classList.remove('hidden');
+    document.querySelectorAll('#otherCards .ocard').forEach(function(c){ c.classList.add('hidden'); });
+    document.getElementById('ocard-' + t).classList.remove('hidden');
+    if (t === 'auroras') initAuroraMap();
+    if (t === 'perseidas') initPerseidasMap();
+  }
+}
+document.querySelectorAll('#tabs .tab').forEach(function(b){ b.onclick = function(){ switchTab(b.dataset.tab); }; });
+var phenSelect = document.getElementById('phenSelect');
+if (phenSelect) phenSelect.onchange = function(){ switchTab(this.value); };
 
 // ===== Ayuda =====
 function openHelp(){ document.getElementById('helpModal').classList.remove('hidden'); }

@@ -119,6 +119,12 @@ eclipse-2026-osint/
 - **Metas iOS** anadidas (apple-mobile-web-app-capable/status-bar/title) para modo standalone.
 - Verificado headless: banner visible, modal con pasos Android y pasos iOS, 0 errores. SW v9.
 
+## Sprint 7c — Selector de fenomeno en el panel + robustez de actualizacion (5 Ago 2026)
+
+- **Selector de fenomeno** (dropdown) al inicio del panel, ademas de las pestañas: garantiza cambiar entre Eclipse 2026/2027, Perseidas, Auroras y Calendario incluso si el navegador no muestra las pestañas. Refactor a `switchTab(t)` compartido por pestañas y selector.
+- **Toast "Nueva version disponible — recarga"**: el SW notifica al activarse para que el usuario sepa cuando hay actualizacion (evita quedarse con la version antigua cacheada).
+- El problema reportado (solo se veia el mapa eclipse en movil) es CACHE del dispositivo (SW/HTTP viejo); el servidor esta verificado (headless movil: 5 tabs + selector + 2027 Cádiz + perseidas mapa). Para el usuario: borrar datos del sitio / reinstalar la PWA.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
