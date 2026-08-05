@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 
 import httpx
 
-from src.config import (CITY_DATA, FORECAST_CACHE, FORECAST_TTL_SECONDS,
+from src.config import (BASE_DIR, FORECAST_TTL_SECONDS,
                         OPEN_METEO_URL, EVENT_DATE, TIMEZONE, HOURS_FROM, HOURS_TO)
 
 CACHE_LOCK = False
@@ -27,11 +27,17 @@ def _cloud_category(cc: float) -> str:
     return "muy_nublado"
 
 
-def _load_cities() -> list[dict]:
-    return json.loads(CITY_DATA.read_text(encoding="utf-8"))["cities"]
+def _load_cities(year: str) -> list[dict]:
+    path = BASE_DIR / "data" / year / "cities.json"
+    return json.loads(path.read_text(encoding="utf-8"))["cities"]
 
 
-def _read_cache() -> dict | None:
+def _cache_path(year: str):
+    return BASE_DIR / "data" / f"forecast_cache_{year}.json"
+
+
+def _read_cache(year: str) -> dict | None:
+    FORECAST_CACHE = _cache_path(year)
     if not FORECAST_CACHE.exists():
         return None
     try:
@@ -44,10 +50,10 @@ def _read_cache() -> dict | None:
     return None
 
 
-def _write_cache(payload: dict) -> None:
+def _write_cache(year: str, payload: dict) -> None:
     payload["ts"] = int(time.time())
     try:
-        FORECAST_CACHE.write_text(json.dumps(payload, ensure_ascii=False),
+        _cache_path(year).write_text(json.dumps(payload, ensure_ascii=False),
                                   encoding="utf-8")
     except Exception:
         pass
@@ -72,17 +78,17 @@ async def _fetch_open_meteo(cities: list[dict]) -> dict:
 
 def _city_key_time(city: dict) -> int:
     """Hora local (int) del instante clave de cada ciudad (totalidad o máximo)."""
-    t = city.get("tot_inicio") or "20:30"
+    t = city.get("tot_inicio") or city.get("max_estimado") or "20:30"
     return int(t.split(":")[0])
 
 
-async def get_forecast() -> dict:
-    cached = _read_cache()
+async def get_forecast(year: str = "2026") -> dict:
+    cached = _read_cache(year)
     if cached:
         return {"cached": True, "updated": cached.get("updated"),
                 "cities": cached.get("cities")}
 
-    cities = _load_cities()
+    cities = _load_cities(year)
     try:
         data = await _fetch_open_meteo(cities)
     except Exception as e:
@@ -114,5 +120,5 @@ async def get_forecast() -> dict:
             "at_hour": key_hour,
         })
     payload = {"updated": datetime.now(timezone.utc).isoformat(), "cities": result}
-    _write_cache(payload)
+    _write_cache(year, payload)
     return {"cached": False, "updated": payload["updated"], "cities": result}

@@ -27,5 +27,5 @@ async def health():
 
 
 @app.get("/api/forecast")
-async def api_forecast():
-    return await forecast.get_forecast()
+async def api_forecast(year: str = "2026"):
+    return await forecast.get_forecast(year=year)

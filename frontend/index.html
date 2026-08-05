@@ -150,9 +150,10 @@
     <h3>📍 Mi ubicación</h3>
     <button class="btn" id="locBtn">📍 Usar mi ubicación</button>
     <div id="locNote"></div>
+    <div style="margin-top:10px;"><button class="btn ghost" id="panelInstall" style="padding:7px 12px;">📲 Instalar app</button> <span id="installHint" style="font-size:.72em;color:var(--muted);display:block;margin-top:4px;"></span></div>
     <h3>🗓️ Horarios por ciudad (hora local)</h3>
     <div id="cityList"><div class="legend">Cargando…</div></div>
-    <h3>☁️ Previsión de nubosidad (20:00)</h3>
+    <h3>☁️ Previsión de nubosidad (totalidad)</h3>
     <div id="fcNote" class="legend">Actualizando…</div>
     <div class="legend">
       <div class="row"><span class="sw" style="background:#34d399"></span>Despejado (&lt;20%)</div>
@@ -205,7 +206,7 @@
     <h3>🗺️ Cómo leer el mapa</h3>
     <p>La <b>franja amarilla</b> es la zona de totalidad. Los puntos de colores son ciudades, con su previsión de nubosidad a las 20:00. Clic en una ciudad para ver sus horarios.</p>
     <h3>🕐 Horarios</h3>
-    <p>Todos los horarios están en <b>hora local de España</b> (CEST). La totalidad sobre la península ocurre ≈ <b>20:28</b>; dura entre 30 s y 1 m 48 s según la ubicación.</p>
+    <p>Todos los horarios están en <b>hora local de España</b> (CEST) y corresponden al fenómeno activo (Eclipse 2026 / 2027). En 2026 la totalidad es ≈ <b>20:28</b> (30 s – 1 m 48 s según ubicación); en 2027 ≈ <b>10:47</b> de la mañana (hasta ~5 min). Los horarios del 2027 son estimados de la línea central (NASA), refinables con el IGN.</p>
     <h3>☁️ Colores de nubosidad</h3>
     <p>🟢 Despejado · 🟡 Parcialmente nublado · 🟠 Nublado · 🔴 Muy nublado. Previsión de Open-Meteo, se actualiza cada 3 horas.</p>
     <h3>🕶️ Seguridad (importante)</h3>
@@ -219,6 +220,7 @@
 <script>
 const CC = { despejado:'#34d399', parcialmente_nublado:'#fbbf24', nublado:'#fb923c', muy_nublado:'#f87171', desconocido:'#64748b' };
 let cities = [], bandLayer = null, markers = {}, fcData = null;
+let currentYear = '2026';
 const map = L.map('map').setView([40.5, -3.5], 6);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19 }).addTo(map);
 
@@ -227,18 +229,23 @@ function fmtDur(sec){ return sec > 0 ? Math.floor(sec/60) + 'm ' + (sec%60) + 's
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-async function loadData(){
+async function loadPhenomenon(year){
+  currentYear = year;
+  if (bandLayer) { map.removeLayer(bandLayer); bandLayer = null; }
+  Object.keys(markers).forEach(function(k){ map.removeLayer(markers[k]); delete markers[k]; });
   const [cj, fj] = await Promise.all([
-    fetch('/data/2026/cities.json').then(r => r.json()),
-    fetch('/data/2026/franja.geojson').then(r => r.json())
+    fetch('/data/' + year + '/cities.json').then(r => r.json()),
+    fetch('/data/' + year + '/franja.geojson').then(r => r.json())
   ]);
   cities = cj.cities;
-  L.geoJSON(fj, { style:{ color:'#ffd54f', weight:1.5, fillColor:'#ffd54f', fillOpacity:0.18 } }).addTo(map);
+  bandLayer = L.geoJSON(fj, { style:{ color:'#ffd54f', weight:1.5, fillColor:'#ffd54f', fillOpacity:0.18 } }).addTo(map);
   renderCities();
   renderList();
+  renderSpots();
   buildTravelLinks();
   loadForecast();
   loadCalendar();
+  if (typeof map !== 'undefined') map.invalidateSize();
 }
 
 function cityCategory(id){
@@ -260,13 +267,15 @@ function renderCities(){
       fillOpacity: 0.9
     }).addTo(map);
     const dur = total ? '<b>Totalidad: ' + fmtDur(c.totalidad_s) + '</b>' : '<b>Eclipse parcial</b>';
+    var timeInfo;
+    if (c.tot_inicio) timeInfo = '<br>Totalidad: <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b> · Inicio: ' + fmtT(c.inicio);
+    else if (c.max_estimado) timeInfo = '<br>Máximo ≈ <b>' + c.max_estimado + '</b> <span style="font-size:.72em;color:var(--muted)">(estimado línea central NASA)</span>';
+    else timeInfo = '<br>Inicio: ' + fmtT(c.inicio);
     m.bindPopup(
       '<b>' + esc(c.name) + '</b> (' + esc(c.province) + ')<br>' +
-      dur +
-      '<br>Inicio: <b>' + fmtT(c.inicio) + '</b>' +
-      (total ? '<br>Totalidad: <b>' + fmtT(c.tot_inicio) + ' – ' + fmtT(c.tot_fin) + '</b>' : '') +
-      '<br>Magnitud: ' + (c.magnitud || '—') + ' · Altura Sol: ' + (c.altura || '—') + '°' +
-      '<br>Nubes 20:00: <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
+      dur + timeInfo +
+      '<br>Magnitud: ' + (c.magnitud || '—') + (c.altura ? ' · Altura Sol: ' + c.altura + '°' : '') +
+      '<br>Nubes totalidad: <span style="color:' + (CC[cat]||'#fff') + '">' + esc(cat.replace(/_/g,' ')) + '</span>' +
       (total ? '<br>☀️ Durante la totalidad puedes mirar sin gafas' : '<br>🕶️ Usa gafas ISO 12312-2 toda la observación')
     );
     markers[c.id] = m;
@@ -280,7 +289,7 @@ function renderList(){
     const total = c.tipo === 'total';
     return '<div class="city ' + (total ? 'total' : '') + '" onclick="pickCity(\'' + c.id + '\');">' +
       '<div><div class="cname">' + esc(c.name) + '</div><div class="ctime">' +
-      (total ? 'Totalidad ' + fmtT(c.tot_inicio) + ' · ' + fmtDur(c.totalidad_s) : 'Parcial · ' + fmtT(c.inicio)) +
+      (total ? 'Totalidad ' + (fmtT(c.tot_inicio) || '~' + (c.max_estimado||'')) + ' · ' + fmtDur(c.totalidad_s) : 'Parcial · ' + (fmtT(c.inicio) || (c.max_estimado ? 'máx ' + c.max_estimado : '—'))) +
       '</div></div>' +
       '<span class="cdot" style="background:' + (CC[cat]||'#64748b') + '" title="' + esc(cat.replace(/_/g,' ')) + '"></span>' +
       '</div>';
@@ -290,7 +299,7 @@ function renderList(){
 async function loadForecast(){
   const note = document.getElementById('fcNote');
   try {
-    const r = await fetch('/api/forecast');
+    const r = await fetch('/api/forecast?year=' + currentYear);
     fcData = await r.json();
     note.textContent = fcData.cached ? '☁️ Datos cacheados · ' + (fcData.stale ? 'última disponible' : 'actualizado') + (fcData.updated ? ' · ' + fcData.updated.slice(11,16) + ' UTC' : '') : '☁️ Actualizado · ' + (fcData.updated ? fcData.updated.slice(11,16) + ' UTC' : '');
   } catch(e) {
@@ -349,9 +358,11 @@ document.querySelectorAll('#tabs .tab').forEach(function(b){
     document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.remove('active'); });
     b.classList.add('active');
     var t = b.dataset.tab;
-    if (t === 'eclipse') {
+    if (t === 'eclipse' || t === '2027') {
       document.getElementById('main').classList.remove('hidden');
       document.getElementById('otherCards').classList.add('hidden');
+      var yr = (t === '2027') ? '2027' : '2026';
+      if (currentYear !== yr) loadPhenomenon(yr);
       if (typeof map !== undefined) map.invalidateSize();
     } else {
       document.getElementById('main').classList.add('hidden');
@@ -372,6 +383,12 @@ var deferredInstall = null;
 window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferredInstall = e; document.getElementById('installBtn').classList.add('show'); });
 document.getElementById('installBtn').onclick = async function(){ if (!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); };
 window.addEventListener('appinstalled', function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); });
+function showInstallHint(msg){ var h = document.getElementById('installHint'); if (h) h.textContent = msg; }
+var panelInstall = document.getElementById('panelInstall');
+if (panelInstall) panelInstall.onclick = function(){
+  if (deferredInstall) { deferredInstall.prompt(); deferredInstall.userChoice.then(function(){ deferredInstall = null; document.getElementById('installBtn').classList.remove('show'); showInstallHint('✓ Instalada'); }); }
+  else showInstallHint('Usa el menú del navegador → "Instalar app" / "Añadir a pantalla de inicio".');
+};
 
 // ===== Offline =====
 function setOffline(off){ document.getElementById('offlineBanner').classList.toggle('hidden', !off); }
@@ -456,7 +473,7 @@ async function loadCalendar(){
   }).join('');
 }
 
-loadData();
+loadPhenomenon('2026');
 </script>
 </body>
 </html>

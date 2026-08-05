@@ -42,6 +42,13 @@
 - **Calendario durable**: `data/events.json` con 15 fenomenos 2026-2027 (eclipses solares, lunares, lluvias de meteoros Perseidas/Geminidas/Cuadrantidas/Liridas/etc., oposiciones Saturno/Jupiter/Marte). Nuevo tab **📅 Calendario** con listado ordenado, destacando los eclipses y marcando los pasados.
 - Esto deja el sitio listo para el resto de fenomenos (2027, auroras, perseidas globales) sin tocar el backend.
 
+## Sprint 4 — Eclipse 2027 con mapa + PWA visible + ayuda generica (5 Ago 2026)
+
+- **Eclipse 2027 (2-Ago-2027) con MAPA**: `data/2027/cities.json` (Cádiz, Málaga, Ceuta, Melilla = total; Granada, Almería = parcial en el borde norte) + `data/2027/franja.geojson` (path completo de NASA SE2027Aug02T). El frontend ahora es **multi-fenómeno**: `loadPhenomenon(year)` intercambia capas de mapa por tab (Eclipse 2026 <-> 2027). El tab 2027 deja de ser tarjeta.
+- **Horarios 2027**: maximo estimado de la **linea central NASA** (interpolado), hora local CEST (~10:47 mañana), etiquetado como estimado y refinable con IGN. Backend `/api/forecast?year=2026|2027` con cache por anio (usa `max_estimado` si no hay `tot_inicio`).
+- **PWA visible**: boton **📲 Instalar app** siempre en el panel (no solo cuando el navegador dispara beforeinstallprompt), con instrucciones manuales de fallback. El boton del header (⬇️ Instalar) sigue mostrandose cuando el navegador lo ofrece.
+- **Ayuda generica**: los horarios de la ayuda ya no son solo del 2026 (mencionan 2026 ~20:28 y 2027 ~10:47, estimados NASA).
+
 ## 🔜 Próximos sprints
 
 ### Fase 2 — Cielos & Eventos (durable, post-12-Ago)
