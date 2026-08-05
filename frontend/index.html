@@ -25,7 +25,7 @@
 <style>
   :root { --bg:#0a0e17; --panel:#111827; --line:#1e293b; --text:#dbe4f0; --muted:#8aa0c0; --accent:#ffd54f; }
   * { box-sizing:border-box; margin:0; padding:0; }
-  html,body { height:100%; }
+  html,body { height:100%; height:100dvh; min-height:100%; }
   body { font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
   header { padding:10px 14px; border-bottom:1px solid var(--line); background:#0d1322; }
   header h1 { font-size:1.05em; color:var(--accent); }
@@ -33,7 +33,7 @@
   #safety { background:#3b0a0a; border-bottom:1px solid #5a1515; color:#ffb4b4; font-size:.8em; padding:8px 14px; line-height:1.45; }
   #safety b { color:#ff6b6b; }
   #main { flex:1; display:flex; min-height:0; }
-  #map { flex:1; min-width:0; }
+  #map { flex:1; min-width:0; min-height:50vh; }
   #panel { width:340px; max-width:100%; background:var(--panel); border-left:1px solid var(--line); overflow-y:auto; padding:12px; font-size:.82em; }
   #panel h3 { color:var(--accent); font-size:.9em; text-transform:uppercase; letter-spacing:.8px; margin:12px 0 6px; }
   #panel h3:first-child { margin-top:0; }
@@ -52,7 +52,7 @@
   #locNote { font-size:.75em; color:var(--muted); margin-top:6px; }
   #foot { border-top:1px solid var(--line); padding:8px 14px; font-size:.72em; color:var(--muted); display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
   .leaflet-popup-content { font-size:.82em; }
-  @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } }
+  @media (max-width:720px) { #main { flex-direction:column-reverse; } #panel { width:100%; max-height:38vh; border-left:none; border-top:1px solid var(--line); } #map { min-height:55vh; } }
 
   #tabs { display:flex; gap:6px; padding:8px 14px; background:#0d1322; border-bottom:1px solid var(--line); flex-wrap:wrap; }
   #tabs .tab { background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:6px 14px; font-size:.8em; cursor:pointer; }
@@ -348,7 +348,7 @@ if ('serviceWorker' in navigator) {
 (function(){
   var w = document.getElementById('welcome');
   if (!localStorage.getItem('ecl2026_seen')) w.classList.remove('hidden');
-  document.getElementById('welcomeGo').onclick = function(){ localStorage.setItem('ecl2026_seen','1'); w.classList.add('hidden'); };
+  document.getElementById('welcomeGo').onclick = function(){ localStorage.setItem('ecl2026_seen','1'); w.classList.add('hidden'); setTimeout(function(){ if (typeof map !== 'undefined') map.invalidateSize(); }, 200); };
   document.getElementById('welcomeHelp').onclick = function(){ w.classList.add('hidden'); openHelp(); };
 })();
 
@@ -393,6 +393,7 @@ if (panelInstall) panelInstall.onclick = function(){
 // ===== Offline =====
 function setOffline(off){ document.getElementById('offlineBanner').classList.toggle('hidden', !off); }
 window.addEventListener('offline', function(){ setOffline(true); });
+window.addEventListener('resize', function(){ if (typeof map !== 'undefined') map.invalidateSize(); });
 window.addEventListener('online', function(){ setOffline(false); });
 setOffline(!navigator.onLine);
 

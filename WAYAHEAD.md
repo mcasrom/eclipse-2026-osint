@@ -49,6 +49,12 @@
 - **PWA visible**: boton **📲 Instalar app** siempre en el panel (no solo cuando el navegador dispara beforeinstallprompt), con instrucciones manuales de fallback. El boton del header (⬇️ Instalar) sigue mostrandose cuando el navegador lo ofrece.
 - **Ayuda generica**: los horarios de la ayuda ya no son solo del 2026 (mencionan 2026 ~20:28 y 2027 ~10:47, estimados NASA).
 
+## Fix — Mapa en movil (5 Ago 2026)
+
+- **Problema**: en smartphone se veia toda la narrativa pero el mapa geografico no renderizaba (colapso a 0 de altura).
+- **Causa**: `100vh`/flex se comporta distinto en movil y Leaflet mide el contenedor al iniciar; el overlay de bienvenida podia cubrirlo y el mapa quedaba a 0x0.
+- **Fix**: `height:100dvh` (viewport dinamico) + `min-height:50vh` en #map (55vh en el media query movil) + `map.invalidateSize()` al cerrar el funnel y en el evento resize (barra del navegador movil). Verificado en viewport 390x844 (mapa 390x464, tiles cargados, 0 errores). SW v6.
+
 ## 🔜 Próximos sprints
 
 ### Fase 2 — Cielos & Eventos (durable, post-12-Ago)
