@@ -256,10 +256,10 @@
       <div class="row"><span style="width:22px;height:14px;background:rgba(255,213,79,.35);border:1px solid #ffd54f;display:inline-block"></span> <span data-i18n="franja_total">Franja de totalidad</span></div>
       <div class="row" style="margin-top:8px;">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.85em;">
-          <input type="checkbox" id="parcToggle" style="accent-color:var(--accent)"> <span data-i18n="parc_label">☀️ Mostrar parcialidad</span>
+          <input type="checkbox" id="parcToggle" checked style="accent-color:var(--accent)"> <span data-i18n="parc_label">☀️ Mostrar parcialidad</span>
         </label>
       </div>
-      <div class="row parcRow hidden" style="margin-top:2px;flex-wrap:wrap;gap:2px;">
+      <div class="row parcRow" style="margin-top:2px;flex-wrap:wrap;gap:2px;">
         <span style="width:14px;height:10px;background:#ffd54f;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_100">100%</span>
         <span style="width:14px;height:10px;background:#ffb020;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_90">90%</span>
         <span style="width:14px;height:10px;background:#fb923c;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_70">70%</span>
@@ -284,7 +284,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.30</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.31</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -407,7 +407,9 @@ var I18N = {
     sec_alertas: '🔔 Alerts', al_note: '📣 Alerts on upcoming events, clouds and auroras via Telegram.', btn_tg: '📣 Join the Telegram channel'
   }
 };
-var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || localStorage.getItem('ecl_lang') || 'es';
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+var LANG = (location.search.match(/[?&]lang=(en|es)/) || [])[1] || lsGet('ecl_lang') || 'es';
 function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.es[key] || key; }
 function applyLang(){
   document.documentElement.lang = LANG;
@@ -467,7 +469,7 @@ var _origHtml = {};
 document.querySelectorAll('[data-i18n-html]').forEach(function(el){ _origHtml[el.dataset.i18nHtml] = el.innerHTML; });
 
 var langBtn = document.getElementById('langBtn');
-if (langBtn) langBtn.onclick = function(){ LANG = LANG === 'es' ? 'en' : 'es'; localStorage.setItem('ecl_lang', LANG); applyLang(); };
+if (langBtn) langBtn.onclick = function(){ LANG = LANG === 'es' ? 'en' : 'es'; lsSet('ecl_lang', LANG); applyLang(); };
 const map = L.map('map').setView([40.5, -3.5], 6);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19 }).addTo(map);
 
@@ -633,8 +635,8 @@ if (navigator.serviceWorker) {
 // ===== Funnel de entrada =====
 (function(){
   var w = document.getElementById('welcome');
-  if (!localStorage.getItem('ecl2026_seen')) w.classList.remove('hidden');
-  document.getElementById('welcomeGo').onclick = function(){ localStorage.setItem('ecl2026_seen','1'); w.classList.add('hidden'); setTimeout(function(){ if (typeof map !== 'undefined') map.invalidateSize(); }, 200); };
+  if (!lsGet('ecl2026_seen')) w.classList.remove('hidden');
+  document.getElementById('welcomeGo').onclick = function(){ lsSet('ecl2026_seen','1'); w.classList.add('hidden'); setTimeout(function(){ if (typeof map !== 'undefined') map.invalidateSize(); }, 200); };
   document.getElementById('welcomeHelp').onclick = function(){ w.classList.add('hidden'); openHelp(); };
 })();
 
@@ -919,6 +921,7 @@ document.addEventListener('click', function(e){ var p = document.getElementById(
 applyLang();
 
 loadPhenomenon('2026');
+loadParcialidad(true);
 </script>
 <div id="sharePopup" class="hidden" style="position:fixed;top:64px;right:12px;z-index:2000;background:#111827;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;box-shadow:0 6px 20px rgba(0,0,0,.5);">
   <a id="shX" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">𝕏 / Twitter</a>
