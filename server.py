@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src import aurora
 from src import forecast
+from src import sky
 
 app = FastAPI(title="Eclipse 2026 OSINT",
               version="1.0.0",
@@ -25,6 +26,11 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "Eclipse 2026 OSINT"}
+
+
+@app.get("/api/sky")
+async def api_sky(lat: float = 40.4168, lon: float = -3.7038):
+    return await sky.get_sky(lat=lat, lon=lon)
 
 
 @app.get("/api/aurora")

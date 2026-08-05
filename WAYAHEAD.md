@@ -125,6 +125,13 @@ eclipse-2026-osint/
 - **Toast "Nueva version disponible — recarga"**: el SW notifica al activarse para que el usuario sepa cuando hay actualizacion (evita quedarse con la version antigua cacheada).
 - El problema reportado (solo se veia el mapa eclipse en movil) es CACHE del dispositivo (SW/HTTP viejo); el servidor esta verificado (headless movil: 5 tabs + selector + 2027 Cádiz + perseidas mapa). Para el usuario: borrar datos del sitio / reinstalar la PWA.
 
+## Sprint 8 — No efimero: auto-rotacion, astronomia diaria y guias (5 Ago 2026)
+
+- **"Proximo en el cielo" auto-rotativo**: hero que muestra SIEMPRE el siguiente fenomeno (desde events.json + fecha) con boton Ver y countdown al proximo evento (ya no fijo al 2026). Tras el 12-Ago rota a Perseidas -> Saturno -> Eclipse lunar -> Jupiter -> Geminidas -> Eclipse 2027.
+- **"Hoy en el cielo"**: endpoint /api/sky (Open-Meteo forecast: amanecer/atardecer/UV max + fase lunar calculada por formula sinodica) con cache 24h. Panel que se auto-alimenta a diario.
+- **Pestana Guias**: 4 guias evergreen (eclipse, meteoros, auroras, fotografia) — contenido permanente.
+- Con esto el sitio es un portal perpetuo "que pasa hoy en el cielo", no un landing del eclipse. v0.24.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.

@@ -152,6 +152,7 @@
   </div>
 </header>
 <div id="countdown"></div>
+<div id="nextEvent" style="text-align:center;padding:8px 12px;background:#0d1322;border-bottom:1px solid var(--line);font-size:.85em;color:var(--text);"></div>
 <div id="safety"><b>⚠️ SEGURIDAD:</b> No mires directamente al Sol sin protección. Usa gafas de eclipse certificadas <b>ISO 12312-2</b> (las gafas de sol normales no sirven). Solo durante los segundos de totalidad se puede mirar sin filtro. <a href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener" class="link">Más info (IGN)</a></div>
 <div id="offlineBanner" class="hidden">📡 Sin conexión — mostrando datos guardados</div>
 <div id="pwaBanner" style="text-align:center;padding:8px 12px;background:#132a24;border-bottom:1px solid var(--line);">
@@ -164,6 +165,7 @@
   <button class="tab" data-tab="2027">🌒 Eclipse 2027</button>
   <button class="tab" data-tab="auroras">🌌 Auroras</button>
   <button class="tab" data-tab="calendario">📅 Calendario</button>
+  <button class="tab" data-tab="guias">📖 Guías</button>
 </div>
 <div id="otherCards" class="hidden">
   <div id="ocard-perseidas" class="ocard hidden">
@@ -192,6 +194,18 @@
     <div class="meta">2026–2027 · lluvias de meteoros, eclipses, oposiciones</div>
     <div id="calendarList" style="font-size:.9em;"></div>
   </div>
+  <div id="ocard-guias" class="ocard hidden">
+    <h2>📖 Guías de observación</h2>
+    <div class="meta">Cómo disfrutar de los fenómenos del cielo con seguridad</div>
+    <h3 style="color:var(--accent);margin:12px 0 4px;">🌑 Eclipse solar</h3>
+    <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Nunca mires al Sol sin gafas <b>ISO 12312-2</b>. Solo durante los segundos de totalidad se puede mirar sin filtro. Llega antes, busca un horizonte oeste despejado y revisa la nubosidad.</p>
+    <h3 style="color:var(--accent);margin:12px 0 4px;">☄️ Lluvias de meteoros</h3>
+    <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Se ven a simple vista, sin protección. Mejor tras la medianoche, lejos de luces, tumbado mirando hacia el radiante. Da 30 min a tus ojos para adaptarse.</p>
+    <h3 style="color:var(--accent);margin:12px 0 4px;">🌌 Auroras boreales</h3>
+    <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Necesitan <b>Kp alto</b> y cielo despejado. Mira hacia el norte, en lugares oscuros y altos. En el norte de España son posibles con tormentas geomagnéticas fuertes (Kp≥7).</p>
+    <h3 style="color:var(--accent);margin:12px 0 4px;">📷 Fotografía</h3>
+    <p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">Para el Sol: filtro solar certificado SIEMPRE en el objetivo (nunca en el ocular). Para meteoros: exposición larga con trípode. Para auroras: ISO alto y 2-4 s de exposición.</p>
+  </div>
 <div id="main">
   <div id="map"></div>
   <div id="panel">
@@ -211,6 +225,8 @@
     <div style="margin-top:10px;"><button class="btn ghost" id="panelInstall" style="padding:7px 12px;">📲 Instalar app</button> <span id="installHint" style="font-size:.72em;color:var(--muted);display:block;margin-top:4px;"></span></div>
     <h3>🗓️ Horarios por ciudad (hora local)</h3>
     <div id="cityList"><div class="legend">Cargando…</div></div>
+    <h3>☀️ Hoy en el cielo</h3>
+    <div id="skyInfo" class="legend">Cargando…</div>
     <h3>☁️ Previsión de nubosidad (totalidad)</h3>
     <div id="fcNote" class="legend">Actualizando…</div>
     <div class="legend">
@@ -239,7 +255,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.23</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.24</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -310,6 +326,7 @@ async function loadPhenomenon(year){
   buildTravelLinks();
   loadForecast();
   loadCalendar();
+  loadSky();
   if (typeof map !== 'undefined') map.invalidateSize();
 }
 
@@ -540,6 +557,38 @@ function cdText(now, t, label){
   var days = Math.floor(d/86400000), h = Math.floor(d/3600000)%24, mi = Math.floor(d/60000)%60, se = Math.floor(d/1000)%60;
   return '⏳ Faltan ' + days + 'd ' + h + 'h ' + mi + 'm ' + se + 's' + label;
 }
+function getNextEvent(){
+  if (!skyEvents || !skyEvents.length) return null;
+  var now = new Date(); now.setHours(0,0,0,0);
+  var next = skyEvents.filter(function(x){ return new Date(x.date) >= now; })
+    .sort(function(a,b){ return a.date < b.date ? -1 : 1; })[0];
+  return next || null;
+}
+function nextEventTarget(ev){
+  var p = ev.date.split('-');
+  return new Date(+p[0], +p[1]-1, +p[2], 21, 0, 0);
+}
+function renderNextEvent(){
+  var el = document.getElementById('nextEvent');
+  if (!el) return;
+  var ev = getNextEvent();
+  if (!ev) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  var tabMap = { eclipse_total:'eclipse', meteoros:'perseidas', oposicion:'calendario', eclipse_lunar:'calendario' };
+  var t = tabMap[ev.type] || 'calendario';
+  el.innerHTML = '🌠 <b>PRÓXIMO:</b> ' + esc(ev.name) + ' · ' + esc(ev.date) +
+    ' <button class="btn ghost" style="padding:4px 10px;font-size:.75em;margin-left:6px;" onclick="switchTab(\'' + t + '\')">Ver</button>';
+}
+async function loadSky(){
+  var el = document.getElementById('skyInfo');
+  if (!el) return;
+  try {
+    var d = await (await fetch('/api/sky')).json();
+    el.innerHTML = '🌅 Amanecer <b>' + String(d.sunrise||'—').slice(11,16) + '</b> · 🌇 Atardecer <b>' + String(d.sunset||'—').slice(11,16) + '</b>' +
+      '<br>🌙 Fase: <b>' + (d.moon_phase_name||'—') + '</b> · ☀️ UV máx: <b>' + (d.uv_max||'—') + '</b>' +
+      (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">cacheado</span>' : '');
+  } catch(e){ el.innerHTML = '☀️ No disponible ahora.'; }
+}
 function updateCountdown(){
   var el = document.getElementById('countdown');
   if (!el) return;
@@ -547,7 +596,9 @@ function updateCountdown(){
   if (selectedCity && selectedCity.tipo === 'total' && selectedCity.tot_inicio){
     el.textContent = cdText(now, targetTime(selectedCity.tot_inicio), ' hasta la totalidad en ' + selectedCity.name);
   } else {
-    el.textContent = cdText(now, new Date(Date.UTC(2026, 7, 12, 20-2, 28, 0)), ' hasta la totalidad (~20:28)');
+    var ev = getNextEvent();
+    if (ev) el.textContent = cdText(now, nextEventTarget(ev), ' hasta: ' + ev.name);
+    else el.textContent = '☀️ Sin eventos próximos';
   }
 }
 setInterval(updateCountdown, 1000);
@@ -585,9 +636,11 @@ function renderSpots(){
 }
 
 // ===== Calendario de fenomenos =====
+var skyEvents = [];
 async function loadCalendar(){
   var ev = [];
   try { ev = (await (await fetch('/data/events.json')).json()).events || []; } catch(e){ ev = []; }
+  skyEvents = ev;
   var list = document.getElementById('calendarList');
   if (!list) return;
   if (!ev.length){ list.innerHTML = '<p>No disponible.</p>'; return; }
@@ -602,6 +655,7 @@ async function loadCalendar(){
       '<div style="font-size:.78em;color:var(--muted);line-height:1.5;">' + esc(x.note) + '</div>' +
       '</div>';
   }).join('');
+  renderNextEvent();
 }
 
 // ===== Auroras (Kp) =====
