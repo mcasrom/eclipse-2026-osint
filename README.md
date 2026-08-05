@@ -9,8 +9,8 @@
 
 <p align="center">
   <b>El primer eclipse solar total visible desde la península ibérica en más de un siglo.</b><br>
-  Mapa interactivo de la franja de totalidad sobre España y Baleares — con horarios por ciudad,<br>
-  duración, previsión de nubosidad y seguridad. Diseñado para aguantar el pico del <b>12 de agosto de 2026</b>.
+  Un portal de <b>fenómenos celestes y meteorológicos</b>: mapa de la franja de totalidad de 2026 y 2027,<br>
+  horarios por ciudad, previsión de nubosidad, auroras (Kp) y Perseidas — con PWA, seguridad y SEO.
 </p>
 
 <p align="center">
@@ -23,80 +23,65 @@
 
 | | |
 |---|---|
-| 🗺️ | **Franja de totalidad** sobre España y Baleares, construida desde la tabla de trayectoria de **NASA GSFC** |
-| 🕐 | **Horarios por ciudad** pre-calculados (inicio, totalidad, duración, altura, magnitud) del **IGN** |
-| ☁️ | **Previsión de nubosidad** por ciudad (la única parte dinámica), cacheada cada 3 h |
-| 📍 | **Geolocalización** para localizar tu ciudad más cercana a la franja |
-| 🛣️ | Enlaces de viaje por provincia hacia tu plataforma principal |
-| 🕶️ | Aviso de seguridad **ISO 12312-2** con enlaces oficiales (obligatorio, no decorativo) |
+| 🌑 | **Eclipse 2026** (12-Ago): franja de totalidad A Coruña → Valencia → Baleares, horarios IGN por ciudad, previsión de nubosidad a la hora de la totalidad |
+| 🌒 | **Eclipse 2027** (2-Ago): franja sobre el sur peninsular + N.África (Cádiz, Málaga, Ceuta, Melilla) con horarios estimados de la línea central NASA |
+| 🌌 | **Auroras**: mapa con el **Kp real de NOAA** (caché 10 min) y ciudades del norte coloreadas por visibilidad |
+| ☄️ | **Perseidas**: mapa con el radiant y pico la noche del eclipse |
+| 📅 | **Calendario de fenómenos** 2026-2027: eclipses, lluvias de meteoros, oposiciones |
+| ⏳ | **Contador regresivo** + totalidad restante por ciudad · **mejores spots** (duración × nubosidad) |
+| 📲 | **PWA**: instalable, offline, iOS, banner de conexión · botón Ko-fi |
+| 🕶️ | Seguridad **ISO 12312-2** con enlaces oficiales (obligatorio) |
+| 🔗 | Enlaces de viaje y al planificador IA de [viajeinteligencia.com](https://viajeinteligencia.com) |
 
 ## 🏗️ Arquitectura (pensada para el pico de tráfico)
 
 ```
-                    ┌──────────────────────────────────────────────┐
-  Usuario ──► Cloudflare (opcional: edge cache) ──► Nginx ──────► │  Frontend estático (Leaflet PWA) │
-                    │  todo lo estático directo (0 backend)       │  data/cities.json · franja.geojson │
-                    └──────────────────────────────────────────────┘
-                        └─► /api/forecast ──► FastAPI (127.0.0.1:8700)
-                            └─► caché en fichero (TTL 3 h) ──► Open-Meteo
+  Usuario ──► Cloudflare (edge cache, proxy) ──► Nginx
+      │  estáticos servidos directo (0 backend): index.html · data/2026 · data/2027 · events.json · og-image
+      └─► /api/forecast?year=2026|2027 ──► FastAPI (127.0.0.1:8700) ──► caché fichero (TTL 3h) ──► Open-Meteo
+      └─► /api/aurora ──► FastAPI ──► caché fichero (TTL 10 min) ──► NOAA SWPC (Kp)
 ```
 
-- **Sin PostgreSQL** — los datos del evento viven en JSON estáticos servidos por nginx.
-- **Sin pipeline ni cron** — un solo evento, todo pre-calculado.
-- **Un solo request dinámico por ventana** de 3 h para la previsión.
-- Coste real: **~50 MB de RAM**, CPU ≈ 0.
+- **Sin PostgreSQL** — los datos de cada fenómeno viven en JSON estáticos servidos por nginx.
+- **Sin pipeline ni cron** — todo pre-calculado; solo dos endpoints dinámicos cacheados (forecast y Kp).
+- Coste real: **~55 MB de RAM**, CPU ≈ 0.
 
 ## 📊 Fuentes de datos
 
 | Dato | Fuente | Tipo |
 |---|---|---|
-| Horarios por ciudad | [IGN](https://astronomia.ign.es) | Estático |
-| Franja de totalidad | [NASA GSFC](https://eclipse.gsfc.nasa.gov) | Estático (GeoJSON) |
+| Horarios 2026 por ciudad | [IGN](https://astronomia.ign.es) | Estático |
+| Franjas de totalidad 2026/2027 | [NASA GSFC](https://eclipse.gsfc.nasa.gov) | Estático (GeoJSON) |
 | Nubosidad | [Open-Meteo](https://open-meteo.com) | Dinámico, cacheado 3 h |
-
-> Alternativa de nubosidad: AEMET (requiere API key + códigos municipio INE). Open-Meteo se eligió por robustez: sin key, cobertura horaria directa por lat/lon.
+| Kp (auroras) | [NOAA SWPC](https://www.swpc.noaa.gov) | Dinámico, cacheado 10 min |
 
 ## 🌌 Más allá del eclipse
 
-Este portal está pensado como base para **otros fenómenos celestes y meteorológicos**:
-próximos eclipses (2027), lluvias de meteoros, auroras, olas de calor…
+Portal de **fenómenos celestes** pensado como base para futuros eventos:
+- Datos **por fenómeno** (`data/2026`, `data/2027`, `events.json`) — añadir uno = añadir sus datos estáticos.
+- `/api/forecast` sirve nubosidad para **cualquier lat/lon/fecha**; `/api/aurora` da el Kp en tiempo real.
+- Tabs: Eclipse 2026 · Perseidas · Eclipse 2027 · Auroras · Calendario.
 
-- Los datos son **por fenómeno** (carpetas estáticas independientes).
-- `/api/forecast` sirve nubosidad para **cualquier lat/lon/fecha** → reutilizable sin cambios.
-- Añadir un fenómeno = añadir sus datos estáticos + una sección en el frontend.
+## 🌍 Fase 2 — Expansión global (post-12-Ago)
 
-## 🌍 Fase 2 — Expansión global (post-lanzamiento 12-Ago)
-
-El eclipse de 2026 es un fenómeno global: la franja cruza **Islandia** (total) → Atlántico → **España**, y es **parcial** en toda Europa y el norte de África. Tras el lanzamiento del 12-Ago, la expansión natural es:
-
-- **Path global completo** de NASA (ya disponible en la tabla de trayectoria) + **zonas de parcialidad** (%) sobre Europa/N.África.
-- **Más ciudades**: Islandia y capitales europeas con sus horarios.
-- **i18n ES/EN** para audiencia global.
-- **Otros fenómenos**: Eclipse 2027 (sur peninsular + N.África, ~6 min), 2028 (Australia), eclipses lunares, Perseidas, auroras — encajan en los tabs + datos estáticos + `/api/forecast` genérico.
-
-La arquitectura ya lo soporta: datos por fenómeno (JSON/GeoJSON estáticos) + forecast por lat/lon/fecha sin cambios de backend.
+El eclipse de 2026 es global: franja por **Islandia** (total) y **parcial** en toda Europa y N.África. Tras el lanzamiento:
+- Path global completo + **contornos de parcialidad** (%) sobre Europa/N.África.
+- Más ciudades (Islandia, capitales europeas) y **i18n ES/EN**.
+- Calibración de horarios 2027 con datos oficiales del IGN cuando los publique.
 
 ## 🚀 Despliegue
 
 ```bash
-# 1. Código
 python3 -m venv venv && ./venv/bin/pip install -r requirements.txt
-
-# 2. DNS + certificado
-#    Cloudflare: A eclipse → 178.105.80.193 (DNS only primero)
+# Cloudflare: A eclipse → 178.105.80.193 (luego proxy naranja)
 sudo certbot --nginx -d eclipse.viajeinteligencia.com
-
-# 3. PM2
 pm2 start ./venv/bin/python --name eclipse-api -- -m uvicorn server:app --host 127.0.0.1 --port 8700
 pm2 save
-
-# 4. Verificar
 curl -s https://eclipse.viajeinteligencia.com/health
-curl -s https://eclipse.viajeinteligencia.com/api/forecast
+curl -s https://eclipse.viajeinteligencia.com/api/forecast?year=2027
 ```
 
-La configuración de nginx está en `/etc/nginx/sites-enabled/eclipse`: estáticos directos,
-`/api/` → `127.0.0.1:8700`, `/sw.js` sin cache.
+Nginx (`/etc/nginx/sites-enabled/eclipse`): estáticos directos (cache 1 día para `/data/`, `/vendor/`, imágenes), `/api/` → `127.0.0.1:8700`, `/sw.js` sin cache, `index.html` siempre fresco.
 
 ## 🛠️ Proyectos del mismo autor
 

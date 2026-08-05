@@ -70,35 +70,50 @@
 
 ## 🔜 Próximos sprints
 
-### Fase 2 — Cielos & Eventos (durable, post-12-Ago)
-- [ ] **Expansión global**: path completo NASA (Islandia, resto de la franja) + zonas de parcialidad (%) sobre Europa/N.África + más ciudades + **i18n ES/EN**.
-- [ ] **Eclipse 2027** (2-Ago, sur peninsular + N.África, ~6 min): mismo patrón de datos estáticos.
-- [ ] **Calendario "Cielos & Eventos"**: eclipses solares/lunares, lluvias de meteoros, auroras (Kp), conjunciones — hub durable que resuelve lo efímero.
-- [ ] **Perseidas / auroras globales**: datos estáticos + `/api/forecast` (ya genérico por lat/lon/fecha).
+### Sprint 7 — Opción 5: Global + i18n ES/EN + parcialidad (post-12-Ago)
+- [ ] **Eclipse 2026 global**: ampliar a Islandia (total) y resto de la franja; **contornos de parcialidad** (%) sobre Europa y N.África desde fuente fiable (no inventar).
+- [ ] **Más ciudades europeas** en zona parcial con su % de ocultación.
+- [ ] **i18n ES/EN** con toggle (diccionario + data-i18n), como NearMe/MigrationFlow — el mayor esfuerzo (todas las cadenas del frontend).
+- [ ] Tras el 12-Ago: el eclipse 2026 pasa a "pasado" en el calendario (la app ya lo marca).
+
+### Fase 2 — Cielos & Eventos (avance)
+- [x] **Eclipse 2027 con mapa** (Sprint 4): Cádiz/Málaga/Ceuta/Melilla total · Granada/Almería parcial (borde norte). Horarios estimados de la línea central NASA.
+- [x] **Calendario "Cielos & Eventos"** (Sprint 3): 15 fenómenos 2026-2027 (eclipses, meteoros, oposiciones).
+- [x] **Auroras (Kp real NOAA)** y **Perseidas (radiant)** con mapa (Sprint 5), cobertura amplia (hemisferio norte).
+- [x] **Refactor por fenómeno** (`data/2026`, `data/2027`) — base para todo lo anterior.
+
+### Mejores opciones (roadmap evaluado)
+- **Hecho (T1 + sprites)**: Ko-fi · contador + totalidad restante · mejores spots (duración×nubosidad) · enlace planificador IA · JSON-LD · PWA (instalar visible, iOS, offline, mapa móvil) · funnel · ayuda genérica · SEO/RRSS completo (og:image, @graph, robots/sitemap).
+- **Próximo**: opción 5 (global + i18n + parcialidad).
+- **Ideas futuras**: calibración horarios 2027 con datos oficiales IGN · capa de tráfico/afluencia esperada (si hay datos públicos) · packs "qué llevar" · notificaciones locales del contador · previsión Kp a 3 días para auroras.
 
 ### No aquí (pertenece a viajeinteligencia.com)
-- Chat IA / planificador (solo enlace). Email capture / alertas push con BD (choca con sin-tracking; si se hace, en la plataforma). API pública con backend (los datos ya son JSON estáticos).
+- Chat IA / planificador (solo enlace). Email capture / alertas push con BD (choca con sin-tracking; si se hace, en la plataforma). API pública con backend (los datos ya son JSON estáticos servidos por nginx).
 
 ## 📁 Estructura
 ```
 eclipse-2026-osint/
-├── server.py            # FastAPI: /api/forecast + /health (puerto 8700)
+├── server.py            # FastAPI: /api/forecast (por año), /api/aurora, /health (8700)
 ├── src/
 │   ├── config.py        # constantes (puerto, TTL caché, fechas)
-│   └── forecast.py      # Open-Meteo + caché fichero (TTL 3h)
+│   ├── forecast.py      # Open-Meteo + caché fichero por año (TTL 3h)
+│   └── aurora.py        # Kp NOAA SWPC + caché (TTL 10 min)
 ├── data/
-│   ├── cities.json      # 13 ciudades con horarios (IGN)
-│   ├── franja.geojson   # franja de totalidad (NASA GSFC)
-│   └── forecast_cache.json  # caché (generado)
+│   ├── 2026/cities.json + franja.geojson   # eclipse 2026 (IGN + NASA)
+│   ├── 2027/cities.json + franja.geojson   # eclipse 2027 (NASA línea central)
+│   ├── events.json      # calendario 15 fenómenos 2026-2027
+│   └── forecast_cache_{year}.json + aurora_cache.json  # cachés (generados)
 ├── frontend/
-│   ├── index.html       # Leaflet PWA (tabs, contador, spots, ayuda, funnel, og)
-│   ├── sw.js / manifest.json / iconos / og-image
+│   ├── index.html       # Leaflet PWA (tabs multi-fenómeno, contador, spots, ayuda, funnel, og, SEO)
+│   ├── sw.js / manifest.json / iconos / og-image / robots.txt / sitemap.xml
 │   └── vendor/          # Leaflet self-hosted
 ├── deploy.sh
-└── README.md
+├── README.md
+└── WAYAHEAD.md
 ```
 
 ## ⚠️ Pendientes
-- [ ] Regla de reenvío `eclipse@viajeinteligencia.com` en Cloudflare Email Routing (acción del usuario).
-- [ ] Verificación final en móvil de la experiencia completa (funnel → mapa → tabs).
-- [ ] Decidir sobre el beacon de Web Analytics de Cloudflare (errores de consola cosméticos vs. analytics).
+- [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
+- [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
+- [ ] Decidir sobre el beacon de Web Analytics de Cloudflare (consola limpia vs analytics) — opcional.
+- [ ] Monitorizar el día 12-Ago (pico de tráfico, caché CF, forecast).
