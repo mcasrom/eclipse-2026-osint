@@ -139,6 +139,7 @@
       <div class="sub">Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares</div>
     </div>
     <div class="btns">
+      <button class="btn ghost" id="shareBtn" style="padding:7px 12px;">📤 Compartir</button>
       <button class="btn ghost" id="helpBtn" style="padding:7px 12px;">❓ Ayuda</button>
       <button class="btn" id="installBtn" style="padding:7px 12px;">⬇️ Instalar</button>
     </div>
@@ -255,7 +256,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.24</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.25</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -697,7 +698,39 @@ function initPerseidasMap(){
     .addTo(perseidasMap);
 }
 
+// ===== Compartir RRSS =====
+function shareText(){
+  var ev = getNextEvent();
+  if (ev) return '🌑 ' + ev.name + ' (' + ev.date + ') — mapa, horarios y nubosidad. ' + location.origin;
+  return '🌑 Eclipse 2026 OSINT — qué pasa hoy en el cielo: mapa, horarios y nubosidad. ' + location.origin;
+}
+function shareSite(){
+  var text = shareText();
+  if (navigator.share) {
+    navigator.share({ title: document.title, text: text, url: location.href }).catch(function(){});
+    return;
+  }
+  var el = document.getElementById('sharePopup');
+  if (!el) return;
+  el.classList.toggle('hidden');
+  if (el.classList.contains('hidden')) return;
+  var u = encodeURIComponent(location.href), t = encodeURIComponent(text);
+  document.getElementById('shX').href = 'https://twitter.com/intent/tweet?text=' + t + '&url=' + u;
+  document.getElementById('shWA').href = 'https://wa.me/?text=' + t + '%20' + u;
+  document.getElementById('shTG').href = 'https://t.me/share/url?url=' + u + '&text=' + t;
+  document.getElementById('shFB').href = 'https://www.facebook.com/sharer/sharer.php?u=' + u;
+}
+document.getElementById('shareBtn').onclick = function(e){ e.stopPropagation(); shareSite(); };
+document.addEventListener('click', function(e){ var p = document.getElementById('sharePopup'); if (p && !p.classList.contains('hidden') && !p.contains(e.target) && e.target.id !== 'shareBtn') p.classList.add('hidden'); });
+
 loadPhenomenon('2026');
 </script>
+<div id="sharePopup" class="hidden" style="position:fixed;top:64px;right:12px;z-index:2000;background:#111827;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;box-shadow:0 6px 20px rgba(0,0,0,.5);">
+  <a id="shX" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">𝕏 / Twitter</a>
+  <a id="shWA" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">💬 WhatsApp</a>
+  <a id="shTG" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">✈️ Telegram</a>
+  <a id="shFB" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">📘 Facebook</a>
+  <button class="btn ghost" style="padding:5px 10px;font-size:.78em;" onclick="if(navigator.clipboard)navigator.clipboard.writeText(location.href);this.textContent='\u2713 Copiado';">🔗 Copiar enlace</button>
+</div>
 </body>
 </html>
