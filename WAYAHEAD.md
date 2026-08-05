@@ -61,6 +61,13 @@
 - **Perseidas (amplio)**: el tab Perseidas ahora incluye un mapa con el **radiant** (Perseo, direccion noreste) + nota de mejor observacion.
 - Cobertura amplia (no solo España): son fenomenos del hemisferio norte; los contornos de PARCIALIDAD del eclipse (Europa/N.Africa) quedan para la opcion 5 (global), donde se traen datos de magnitud parcial de fuente fiable.
 
+## Sprint 6 — SEO completo + RRSS (5 Ago 2026)
+
+- **Head SEO**: title orientado a busqueda ("donde ver el eclipse total 2026 + mapa + nubosidad"), meta description, keywords, robots index/follow, canonical, og:locale es_ES + og:site_name.
+- **JSON-LD @graph**: WebSite (con publisher Viaje con Inteligencia) + Event detallado (fechas, ubicacion, imagen, organizer, offers gratis). Valido.
+- **robots.txt + sitemap.xml** servidos estaticamente (200 via CF).
+- Todo verificado via Cloudflare: keywords/canonical/og:locale/@graph presentes, JSON-LD JSON valido, robots/sitemap 200.
+
 ## 🔜 Próximos sprints
 
 ### Fase 2 — Cielos & Eventos (durable, post-12-Ago)
