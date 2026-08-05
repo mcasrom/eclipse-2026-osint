@@ -525,16 +525,50 @@ function loadParcialidad(on){
       var st = style[f.properties.band] || ['#888', 0.1];
       return { color: st[0], weight: 0.5, fillColor: st[0], fillOpacity: st[1], opacity: 0.6 };
     } }).addTo(map);
-    parcLabels = L.layerGroup();
-    gj.features.forEach(function(f){
-      var c = bandCentroid(f);
-      if (c) L.marker(c, { icon: L.divIcon({ className:'parcLabel', html: f.properties.band + '%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
-    });
+    function pointInRing(lat, lon, ring){
+      var c = false, j = ring.length - 1;
+      for (var i = 0; i < ring.length; i++){
+        var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+        if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) c = !c;
+        j = i;
+      }
+      return c;
+    }
+    function pointInFeature(lat, lon, feature){
+      var geoms = feature.geometry.type === 'MultiPolygon' ? feature.geometry.coordinates : [feature.geometry.coordinates];
+      for (var g = 0; g < geoms.length; g++){
+        var rings = geoms[g];
+        if (!pointInRing(lat, lon, rings[0])) continue;
+        var inHole = false;
+        for (var h = 1; h < rings.length; h++){ if (pointInRing(lat, lon, rings[h])){ inHole = true; break; } }
+        if (!inHole) return true;
+      }
+      return false;
+    }
+    function bandLabelPoint(feature, ref){
+      var best = null, bestD = 1e12;
+      for (var la = 33; la <= 60; la += 0.5){
+        for (var lo = -13; lo <= 25; lo += 0.5){
+          if (pointInFeature(la, lo, feature)){
+            var d = (la - ref[0]) * (la - ref[0]) + (lo - ref[1]) * (lo - ref[1]);
+            if (d < bestD){ bestD = d; best = [la, lo]; }
+          }
+        }
+      }
+      return best;
+    }
     var tot = cities.filter(function(c){ return c.tipo === 'total' && c.lon > -10; });
+    var ref = null;
     if (tot.length){
       var lc = tot.reduce(function(acc,c){ acc[0]+=c.lon; acc[1]+=c.lat; return acc; },[0,0]);
-      L.marker([lc[1]/tot.length, lc[0]/tot.length], { icon: L.divIcon({ className:'parcLabel', html:'100%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
+      ref = [lc[1]/tot.length, lc[0]/tot.length];
     }
+    parcLabels = L.layerGroup();
+    gj.features.forEach(function(f){
+      var c = ref ? bandLabelPoint(f, ref) : bandCentroid(f);
+      if (c) L.marker(c, { icon: L.divIcon({ className:'parcLabel', html: f.properties.band + '%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
+    });
+    if (ref) L.marker(ref, { icon: L.divIcon({ className:'parcLabel', html:'100%', iconSize:[44,20], iconAnchor:[22,10] }) }).addTo(parcLabels);
     parcLabels.addTo(map);
   }).catch(function(){});
 }
