@@ -268,6 +268,19 @@
         <span style="width:14px;height:10px;background:#60a5fa;display:inline-block;border-radius:2px"></span> <span data-i18n="parc_10">10%</span>
         <span style="color:var(--muted);font-size:.72em;margin-left:2px;width:100%;" data-i18n="parc_diametro">del diámetro solar</span>
       </div>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" id="simBtn" onclick="toggleSim()" style="width:100%;" data-i18n="sim_btn">▶ Simular el eclipse (hora a hora)</button>
+      </div>
+      <div id="simPanel" class="hidden" style="margin-top:8px;background:#0d1322;border:1px solid var(--line);border-radius:10px;padding:10px;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button class="btn ghost" id="simPlay" style="padding:4px 12px;" onclick="playSim()">▶</button>
+          <b id="simTime" style="font-size:.9em;">—</b>
+          <span style="color:var(--muted);font-size:.72em;">12 Ago 2026</span>
+        </div>
+        <input type="range" id="simRange" min="0" max="0" value="0" style="width:100%;margin-top:8px;accent-color:#ffd54f;" oninput="setSimStep(+this.value)">
+        <div id="simState" style="font-size:.78em;color:var(--muted);margin-top:6px;line-height:1.5;"></div>
+        <div style="font-size:.72em;color:var(--muted);margin-top:4px;" data-i18n="sim_note">La sombra de la Luna cruza Islandia y España · arrastra o reproduce</div>
+      </div>
     </div>
     <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
     <div class="legend" id="travelLinks">Enlaces a <a class="link" href="https://viajeinteligencia.com" target="_blank" rel="noopener">viajeinteligencia.com</a> por provincia:</div>
@@ -284,7 +297,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.35</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.37</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -351,7 +364,8 @@ var I18N = {
     despejado: 'Despejado', parcial_nube: 'Parcialmente nublado', nublado: 'Nublado', muy_nublado: 'Muy nublado',
     total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
     max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos',
-    parc_label: '☀️ Mostrar parcialidad', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_label: '☀️ Mostrar parcialidad', sim_btn: '▶ Simular el eclipse (hora a hora)',
+    sim_note: 'La sombra de la Luna cruza Islandia y España · arrastra o reproduce', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
     parc_diametro: 'del diámetro solar', cobertura_max: 'Cobertura máx', del_sol: 'del Sol',
     pop_totalidad: 'Totalidad', pop_parcial: 'Eclipse parcial', pop_inicio: 'Inicio', pop_magnitud: 'Magnitud',
     pop_altura: 'Altura Sol', pop_nubes: 'Nubes totalidad', pop_sin_gafas: '☀️ Durante la totalidad puedes mirar sin gafas',
@@ -386,7 +400,8 @@ var I18N = {
     despejado: 'Clear', parcial_nube: 'Partly cloudy', nublado: 'Cloudy', muy_nublado: 'Very cloudy',
     total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
     max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events',
-    parc_label: '☀️ Show partiality', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
+    parc_label: '☀️ Show partiality', sim_btn: '▶ Simulate the eclipse (hour by hour)',
+    sim_note: 'The Moon shadow crosses Iceland and Spain · drag or play', parc_100: '100%', parc_90: '90%', parc_70: '70%', parc_50: '50%', parc_30: '30%', parc_10: '10%',
     parc_diametro: 'of the Sun diameter', cobertura_max: 'Max coverage', del_sol: 'of the Sun',
     pop_totalidad: 'Totality', pop_parcial: 'Partial eclipse', pop_inicio: 'Start', pop_magnitud: 'Magnitude',
     pop_altura: 'Sun altitude', pop_nubes: 'Clouds at totality', pop_sin_gafas: '☀️ During totality you can look without glasses',
@@ -514,6 +529,78 @@ function bandCentroid(feature){
   });
   return best;
 }
+// ===== Simulacion del eclipse (hora a hora) =====
+var simData = null, simLayer = null, simTimer = null, simStep = 0;
+function inPoly(lat, lon, ring){
+  var c = false, j = ring.length - 1;
+  for (var i = 0; i < ring.length; i++){
+    var xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) c = !c;
+    j = i;
+  }
+  return c;
+}
+function toCEST(hhmm){
+  var h = parseInt(hhmm.slice(0,2)), m = parseInt(hhmm.slice(3,5));
+  h = (h + 2) % 24;
+  return (h<10?'0':'') + h + ':' + (m<10?'0':'') + m;
+}
+function toggleSim(){
+  var p = document.getElementById('simPanel');
+  if (p.classList.contains('hidden')) { p.classList.remove('hidden'); loadSim(); }
+  else { p.classList.add('hidden'); clearSim(); }
+}
+function loadSim(){
+  fetch('/data/2026/simulacion.geojson').then(function(r){ return r.json(); }).then(function(gj){
+    simData = gj.features;
+    var sl = document.getElementById('simRange');
+    sl.max = simData.length - 1;
+    setSimStep(simData.length - 1);
+  }).catch(function(){ var st = document.getElementById('simState'); if (st) st.textContent = 'Simulación no disponible.'; });
+}
+function setSimStep(idx){
+  if (!simData || !simData[idx]) return;
+  simStep = idx;
+  var f = simData[idx], p = f.properties;
+  document.getElementById('simRange').value = idx;
+  document.getElementById('simTime').textContent = p.t.slice(11,16) + ' UTC · ' + toCEST(p.t.slice(11,16)) + ' España';
+  if (simLayer) map.removeLayer(simLayer);
+  simLayer = L.geoJSON(f, { style: { color:'#000', weight:1.5, fillColor:'#000', fillOpacity:0.55 } }).addTo(map);
+  var total = [], parcial = [];
+  var simCEST = parseInt(toCEST(p.t.slice(11,16)).replace(':',''));
+  (cities || []).forEach(function(c){
+    var inFp = inPoly(c.lat, c.lon, f.geometry.coordinates[0]);
+    var inIgn = false;
+    if (c.tipo === 'total' && c.tot_inicio && c.tot_fin) {
+      var a = parseInt(c.tot_inicio.replace(/:/g,'').slice(0,4));
+      var b = parseInt(c.tot_fin.replace(/:/g,'').slice(0,4));
+      inIgn = simCEST >= a && simCEST <= b;
+    }
+    if (inFp || inIgn) total.push(c.name);
+    else if (Math.abs(c.lat - p.lat) < 2.5 && Math.abs(c.lon - p.lon) < 3.5) parcial.push(c.name);
+  });
+  var st = document.getElementById('simState');
+  var line = (p.lat > 60 ? '☀️ Sombra sobre Islandia / Atlántico norte' :
+              p.lon < -3 ? '🌑 Sombra entrando por el noroeste peninsular' :
+              '🌑 Sombra cruzando España');
+  st.innerHTML = line + '<br>' + (total.length ? 'EN TOTALIDAD AHORA: <b>' + total.join(', ') + '</b>' : '') +
+    (parcial.length ? '<br>Parcial cerca: ' + parcial.join(', ') : '');
+}
+function playSim(){
+  var btn = document.getElementById('simPlay');
+  if (simTimer) { clearInterval(simTimer); simTimer = null; btn.textContent = '▶'; return; }
+  btn.textContent = '⏸';
+  simTimer = setInterval(function(){
+    if (simStep >= simData.length - 1) simStep = 0; else simStep++;
+    setSimStep(simStep);
+  }, 200);
+}
+function clearSim(){
+  if (simTimer) { clearInterval(simTimer); simTimer = null; }
+  if (simLayer) { map.removeLayer(simLayer); simLayer = null; }
+  var b = document.getElementById('simPlay'); if (b) b.textContent = '▶';
+}
+
 function loadParcialidad(on){
   if (parcLayer) { map.removeLayer(parcLayer); parcLayer = null; }
   if (parcLabels) { map.removeLayer(parcLabels); parcLabels = null; }
