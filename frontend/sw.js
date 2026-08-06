@@ -1,4 +1,4 @@
-const CACHE = 'eclipse-2026-v35';
+const CACHE = 'eclipse-2026-v36';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/icon.svg',
   '/vendor/leaflet.js', '/vendor/leaflet.css',
