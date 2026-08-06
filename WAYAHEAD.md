@@ -114,7 +114,7 @@
 - **Pipeline**: cron 03:00 (seed de referencia 13 paises x 11 indicadores: poblacion, PIB, inflacion, desempleo, IDH, moneda, region, renta pc, alfabetizacion, seguridad social, titulados + defensa GFP/SIPRI 2025: gasto, %PIB, personal, aviones, barcos, tanques) — 13 JSON. **Incluye MA (Marruecos), DZ (Argelia), EG (Egipto)**.
 - **Email**: country@viajeinteligencia.com (Cloudflare Email Routing -> mybloggingnotes@gmail.com, regla ya existente).
 - **vi-core embrio**: `src/core/` (CachedClient + BaseCollector) reutilizable.
-- **Dashboard por pais (v2, commit `aeac75b`)**: al clicar el pais abre panel con **Resumen IA** (heuristica 6 lineas), **Indicadores** (11 formateados), **Defensa** (gasto/%PIB/personal/aviones/barcos/tanques), **Riesgo** (derivado), **Noticias GDELT** (5 titulares) y **Alertas EMSC** (terremotos ≥M4 zona). 13 markers, coords correctas (fallback 0,0 eliminado). Validado headless (sin errores JS).
+- **Dashboard por pais (v3, commits `aeac75b`→`b4ea3c2`)**: al clicar el pais abre panel con **Resumen IA** (heuristica 7 lineas), **Indicadores** (11 formateados), **Estructura etaria** (barra menores/adolescentes/adultos/mayores + edad mediana), **Defensa** (gasto/%PIB/personal/aviones/barcos/tanques), **Riesgo** (derivado), **Noticias GDELT** y **Alertas EMSC**. **14 paises** (anadido PT). **Heatmap comparativo** 🔍 (17 indicadores x 14 paises, azul=bajo/rojo=alto, normalizado por indicador). Coords correctas (fallback 0,0 eliminado). Validado headless (sin errores JS).
 - **Backlog**: resumen IA LLM (1/dia, si hay API key) · alertas FIRMS/ReliefWeb · timeline/Chart.js · 13→50→200 paises · comparador/PDF/API (PRO).
 
 ### Sesiones pendientes (multiproyecto, para retomar ASAP)
