@@ -149,6 +149,126 @@
    "name_en": "Perseids (peak)",
    "visible_en": "Northern peninsula",
    "note_en": "Annual Perseids of 2027."
+  },
+  {
+   "date": "2028-01-04",
+   "type": "meteoros",
+   "name": "Cuadrántidas (pico)",
+   "visible": "Norte de España",
+   "note": "Máximo breve pero intenso, antes del amanecer.",
+   "name_en": "Quadrantids (peak)",
+   "visible_en": "Northern Spain",
+   "note_en": "Short but intense maximum, before dawn."
+  },
+  {
+   "date": "2028-01-26",
+   "type": "eclipse_total",
+   "name": "Eclipse solar anular",
+   "visible": "América / Europa parcial",
+   "note": "Eclipse anular visible desde América; en España será parcial al amanecer.",
+   "name_en": "Annular solar eclipse",
+   "visible_en": "Americas / partial in Europe",
+   "note_en": "Annular eclipse over the Americas; partial at dawn in Spain."
+  },
+  {
+   "date": "2028-04-22",
+   "type": "meteoros",
+   "name": "Líridas (pico aprox.)",
+   "visible": "Global",
+   "note": "Hasta ~18 meteoros/hora, con bolas de fuego ocasionales.",
+   "name_en": "Lyrids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Up to ~18 meteors/hour, with occasional fireballs."
+  },
+  {
+   "date": "2028-05-06",
+   "type": "meteoros",
+   "name": "Eta Acuáridas (pico aprox.)",
+   "visible": "Sur de España",
+   "note": "Restos del cometa Halley; mejor justo antes del amanecer.",
+   "name_en": "Eta Aquariids (peak approx.)",
+   "visible_en": "Southern Spain",
+   "note_en": "Debris of Halley's comet; best just before dawn."
+  },
+  {
+   "date": "2028-06-12",
+   "type": "eclipse_lunar",
+   "name": "Eclipse solar parcial",
+   "visible": "España (madrugada)",
+   "note": "Eclipse solar parcial visible desde el este de España y Europa al amanecer.",
+   "name_en": "Partial solar eclipse",
+   "visible_en": "Spain (dawn)",
+   "note_en": "Partial solar eclipse visible from eastern Spain and Europe at dawn."
+  },
+  {
+   "date": "2028-07-22",
+   "type": "eclipse_total",
+   "name": "Eclipse solar total",
+   "visible": "Australia y Nueva Zelanda",
+   "note": "Total visible desde Australia y Nueva Zelanda; no desde España. El siguiente gran total mundial.",
+   "name_en": "Total solar eclipse",
+   "visible_en": "Australia & New Zealand",
+   "note_en": "Totality over Australia and New Zealand; not from Spain. The next great world total."
+  },
+  {
+   "date": "2028-08-05",
+   "type": "eclipse_lunar",
+   "name": "Eclipse lunar parcial (aprox.)",
+   "visible": "España",
+   "note": "La Luna atraviesa parte de la sombra terrestre.",
+   "name_en": "Partial lunar eclipse (approx.)",
+   "visible_en": "Spain",
+   "note_en": "The Moon crosses part of the Earth's shadow."
+  },
+  {
+   "date": "2028-08-12",
+   "type": "meteoros",
+   "name": "Perseidas (pico)",
+   "visible": "Norte peninsular",
+   "note": "La lluvia anual de Perseidas.",
+   "name_en": "Perseids (peak)",
+   "visible_en": "Northern peninsula",
+   "note_en": "The annual Perseid shower."
+  },
+  {
+   "date": "2028-10-21",
+   "type": "meteoros",
+   "name": "Oriónidas (pico aprox.)",
+   "visible": "Global",
+   "note": "Hasta ~20 meteoros/hora. Restos del cometa Halley.",
+   "name_en": "Orionids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Up to ~20 meteors/hour. Debris of Halley's comet."
+  },
+  {
+   "date": "2028-11-17",
+   "type": "meteoros",
+   "name": "Leónidas (pico aprox.)",
+   "visible": "Global",
+   "note": "Lluvia variable; algunos años espectacular.",
+   "name_en": "Leonids (peak approx.)",
+   "visible_en": "Global",
+   "note_en": "Variable shower; some years spectacular."
+  },
+  {
+   "date": "2028-12-13",
+   "type": "meteoros",
+   "name": "Gemínidas (pico)",
+   "visible": "Global",
+   "note": "Una de las mejores lluvias: hasta ~150 meteoros/hora.",
+   "name_en": "Geminids (peak)",
+   "visible_en": "Global",
+   "note_en": "One of the best showers: up to ~150 meteors/hour."
+  },
+  {
+   "date": "2028-12-28",
+   "type": "eclipse_lunar",
+   "name": "Eclipse lunar parcial (aprox.)",
+   "visible": "España",
+   "note": "Eclipse lunar parcial de fin de año.",
+   "name_en": "Partial lunar eclipse (approx.)",
+   "visible_en": "Spain",
+   "note_en": "Year-end partial lunar eclipse."
   }
  ]
 }

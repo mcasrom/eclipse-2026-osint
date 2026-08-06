@@ -297,7 +297,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.38</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.39</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -361,6 +361,7 @@ var I18N = {
     sec_leyenda: '🌒 Leyenda del mapa', sec_viaje: '🛣️ Planifica tu viaje', sec_datos: 'ℹ️ Sobre los datos',
     proximo: 'PRÓXIMO', hasta: 'hasta', totalidad_en: 'hasta la totalidad en',
     amanecer: '🌅 Amanecer', atardecer: '🌇 Atardecer', fase: '🌙 Fase', uv: '☀️ UV máx', cacheado: 'cacheado',
+    alma_ver: 'Qué ver esta noche', alma_luna: 'Luna brillante: buena para observarla, menos ideal para meteoros', alma_meteoros: 'Cielos oscuros: buena noche para lluvias de meteoros',
     despejado: 'Despejado', parcial_nube: 'Parcialmente nublado', nublado: 'Nublado', muy_nublado: 'Muy nublado',
     total_ciudad: 'Ciudad con eclipse TOTAL', parcial_ciudad: 'Ciudad con eclipse PARCIAL', franja_total: 'Franja de totalidad',
     max_estimado: 'Máximo ≈', estimado_nasa: '(estimado línea central NASA)', sin_eventos: '☀️ Sin eventos próximos',
@@ -397,6 +398,7 @@ var I18N = {
     sec_leyenda: '🌒 Map legend', sec_viaje: '🛣️ Plan your trip', sec_datos: 'ℹ️ About the data',
     proximo: 'NEXT', hasta: 'until', totalidad_en: 'until totality in',
     amanecer: '🌅 Sunrise', atardecer: '🌇 Sunset', fase: '🌙 Moon', uv: '☀️ UV max', cacheado: 'cached',
+    alma_ver: 'What to see tonight', alma_luna: 'Bright Moon: good for observing it, less ideal for meteors', alma_meteoros: 'Dark skies: good night for meteor showers',
     despejado: 'Clear', parcial_nube: 'Partly cloudy', nublado: 'Cloudy', muy_nublado: 'Very cloudy',
     total_ciudad: 'City with TOTAL eclipse', parcial_ciudad: 'City with PARTIAL eclipse', franja_total: 'Totality band',
     max_estimado: 'Max ≈', estimado_nasa: '(est. NASA central line)', sin_eventos: '☀️ No upcoming events',
@@ -942,9 +944,15 @@ async function loadSky(){
   if (!el) return;
   try {
     var d = await (await fetch('/api/sky')).json();
+    var mp = String(d.moon_phase_name||'').toLowerCase();
+    var alma = (mp.indexOf('llena') >= 0 || mp.indexOf('gibosa') >= 0) ? t('alma_luna')
+             : (mp.indexOf('nueva') >= 0 || mp.indexOf('creciente') >= 0 || mp.indexOf('menguante') >= 0) ? t('alma_meteoros') : '';
+    var ne = getNextEvent();
     el.innerHTML = t('amanecer') + ' <b>' + String(d.sunrise||'—').slice(11,16) + '</b> · ' + t('atardecer') + ' <b>' + String(d.sunset||'—').slice(11,16) + '</b>' +
       '<br>' + t('fase') + ': <b>' + (d.moon_phase_name||'—') + '</b> · ' + t('uv') + ': <b>' + (d.uv_max||'—') + '</b>' +
-      (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">' + t('cacheado') + '</span>' : '');
+      (d.cached ? ' · <span style="font-size:.75em;color:var(--muted)">' + t('cacheado') + '</span>' : '') +
+      (alma ? '<br>🔭 <b>' + t('alma_ver') + '</b>: ' + alma : '') +
+      (ne ? ' · <b>' + esc(ne.name) + '</b> (' + esc(ne.date) + ')' : '');
   } catch(e){ el.innerHTML = '☀️ No disponible ahora.'; }
 }
 function updateCountdown(){
