@@ -112,6 +112,7 @@
 - **Live**: https://country.viajeinteligencia.com · **Repo**: https://github.com/mcasrom/country-intel (publico).
 - **PM2**: `country-intel-api` (puerto 8710) — **solo ~8.5 MB RAM** (impacto minimo: PM2 total 568MB, disco 54%, swap ok).
 - **Pipeline**: cron 03:00 (World Bank seed real, 10 paises, 10 JSON) — 0.1s.
+- **Email**: country@viajeinteligencia.com (Cloudflare Email Routing -> mybloggingnotes@gmail.com, regla ya existente).
 - **vi-core embrio**: `src/core/` (CachedClient + BaseCollector) reutilizable.
 - **Backlog**: resumen IA por pais (1/dia) · alertas (FIRMS/EMSC/ReliefWeb) · timeline/mapas/Chart.js · 10→50→200 paises · comparador/PDF/API (PRO).
 
