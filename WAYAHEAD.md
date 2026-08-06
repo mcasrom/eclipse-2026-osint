@@ -111,10 +111,11 @@
 - **Qué**: dashboards de inteligencia geopolitica por pais (datos abiertos + IA futura). **Opción A ligera**: FastAPI + SQLite + cron + JSON estatico + PWA.
 - **Live**: https://country.viajeinteligencia.com · **Repo**: https://github.com/mcasrom/country-intel (publico).
 - **PM2**: `country-intel-api` (puerto 8710) — **solo ~8.5 MB RAM** (impacto minimo: PM2 total 568MB, disco 54%, swap ok).
-- **Pipeline**: cron 03:00 (World Bank seed real, 10 paises, 10 JSON) — 0.1s.
+- **Pipeline**: cron 03:00 (seed de referencia 13 paises x 11 indicadores: poblacion, PIB, inflacion, desempleo, IDH, moneda, region, renta pc, alfabetizacion, seguridad social, titulados + defensa GFP/SIPRI 2025: gasto, %PIB, personal, aviones, barcos, tanques) — 13 JSON. **Incluye MA (Marruecos), DZ (Argelia), EG (Egipto)**.
 - **Email**: country@viajeinteligencia.com (Cloudflare Email Routing -> mybloggingnotes@gmail.com, regla ya existente).
 - **vi-core embrio**: `src/core/` (CachedClient + BaseCollector) reutilizable.
-- **Backlog**: resumen IA por pais (1/dia) · alertas (FIRMS/EMSC/ReliefWeb) · timeline/mapas/Chart.js · 10→50→200 paises · comparador/PDF/API (PRO).
+- **Dashboard por pais (v2, commit `aeac75b`)**: al clicar el pais abre panel con **Resumen IA** (heuristica 6 lineas), **Indicadores** (11 formateados), **Defensa** (gasto/%PIB/personal/aviones/barcos/tanques), **Riesgo** (derivado), **Noticias GDELT** (5 titulares) y **Alertas EMSC** (terremotos ≥M4 zona). 13 markers, coords correctas (fallback 0,0 eliminado). Validado headless (sin errores JS).
+- **Backlog**: resumen IA LLM (1/dia, si hay API key) · alertas FIRMS/ReliefWeb · timeline/Chart.js · 13→50→200 paises · comparador/PDF/API (PRO).
 
 ### Sesiones pendientes (multiproyecto, para retomar ASAP)
 - **[HECHO 06-Ago] MyIP: revisión de funcionalidades rotas**. Se reconstruyó el contenedor y se arregló: (1) **botón Ko-fi enorme** → la **CSP de nginx bloqueaba estilos/scripts inline** (`style-src` sin `'unsafe-inline'`); fix: CSP corregida en `/etc/nginx/sites-available/myip.viajeinteligencia.com` + botón compacto 46px circular; (2) **tarjeta "Usuarios Premium" (NaN) eliminada** + refs premium de la UI (xAI Grok, HowToGuides, AdvancedTools, AuthSection); (3) **historial por usuario verificado INTACTO** (backend devuelve 20 scans de mcasrom; los scans se guardan; requiere login por diseño). Commit `e9a3629` pusheado.
