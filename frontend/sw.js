@@ -1,4 +1,4 @@
-const CACHE = 'eclipse-2026-v34';
+const CACHE = 'eclipse-2026-v35';
 const ASSETS = [
   '/', '/index.html', '/manifest.json', '/icon.svg',
   '/vendor/leaflet.js', '/vendor/leaflet.css',
@@ -23,6 +23,27 @@ self.addEventListener('activate', (e) => {
   self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(cls){
     cls.forEach(function(c){ c.postMessage({ type: 'NEW_VERSION' }); });
   });
+});
+
+self.addEventListener('push', (e) => {
+  const data = (e.data && e.data.json()) || {};
+  const title = data.title || 'Eclipse 2026 OSINT';
+  const options = {
+    body: data.body || '',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
+    data: { url: data.url || '/' }
+  };
+  e.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || '/';
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then((cls) => {
+    for (const c of cls) { if ('focus' in c) { c.navigate(url); return c.focus(); } }
+    return clients.openWindow(url);
+  }));
 });
 
 self.addEventListener('fetch', (e) => {

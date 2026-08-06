@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src import aurora
 from src import forecast
 from src import sky
+from src import push
 
 app = FastAPI(title="Eclipse 2026 OSINT",
               version="1.0.0",
@@ -21,6 +22,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/api/push/vapid-key")
+async def push_vapid_key():
+    return {"public_key": push.vapid_public_key()}
+
+
+@app.post("/api/push/subscribe")
+async def push_subscribe(body: dict):
+    sub = body.get("subscription") or body
+    return push.subscribe({"endpoint": sub.get("endpoint", ""), "keys": sub.get("keys", {})})
+
+
+@app.post("/api/push/unsubscribe")
+async def push_unsubscribe(body: dict):
+    return push.unsubscribe(body.get("endpoint", ""))
 
 
 @app.get("/health")

@@ -46,20 +46,33 @@ def next_event() -> dict | None:
     return future[0]
 
 
+def upcoming_events(days: int = 14, limit: int = 3) -> list:
+    try:
+        evs = json.loads(EVENTS_FILE.read_text(encoding="utf-8")).get("events", [])
+    except Exception:
+        return []
+    today = date.today()
+    fut = [e for e in evs if datetime.strptime(e["date"], "%Y-%m-%d").date() >= today]
+    fut.sort(key=lambda e: e["date"])
+    return [e for e in fut if (datetime.strptime(e["date"], "%Y-%m-%d").date() - today).days <= days][:limit]
+
+
 def auto_message() -> str:
-    ev = next_event()
     lines = ["🌑 <b>Eclipse 2026 OSINT</b>"]
-    if ev:
-        d = datetime.strptime(ev["date"], "%Y-%m-%d").date()
-        days = (d - date.today()).days
-        emoji = "🌑" if "eclipse" in ev["type"] else "☄️"
-        when = "hoy" if days == 0 else ("mañana" if days == 1 else f"en {days} días")
-        lines.append(f"{emoji} {ev['name']} · {ev['date']} ({when})")
-        lines.append(f"📍 {ev['visible']}")
-        if ev.get("note"):
-            lines.append(f"📝 {ev['note']}")
+    evs = upcoming_events(days=14, limit=3)
+    if evs:
+        lines.append("📅 <b>Próximos fenómenos:</b>")
+        for ev in evs:
+            d = datetime.strptime(ev["date"], "%Y-%m-%d").date()
+            days = (d - date.today()).days
+            emoji = "🌑" if "eclipse" in ev["type"] else "☄️"
+            when = "hoy" if days == 0 else ("mañana" if days == 1 else f"en {days} días")
+            line = f"{emoji} {ev['name']} · {ev['date']} ({when})"
+            if ev.get("note"):
+                line += f"\n  📝 {ev['note']}"
+            lines.append(line)
     else:
-        lines.append("☀️ Sin próximos eventos anotados.")
+        lines.append("☀️ Sin próximos eventos anotados (próximos 14 días).")
     lines.append(f"🗺️ Mapa, horarios y nubosidad: {SITE}")
     return "\n".join(lines)
 

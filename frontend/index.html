@@ -143,6 +143,7 @@
     <div class="btns">
       <button class="btn ghost" id="langBtn" style="padding:7px 12px;">EN</button>
       <button class="btn ghost" id="shareBtn" style="padding:7px 12px;">📤 Compartir</button>
+      <button class="btn ghost" id="pushBtn" style="padding:7px 12px;">🔔 Recordatorios</button>
       <button class="btn ghost" id="helpBtn" style="padding:7px 12px;">❓ Ayuda</button>
       <button class="btn" id="installBtn" style="padding:7px 12px;">⬇️ Instalar</button>
     </div>
@@ -777,6 +778,47 @@ function buildTravelLinks(){
 // ===== PWA: registro SW =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+}
+function urlB64ToUint8Array(b64){
+  var pad = '='.repeat((4 - b64.length % 4) % 4);
+  var base64 = (b64 + pad).replace(/-/g, '+').replace(/_/g, '/');
+  var raw = atob(base64);
+  return Uint8Array.from(Array.prototype.map.call(raw, function(ch){ return ch.charCodeAt(0); }));
+}
+var PUSH_STATE = { sub: null };
+async function setupPush(){
+  var btn = document.getElementById('pushBtn');
+  if (!('Notification' in window) || !('serviceWorker' in navigator) || !('PushManager' in window)) {
+    if (btn) { btn.textContent = '🔕 No soportado'; btn.disabled = true; }
+    return;
+  }
+  var reg = await navigator.serviceWorker.ready;
+  PUSH_STATE.sub = await reg.pushManager.getSubscription();
+  if (btn) { btn.textContent = PUSH_STATE.sub ? '🔔 Suscrito ✓' : '🔔 Recordatorios'; btn.onclick = function(){ togglePush(reg); }; }
+}
+async function togglePush(reg){
+  var btn = document.getElementById('pushBtn');
+  if (PUSH_STATE.sub) {
+    var ep = PUSH_STATE.sub.endpoint;
+    await PUSH_STATE.sub.unsubscribe();
+    try { fetch('/api/push/unsubscribe', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ endpoint: ep }) }); } catch(e){}
+    PUSH_STATE.sub = null;
+    if (btn) btn.textContent = '🔔 Recordatorios';
+    return;
+  }
+  var perm = await Notification.requestPermission();
+  if (perm !== 'granted') { if (btn) btn.textContent = '🔕 Bloqueado'; return; }
+  var res = await fetch('/api/push/vapid-key');
+  var vapid = await res.json();
+  PUSH_STATE.sub = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlB64ToUint8Array(vapid.public_key)
+  });
+  var json = PUSH_STATE.sub.toJSON();
+  try { fetch('/api/push/subscribe', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ subscription: { endpoint: json.endpoint, keys: json.keys } }) }); } catch(e){}
+  if (btn) btn.textContent = '🔔 Suscrito ✓';
+}
+window.addEventListener('load', function(){ setupPush(); });
 if (navigator.serviceWorker) {
   var __reloaded = false;
   navigator.serviceWorker.addEventListener('message', function(e){

@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 data/forecast_cache*.json
 data/aurora_cache.json
+data/push_subs.json
+data/push_sent.json

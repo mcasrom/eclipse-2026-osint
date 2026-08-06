@@ -17,6 +17,13 @@ FORECAST_TTL_SECONDS = 3 * 3600
 # (api.opendata.aemet.es) pero requiere key + códigos municipio INE.
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
 
+# Push PWA (web push)
+VAPID_FILE = Path("/home/deploy/.secrets/eclipse_vapid.json")
+PUSH_SUBS_FILE = BASE_DIR / "data" / "push_subs.json"
+PUSH_SENT_FILE = BASE_DIR / "data" / "push_sent.json"
+VAPID_SUBJECT = "mailto:admin@viajeinteligencia.com"
+PUSH_REMINDER_DAYS = 14
+
 EVENT_DATE = "2026-08-12"
 TIMEZONE = "Europe/Madrid"
 # horas locales relevantes para la cobertura de nubes (18:00-22:00)
