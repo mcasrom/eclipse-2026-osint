@@ -110,7 +110,7 @@
 - **[HECHO 06-Ago] NearMe Sprint 41 - Timeline/playback + track patterns UI**: backend (tabla event_history con snapshots al cambiar, GET /api/timeline activos por ventana, GET /api/event/{id}/history track patterns, cleanup_history_retention(365) + cron diario 03:00) + frontend (panel playback 7 dias con slider temporal, y patron por evento con tira de estados y cambios de nivel) - commits c4cfef3 + b41291c + 1028596. Estimacion disco 1 ano de historial: ~0,8-1,8 GB (Postgres), estable con rotacion de 365 dias.
 - **[HECHO 06-Ago] NearMe: narrativa de uso** - paso 5 del onboarding (Timeline + Patron) en ES/EN + hint del panel timeline. Commit f5d9244.
 - **[DECISIÓN] mapasdeincendios.es/incendios-hoy**: sitio **fiable/transparente** (disclaimers honestos, cita NASA FIRMS/AEMET/EFFIS/MITECO, páginas legales). **NO se scrapea**: NearMe ya usa la misma fuente autoritativa (NASA FIRMS directo: MODIS + 2 VIIRS). Opcional futuro: añadir EFFIS perímetros quemados desde la fuente oficial Copernicus.
-- **[MigrationFlow] Lanzamiento PH 18-Ago-2026** (próximo hito): revisar estado antes de la fecha.
+- **[HECHO 06-Ago] MigrationFlow pre-PH revisado y LISTO para el 18-Ago**: sitio 200 (mapa, choropleth, Frontex, PWA, SEO fallback, JSON-LD), `PH_LAUNCH_PACK.md` completo (tagline, descripción, FAQ, maker comment, checklist día-1, borradores X/Telegram/Reddit/Show HN), galería 8 capturas + demo_30s.mp4/gif. **Pendiente = ejecución del día-1** (D-2 16-Ago: subir borrador PH; 18-Ago: publicar + maker comment + oleada RRSS).
 - **[Eclipse] Sin pendiente urgente** (consolidado v0.35).
 
 ### No aquí (pertenece a viajeinteligencia.com)
