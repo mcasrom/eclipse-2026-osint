@@ -97,7 +97,7 @@
 - **Seguridad**: el repo `viajeinteligencia-landing` tenía un **token GitHub en la URL del remote** (caducado). Eliminado (`remote set-url`); el push ahora usa el credential store. **Revocar el token caducado** en GitHub por si estuvo válido.
 
 ### Mejoras de durabilidad (06-Ago, v0.39)
-- **[Hito 1] Simulación del eclipse hora a hora**: 65 footprints de la umbra (1-min, motor besseliano NASA) en `data/2026/simulacion.geojson` (45KB); panel con slider/play, sombra animada en el mapa y **estado por ciudad** (ventanas de totalidad IGN reales). Commit `cd977ba`.
+- **[Hito 1] Simulación del eclipse hora a hora** ✅ (v0.40): 65 footprints de la umbra (1-min, motor besseliano NASA) en `data/2026/simulacion.geojson` (45KB); panel con slider/play, **el mapa sigue la sombra** (panTo), sombra oscura + punto central, empieza en Islandia 17:30, y **estado por ciudad** (ventanas de totalidad IGN reales). Commits `cd977ba` + `986480f`.
 - **[Hito 2] Página por fenómeno**: deep-links `?tab=` (eclipse, 2027, perseidas, auroras, calendario, guias) con **título y descripción SEO por tab** + og. Commit `cb90e1f`.
 - **[Hito 3] Calendario perpetuo + almanaque**: events.json ampliado a **27 fenómenos (2026-2028)** + **"Qué ver esta noche"** (fase lunar + próximo evento). Commit `bb7fd37`.
 - Reutilizable para el eclipse 2027 (mismo motor). SW v32, v0.39, purgado.
