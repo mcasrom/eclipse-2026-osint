@@ -297,7 +297,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.37</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.38</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -807,6 +807,23 @@ function switchTab(t){
     if (t === 'auroras') initAuroraMap();
     if (t === 'perseidas') initPerseidasMap();
   }
+  applyTabSEO(t);
+}
+var TABS_META = {
+  eclipse: { title: 'Eclipse Solar Total 12 Ago 2026 en España · Mapa, horarios y nubosidad', desc: 'Mapa interactivo de la franja de totalidad del eclipse solar total del 12 de agosto de 2026 en España: horarios por ciudad, duración, previsión de nubosidad y seguridad.' },
+  '2027': { title: 'Eclipse Solar Total 2 Ago 2027 en España · Cádiz, Málaga, Almería', desc: 'El eclipse solar total del 2 de agosto de 2027 cruzará el sur de España: franja de totalidad, horarios estimados y cómo verlo.' },
+  perseidas: { title: 'Lluvia de Perseidas 2026 · Cuándo y cómo verlas', desc: 'Perseidas 2026: pico la noche del 12-13 de agosto, coincidiendo con el eclipse. Hasta ~100 meteoros/hora.' },
+  auroras: { title: 'Auroras boreales en España · Índice Kp en tiempo real', desc: 'Previsión de auroras boreales en tiempo real (índice Kp de NOAA) y desde qué latitudes son visibles.' },
+  calendario: { title: 'Calendario de fenómenos astronómicos 2026-2027', desc: 'Eclipses, lluvias de meteoros y oposiciones planetarias: calendario completo de fenómenos celestes.' },
+  guias: { title: 'Guías de observación astronómica · Eclipses, meteoros y auroras', desc: 'Guías prácticas y seguras para observar eclipses, lluvias de meteoros y auroras boreales.' }
+};
+function applyTabSEO(t){
+  var m = TABS_META[t];
+  if (!m) return;
+  document.title = m.title;
+  var md = document.querySelector('meta[name="description"]'); if (md) md.content = m.desc;
+  var og = document.querySelector('meta[property="og:description"]'); if (og) og.content = m.desc;
+  history.replaceState(null, '', '?tab=' + t);
 }
 document.querySelectorAll('#tabs .tab').forEach(function(b){ b.onclick = function(){ switchTab(b.dataset.tab); }; });
 var phenSelect = document.getElementById('phenSelect');
@@ -1068,7 +1085,12 @@ document.addEventListener('click', function(e){ var p = document.getElementById(
 
 applyLang();
 
-loadPhenomenon('2026').then(function(){ loadParcialidad(true); });
+var urlTab = new URLSearchParams(location.search).get('tab');
+if (urlTab && ['eclipse','2027','perseidas','auroras','calendario','guias'].indexOf(urlTab) >= 0) {
+  document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('active', x.dataset.tab === urlTab); });
+  var hsel2 = document.getElementById('headerPhen'); if (hsel2) hsel2.value = urlTab;
+}
+loadPhenomenon('2026').then(function(){ loadParcialidad(true); if (urlTab && urlTab !== 'eclipse') switchTab(urlTab); });
 </script>
 <div id="sharePopup" class="hidden" style="position:fixed;top:64px;right:12px;z-index:2000;background:#111827;border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;box-shadow:0 6px 20px rgba(0,0,0,.5);">
   <a id="shX" href="#" target="_blank" rel="noopener" class="link" style="font-size:.9em;">𝕏 / Twitter</a>
