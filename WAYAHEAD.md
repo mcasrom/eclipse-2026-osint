@@ -119,6 +119,7 @@
 - **🔍 Busquedas reales por pais (commit `ea74b82`)**: seccion "Qué se busca sobre este país" en cada ficha — Google Autocomplete via `/api/trending/{cc}` (8 temas: hoteles, precios, trabajo, vacaciones, vuelos, comida, seguridad, alquiler; sugerencias reales, caché 6h). Server v0.5.
 - **Solución global de búsquedas (commit `d3511b5`)**: panel **🔍 Tendencias web** (`/api/trending/all`) — para cada tema (hoteles, precios, trabajo...) ranking de países por búsquedas reales de Google (precargado en el pipeline diario, caché 6h, respuesta ~25ms con caché). **🛂 Migración** por país: saldo migratorio (‰) + inmigrantes (% pobl.) con etiqueta receptor/emisor, incluido en resumen IA, heatmap y comparador. Server v0.6.
 - **OG image de marca (commit `fc212df`)**: og.png 1200x630 generado con PIL + og:image/width/height/alt en home y paginas /pais/{cc} — preview RRSS con imagen.
+- **Config unica (commit `ddea406`)**: valores fijos externalizados a `data/config.json` (TTLs, temas de busqueda, nombres, slugs FCDO, queries de noticias, limites, y frontend: META de paises, etiquetas, umbrales de riesgo/IDH/visita, parametros de alertas, zoom, listas heat/cmp/rank). Servido en `/api/config`; server v0.7 lee `CFG` con fallbacks; frontend lo consume en el arranque (applyConfig). Cambiar un umbral o anadir pais ya no requiere tocar codigo.
 - **Backlog**: resumen IA LLM (1/dia, si hay API key) · alertas FIRMS/ReliefWeb · timeline/Chart.js (historicos) · 15→50→200 paises · export PDF/API (PRO).
 
 ### Sesiones pendientes (multiproyecto, para retomar ASAP)
