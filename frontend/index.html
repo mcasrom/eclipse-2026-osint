@@ -279,7 +279,7 @@
         </div>
         <input type="range" id="simRange" min="0" max="0" value="0" style="width:100%;margin-top:8px;accent-color:#ffd54f;" oninput="setSimStep(+this.value)">
         <div id="simState" style="font-size:.78em;color:var(--muted);margin-top:6px;line-height:1.5;"></div>
-        <div style="font-size:.72em;color:var(--muted);margin-top:4px;" data-i18n="sim_note">La sombra de la Luna cruza Islandia y España · arrastra o reproduce</div>
+        <div style="font-size:.72em;color:var(--muted);margin-top:4px;" data-i18n="sim_note">La sombra de la Luna cruza Islandia y España · el mapa la sigue · arrastra o pulsa ▶</div>
       </div>
     </div>
     <h3 data-i18n="sec_viaje">🛣️ Planifica tu viaje</h3>
@@ -297,7 +297,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.39</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.40</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -557,7 +557,7 @@ function loadSim(){
     simData = gj.features;
     var sl = document.getElementById('simRange');
     sl.max = simData.length - 1;
-    setSimStep(simData.length - 1);
+    setSimStep(0);
   }).catch(function(){ var st = document.getElementById('simState'); if (st) st.textContent = 'Simulación no disponible.'; });
 }
 function setSimStep(idx){
@@ -567,7 +567,11 @@ function setSimStep(idx){
   document.getElementById('simRange').value = idx;
   document.getElementById('simTime').textContent = p.t.slice(11,16) + ' UTC · ' + toCEST(p.t.slice(11,16)) + ' España';
   if (simLayer) map.removeLayer(simLayer);
-  simLayer = L.geoJSON(f, { style: { color:'#000', weight:1.5, fillColor:'#000', fillOpacity:0.55 } }).addTo(map);
+  simLayer = L.layerGroup();
+  L.geoJSON(f, { style: { color:'#111', weight:2, fillColor:'#000', fillOpacity:0.65 } }).addTo(simLayer);
+  L.circleMarker([p.lat, p.lon], { radius: 6, color:'#ffd54f', weight:2, fillColor:'#ffd54f', fillOpacity:1 }).addTo(simLayer);
+  simLayer.addTo(map);
+  map.panTo([p.lat, p.lon], { animate: true, duration: 0.3 });
   var total = [], parcial = [];
   var simCEST = parseInt(toCEST(p.t.slice(11,16)).replace(':',''));
   (cities || []).forEach(function(c){
