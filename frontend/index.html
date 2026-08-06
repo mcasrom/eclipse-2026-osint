@@ -275,7 +275,7 @@
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <button class="btn ghost" id="simPlay" style="padding:4px 12px;" onclick="playSim()">▶</button>
           <b id="simTime" style="font-size:.9em;">—</b>
-          <span style="color:var(--muted);font-size:.72em;">12 Ago 2026</span>
+          <span style="color:var(--muted);font-size:.72em;" id="simDate">12 Ago 2026</span>
         </div>
         <input type="range" id="simRange" min="0" max="0" value="0" style="width:100%;margin-top:8px;accent-color:#ffd54f;" oninput="setSimStep(+this.value)">
         <div id="simState" style="font-size:.78em;color:var(--muted);margin-top:6px;line-height:1.5;"></div>
@@ -297,7 +297,7 @@
 <div id="foot">
   <span>Eclipse 2026 OSINT · <a class="link" href="https://github.com/mcasrom/eclipse-2026-osint" target="_blank" rel="noopener">código abierto</a> · <a class="link" href="mailto:eclipse@viajeinteligencia.com">contacto</a></span>
   <span><a class="kofi" href="https://ko-fi.com/m_castillo" target="_blank" rel="noopener" data-i18n="kofi">☕ Apóyanos en Ko-fi</a></span>
-  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.40</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
+  <span>Hecho con datos públicos · Disfruta con seguridad ☀️ · <b id="verMark" style="color:var(--accent)">v0.41</b> <span id="uaInfo" style="color:var(--muted)"></span></span>
 </div>
 <div id="welcome" class="overlay hidden">
   <div class="welcome">
@@ -553,10 +553,13 @@ function toggleSim(){
   else { p.classList.add('hidden'); clearSim(); }
 }
 function loadSim(){
-  fetch('/data/2026/simulacion.geojson').then(function(r){ return r.json(); }).then(function(gj){
+  var url = (currentYear === '2027') ? '/data/2027/simulacion.geojson' : '/data/2026/simulacion.geojson';
+  fetch(url).then(function(r){ return r.json(); }).then(function(gj){
     simData = gj.features;
     var sl = document.getElementById('simRange');
     sl.max = simData.length - 1;
+    var sd = document.getElementById('simDate');
+    if (sd) sd.textContent = (currentYear === '2027' ? '2 Ago 2027' : '12 Ago 2026');
     setSimStep(0);
   }).catch(function(){ var st = document.getElementById('simState'); if (st) st.textContent = 'Simulación no disponible.'; });
 }
@@ -581,6 +584,9 @@ function setSimStep(idx){
       var a = parseInt(c.tot_inicio.replace(/:/g,'').slice(0,4));
       var b = parseInt(c.tot_fin.replace(/:/g,'').slice(0,4));
       inIgn = simCEST >= a && simCEST <= b;
+    } else if (c.tipo === 'total' && c.max_estimado) {
+      var m = parseInt(String(c.max_estimado).replace(/:/g,'').slice(0,4));
+      inIgn = Math.abs(simCEST - m) <= 3;
     }
     if (inFp || inIgn) total.push(c.name);
     else if (Math.abs(c.lat - p.lat) < 2.5 && Math.abs(c.lon - p.lon) < 3.5) parcial.push(c.name);
