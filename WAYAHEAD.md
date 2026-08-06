@@ -96,6 +96,12 @@
 - **Disco 67% → 53%**: el salto 56%→67% era basura de **Docker** (imágenes viejas + build cache ~10GB reclamables tras los rebuilds de MyIP). `docker system prune -f` + `docker image prune -a -f` recuperaron ~4.2GB (incluida la imagen de deploy-anonimation 702MB). Verificado: contenedores healthy, sitios 200. **Lección**: tras cada rebuild de imagen, `docker system prune -f`.
 - **Seguridad**: el repo `viajeinteligencia-landing` tenía un **token GitHub en la URL del remote** (caducado). Eliminado (`remote set-url`); el push ahora usa el credential store. **Revocar el token caducado** en GitHub por si estuvo válido.
 
+### Mejoras de durabilidad (06-Ago, v0.39)
+- **[Hito 1] Simulación del eclipse hora a hora**: 65 footprints de la umbra (1-min, motor besseliano NASA) en `data/2026/simulacion.geojson` (45KB); panel con slider/play, sombra animada en el mapa y **estado por ciudad** (ventanas de totalidad IGN reales). Commit `cd977ba`.
+- **[Hito 2] Página por fenómeno**: deep-links `?tab=` (eclipse, 2027, perseidas, auroras, calendario, guias) con **título y descripción SEO por tab** + og. Commit `cb90e1f`.
+- **[Hito 3] Calendario perpetuo + almanaque**: events.json ampliado a **27 fenómenos (2026-2028)** + **"Qué ver esta noche"** (fase lunar + próximo evento). Commit `bb7fd37`.
+- Reutilizable para el eclipse 2027 (mismo motor). SW v32, v0.39, purgado.
+
 ### Pendientes de infraestructura (servidor)
 - **[PENDIENTE DECOMISIÓN] `deploy-anonimation`** (Docker, puerto 5000): anonimizador de documentos con IA (Flask + Gemini/Groq). **Parado manualmente** desde el 2-Ago-2026; `anonimizacion.viajeinteligencia.com` devuelve **502**. Para decomisar: `docker compose -f /home/deploy/anomination/deploy/docker-compose.yml down -v` + `docker image rm deploy-anonimation` (libera ~750 MB: imagen 702MB + volumen `deploy_uploads` 41MB) + **rotar la GEMINI_API_KEY** (visible en la config del contenedor) + decidir sobre `anomination_backup_20260724_1703` y sobre el DNS/nginx de anonimizacion.viajeinteligencia.com.
 - **emergency.viajeinteligencia.com** (resuelto 6-Ago): el app está en `/var/www/emergency-dashboard` (Node, `PORT=3000`, `NODE_ENV=production`), PM2 `emergency-dashboard`. Se arregló liberando el puerto 3000 (myip PM2 redundante eliminado; el Docker myip sirve `myip.viajeinteligencia.com` en 3004). Verificado: web 200, `/api/health` 200, `/api/emergencies` 200.
