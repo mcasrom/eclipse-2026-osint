@@ -197,6 +197,11 @@ eclipse-2026-osint/
 - **Pestana Guias**: 4 guias evergreen (eclipse, meteoros, auroras, fotografia) — contenido permanente.
 - Con esto el sitio es un portal perpetuo "que pasa hoy en el cielo", no un landing del eclipse. v0.24.
 
+## 🚀 Sprint activo: MigrationFlow · Product Hunt 18-Ago (ejecución, no código)
+- Sitio **listo para producción** (verificado 07-Ago): HTTP 200, PM2 online, PWA+SEO+JSON-LD, `/health` 200, `PH_LAUNCH_PACK.md` completo.
+- **Checklist a ejecutar por el usuario**: D-2 (16-Ago) subir borrador PH · D-1 (17-Ago) preparar RRSS sin publicar · 18-Ago 00:00 PT publicar + maker comment · 0-2h primer círculo · mañana r/... + X · tarde Show HN · responder comentarios <1h · D+1 thank-you + `/analytics`.
+- **Siguiente sprint (recomendado)**: Country Intel **resumen IA LLM** (1/día) + **monitor uptime-kuma sobre `/api/health`** (frescura de datos).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
