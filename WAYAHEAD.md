@@ -244,3 +244,4 @@ eclipse-2026-osint/
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
 - [ ] Decidir sobre el beacon de Web Analytics de Cloudflare (consola limpia vs analytics) — opcional.
 - [ ] Monitorizar el día 12-Ago (pico de tráfico, caché CF, forecast).
+- [ ] **Próximo sprint: notificaciones en uptime-kuma** (email/Telegram) para alertar cuando un monitor caiga — hoy solo hay panel/histórico, sin avisos proactivos. Los 12 monitores del ecosistema ya están UP.
