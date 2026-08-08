@@ -308,6 +308,16 @@ eclipse-2026-osint/
 - **Verificado**: orden DOM `acceso` → `datos` → `osint`; render headless 200; las 6 tarjetas presentes.
 - **Coste recursos**: ~0 (solo HTML/CSS).
 
+## Sprint 10d — NearMe: página SEO calidad del aire (MITECO) (8 Ago 2026)
+
+- **Motivación** (análisis SME opción 3): contra IQAir/Haze no se gana por volumen, sí por "gratis + sin cuenta + fuente oficial MITECO". Misma receta que `/firms`.
+- **Cambios** (commit `2a253ee`):
+  - Página evergreen **`/calidad-aire`** ("Calidad del aire en España en vivo · Índice ICA por estación (MITECO)") — explica ICA, PM2.5/PM10/O₃/NO₂, escala 0-150, y el diferencial "fuente oficial MITECO, no agregador global". CTA al mapa.
+  - Ruta FastAPI `/calidad-aire` (FileResponse).
+  - Sitemap: ahora **3 urls** (/, /firms, /calidad-aire). Ping IndexNow **202**.
+- **Fix nginx (bug detectado)**: el `location /` de NearMe con `try_files $uri $uri/ /index.html` capturaba `/firms` y `/calidad-aire` y servía el **fallback SPA (index.html) en vez de las páginas SEO** — el title de FIRMS nunca se había servido correctamente. Se añadieron `location = /firms` y `location = /calidad-aire` que sirven los `.html` directos por nginx (más rápido que el backend). Verificado: ambos títulos correctos ahora.
+- **Coste recursos**: ~0 (estáticos + 2 locations nginx). Carga 0.41, RAM estable.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
