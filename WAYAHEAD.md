@@ -220,6 +220,14 @@ eclipse-2026-osint/
 - **Estado final**: **12/12 monitores UP**. kuma ~141MB RAM, carga servidor 0.82 (estable). Backup BD en `/opt/uptime-kuma/data/kuma.db.bak-20260808`.
 - **Nota**: para futuros cambios, editar SIEMPRE la BD del volumen (`/var/lib/docker/volumes/uptime-kuma/_data/kuma.db`) con kuma detenido, no `/opt`.
 
+## Sprint 9d — Country fix: rate-limit rompía comparador/popups (8 Ago 2026)
+
+- **Síntoma**: tras el rate-limit anti-bots, comparador y heatmap de Country sin datos, y popups del mapa (ej. Italia) con "Población: — PIB: — Renta pc: —".
+- **Causa raíz**: el frontend carga los 217 países en ráfaga (fetch en paralelo). Rate-limit de 60/min (luego 500) cortaba la ráfaga → 429 → `ALL` incompleto. Cloudflare agrupa usuarios tras pocas IPs → comparten cuota y agotan el límite.
+- **Fix**: **3000 req/min por IP** en `/api/country`, `/api/news`, `/api/trending` — frena bots masivos pero SIEMPRE deja pasar la carga legítima (217 × usuarios).
+- **Verificado**: 2 cargas completas seguidas (434 req) → 0 errores. Italia: 59.0M · 2.38T · $40.430. Commits `cf6bbf9` + `4e02e45` (WAYAHEAD country).
+- **Lección**: al añadir rate-limit a un servicio cuyo frontend hace carga masiva, probar SIEMPRE la ráfaga del propio frontend; el límite debe ser > picos legítimos × usuarios tras la misma IP de proxy.
+
 ## Sprint 9 — Landing v3 viajeinteligencia.com: hub en vivo del ecosistema (8 Ago 2026)
 
 - **Landing rediseñada en 3 bloques**: OSINT en vivo · Para la Fundación (Centro de Juego RyM) · B2B/lanzamientos. Proyectos en construcción marcados con candado 🔒 (Tools, MigrationFlow, Fundación).
