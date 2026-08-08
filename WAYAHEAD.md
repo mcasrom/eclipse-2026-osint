@@ -318,6 +318,15 @@ eclipse-2026-osint/
 - **Fix nginx (bug detectado)**: el `location /` de NearMe con `try_files $uri $uri/ /index.html` capturaba `/firms` y `/calidad-aire` y servía el **fallback SPA (index.html) en vez de las páginas SEO** — el title de FIRMS nunca se había servido correctamente. Se añadieron `location = /firms` y `location = /calidad-aire` que sirven los `.html` directos por nginx (más rápido que el backend). Verificado: ambos títulos correctos ahora.
 - **Coste recursos**: ~0 (estáticos + 2 locations nginx). Carga 0.41, RAM estable.
 
+## Sprint 10e — MyIP: artículo evergreen "email filtrado" (HIBP) (8 Ago 2026)
+
+- **Motivación** (análisis SME opción 1, versión segura): en vez del leak checker completo (riesgo legal con APIs de datos filtrados), se crea un **artículo informativo** que captura la búsqueda "¿cómo saber si mi email está filtrado?" sin construir el producto ni tocar datos de brechas.
+- **Contenido** (`public/email-filtrado.html`): guía práctica que enlaza a **Have I Been Pwned (HIBP)** (estándar ético, no expone datos filtrados), pasos si estás afectado (contraseñas, 2FA, gestor, alertas HIBP), y CTA a MyIP. SEO completo: title por keyword, meta, canonical, JSON-LD Article, og/twitter.
+- **URL limpia `/email-filtrado`**: el fallback SPA (`app.get('*')` → index.html) capturaba la URL sin extensión, así que se añadió una ruta explícita en `server.ts` (compilada con esbuild → `dist/server.cjs`, reemplazada en el contenedor sin rebuild Docker). Verificado: title correcto en `/email-filtrado`, health 200.
+- **Posicionamiento**: sitemap 2 urls, **ping IndexNow 202**, y **enlace desde la tarjeta myip en la landing** ("¿Tu email está filtrado? Guía →").
+- **Commits**: `94dd41c` (myip), `5cb220c` (landing).
+- **Coste recursos**: ~0. Nota: el server.cjs del contenedor se reemplazó manualmente; en el próximo rebuild Docker se regenerará desde server.ts (con la ruta incluida).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
