@@ -329,7 +329,7 @@ eclipse-2026-osint/
 
 ## Sprint 10f — tools decomisionado + Country: mapa de riesgo por país (8 Ago 2026)
 
-- **tools.viajeinteligencia.com DECOMISIONADO**: tenía enlaces 404 a páginas eliminadas y dependía de una API ML muerta (`tools.../proxy/ml/score`). Redirigido **301 → viajeinteligencia.com** (HTTP y HTTPS, manteniendo cert). Contenido archivado en `/var/backups/tools-decomisionado-20260808.tar.gz` y eliminado de `/var/www`. Registro DNS de Cloudflare eliminado.
+- **tools.viajeinteligencia.com DECOMISIONADO**: tenía enlaces 404 a páginas eliminadas y dependía de una API ML muerta (`tools.../proxy/ml/score`). Redirigido **301 → viajeinteligencia.com** (HTTP y HTTPS, manteniendo cert). Contenido archivado en `/var/backups/tools-decomisionado-20260808.tar.gz` y eliminado de `/var/www`. Registro DNS de Cloudflare eliminado (luego RECREADO 08-Ago 19:0x tras verificar: sin DNS daba Server Not Found). Estado final: registro A activo, redireccion 301 verificada con curl (tools->301->landing->200). Pendiente: confirmar en navegador tras expirar cache DNS local (flush o espera).
 - **Lección**: la página era irrecuperable de forma barata (API muerta + enlaces rotos). Country ya superaba su funcionalidad.
 - **Country — mapa de riesgo por país** (commits `2011b0c`, `bdc0799`): markers Leaflet coloreados por **riesgo de visita** (verde `#22c55e` bajo / ámbar `#f59e0b` medio / rojo `#ef4444` alto) usando la heurística transparente existente (`RISK`), + **leyenda** flotante en el mapa + **riesgo en el popup** del marker.
 - **Fix durante el trabajo**: `riesgoVisita()` devuelve HTML (string), no array → se añadió `riesgoVisitaNivel()`/`riesgoVisitaScore()` que devuelven el nivel/score puros (el marker usaba `rv[0]` sobre un string, siempre daba verde).
