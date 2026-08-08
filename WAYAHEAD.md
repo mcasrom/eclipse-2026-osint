@@ -210,6 +210,16 @@ eclipse-2026-osint/
 - **Sin impacto en recursos**: solo cambia la fecha de expiración al insertar.
 - **Siguiente (Opción 1, `e47eca5`)**: frescura visible — la descripción del embalse incluye "Medición: DD/MM/AAAA HH:MM" (la `ultima_lectura` real) y el popup del mapa + modal de detalle muestran `freshnessBadge(updated_at)` (verde <30min / naranja <2h / rojo ≥2h). El dato nunca desaparece del mapa y el usuario ve cuándo se midió. WAYAHEAD NearMe `e73d713`.
 
+## Sprint 9c — Monitorización del ecosistema con uptime-kuma (8 Ago 2026)
+
+- **Objetivo**: centralizar la salud de todos los servicios en un solo panel con histórico y alertas. Coste de recursos ~0 (uptime-kuma ya corría; solo se añadieron monitores).
+- **Estado previo**: uptime-kuma tenía 6 monitores desactualizados (2 muertos de georisk decomisionado, faltaban casi todos los servicios vivos).
+- **Hallazgo de despliegue**: el contenedor Docker monta SOLO el volumen `/var/lib/docker/volumes/uptime-kuma/_data` → `/app/data`. La BD `/opt/uptime-kuma/data/kuma.db` (donde estaban los monitores originales) estaba **huérfana**. Se copió la BD buena al volumen para que kuma la cargue.
+- **Monitores añadidos (11)**: nearme `/health`, country `/api/health`, eclipse `/health`, myip (dominio público, el `127.0.0.1` interno no funciona desde el contenedor), centro-juego, migrationflow `/health`, intelligence-hub `/api/count`, landing-pulse `/api/stats/pulse` (vía IP directa `178.105.80.193` + Host header + `ignore_tls`, porque Cloudflare da 403 a kuma en `/api/*`), corrupcion `/health`, wiki, sieg-security (acepta 401).
+- **Monitores desactivados**: checks de puerto obsoletos `viajeinteligencia`(3000) y `gc-motors`(3008) — Cloudflare no expone puertos no-80/443, ya cubiertos por monitores HTTP.
+- **Estado final**: **12/12 monitores UP**. kuma ~141MB RAM, carga servidor 0.82 (estable). Backup BD en `/opt/uptime-kuma/data/kuma.db.bak-20260808`.
+- **Nota**: para futuros cambios, editar SIEMPRE la BD del volumen (`/var/lib/docker/volumes/uptime-kuma/_data/kuma.db`) con kuma detenido, no `/opt`.
+
 ## Sprint 9 — Landing v3 viajeinteligencia.com: hub en vivo del ecosistema (8 Ago 2026)
 
 - **Landing rediseñada en 3 bloques**: OSINT en vivo · Para la Fundación (Centro de Juego RyM) · B2B/lanzamientos. Proyectos en construcción marcados con candado 🔒 (Tools, MigrationFlow, Fundación).
