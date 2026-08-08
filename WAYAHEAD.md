@@ -201,6 +201,20 @@ eclipse-2026-osint/
 - **Pestana Guias**: 4 guias evergreen (eclipse, meteoros, auroras, fotografia) — contenido permanente.
 - Con esto el sitio es un portal perpetuo "que pasa hoy en el cielo", no un landing del eclipse. v0.24.
 
+## Sprint 9 — Landing v3 viajeinteligencia.com: hub en vivo del ecosistema (8 Ago 2026)
+
+- **Landing rediseñada en 3 bloques**: OSINT en vivo · Para la Fundación (Centro de Juego RyM) · B2B/lanzamientos. Proyectos en construcción marcados con candado 🔒 (Tools, MigrationFlow, Fundación).
+- **Pulse API v2** (`landing-stats-api`): agrega en vivo NearMe, MyIP, Country, Eclipse, Intelligence Hub (news.db) y SIEG + ticker con los últimos runs de colectores NearMe. Cada bloque independiente; si una fuente falla se reporta, nunca se inventa.
+- **10 gráficos en vivo** con sparklines SVG y CTA (incendios, embalses, ICA, RENFE, escaneos, países, cielos, bans, noticias).
+- **Sección Fuentes** con narrativa "Cada dato, verificable en su origen" + agrupación por dominio (Geofísica, Incendios, Meteorología, Medio ambiente, Movilidad, Energía, Socioeconómico, Marítimo).
+- **PWA**: manifest + service worker (shell cache-first, APIs en red) + botón de instalación + sección "Lleva el pulso contigo". Fix content-type nginx (`application/manifest+json` en mime.types global).
+- **SEO/RRSS**: og-v6.png 1200×630 generado con Chromium+fuentes web, favicon v2, apple-touch-icon, meta og:locale/twitter:site. Sitemap regenerado (quitados georisk/verifica/gc.motors muertos).
+- **UX**: toggle claro/oscuro persistido (localStorage + prefers-color-scheme), FAQ, nota de privacidad, enlaces externos en pestaña nueva, animaciones de entrada con `prefers-reduced-motion`.
+- **Ko-fi** (ko-fi.com/m_castillo) con icono de taza SVG en hero, sección Empezar y footer.
+- **Analítica propia**: `POST /api/visit` (sendBeacon, IP hasheada sha256, sin cookies, rate-limit 30/5min) + widget de estadísticas en footer + dashboard `/analytics.html` (auth básica, reutiliza htpasswd de SIEG). Endpoint `/api/visit/summary` con byDay/byHour/topPaths/topReferrers.
+- **Seguro de vida**: repos GitHub privados `viajeinteligencia-landing` y `landing-stats-api`. Secreto Resend movido de `ecosystem.config.cjs` a `.env` gitignored (se carga con `--env-file=.env`, Node 22).
+- **Monitorización**: formato de log nginx con `host=` añadido para atribuir tráfico por dominio destino (ranking de atractivo por servicio).
+
 ## 🚀 Sprint activo: MigrationFlow · Product Hunt 18-Ago (ejecución, no código)
 - Sitio **listo para producción** (verificado 07-Ago): HTTP 200, PM2 online, PWA+SEO+JSON-LD, `/health` 200, `PH_LAUNCH_PACK.md` completo.
 - **Checklist a ejecutar por el usuario**: D-2 (16-Ago) subir borrador PH · D-1 (17-Ago) preparar RRSS sin publicar · 18-Ago 00:00 PT publicar + maker comment · 0-2h primer círculo · mañana r/... + X · tarde Show HN · responder comentarios <1h · D+1 thank-you + `/analytics`.
