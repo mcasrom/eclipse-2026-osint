@@ -202,6 +202,13 @@ eclipse-2026-osint/
 - **Pestana Guias**: 4 guias evergreen (eclipse, meteoros, auroras, fotografia) — contenido permanente.
 - Con esto el sitio es un portal perpetuo "que pasa hoy en el cielo", no un landing del eclipse. v0.24.
 
+## Sprint 9b — NearMe fix: embalses invisibles (8 Ago 2026)
+
+- **Síntoma**: el embalse de Alarcón (1112 hm³, Cuenca) no aparecía en el mapa, aunque embalses menores sí.
+- **Causa raíz**: la fuente `estadoembalses.es` no renueva `ultima_lectura` de todos los embalses; el colector ponía `expires_at = ultima_lectura + 6h` → con lecturas viejas (Alarcón, Contreras, La Toba +80 más) `expires_at` quedaba en el pasado → `/api/nearby` (filtra `expires_at > NOW()`) los excluía. **83 embalses invisibles** pese a estar en la BD.
+- **Fix**: `EMBALSE_TTL_DAYS = 7` (expiración desde el momento de recolección, no desde `ultima_lectura`). El colector corre cada 30 min y refresca `expires_at`, así que el dato es estable. Verificado: 0 expirados (antes 83), 452/452 visibles, Alarcón en `/api/nearby` y en prod. Commit `54ba2a2`, WAYAHEAD NearMe `38a97b9`.
+- **Sin impacto en recursos**: solo cambia la fecha de expiración al insertar.
+
 ## Sprint 9 — Landing v3 viajeinteligencia.com: hub en vivo del ecosistema (8 Ago 2026)
 
 - **Landing rediseñada en 3 bloques**: OSINT en vivo · Para la Fundación (Centro de Juego RyM) · B2B/lanzamientos. Proyectos en construcción marcados con candado 🔒 (Tools, MigrationFlow, Fundación).
