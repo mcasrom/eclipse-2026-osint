@@ -259,9 +259,11 @@ eclipse-2026-osint/
 ## Sprint 9f — Landing: Fundación RyM activa + acceso al panel de estado (8 Ago 2026)
 
 - **Fundación RyM**: la fila pasó de "en construcción/próximamente" a **activa** — `boinasverdes.es` verificado (200, "Fundación de los Boinas Verdes Españoles"). Descripción real + enlace "Visitar →" (target blank).
-- **Panel de estado (uptime-kuma)**: se mantiene **privado** (decisión de producto: no exponer infraestructura/nombres de servicios/latencias). Acceso: https://status.viajeinteligencia.com con auth básica + login kuma (`admin`/`status`).
-- **Enlaces añadidos en la landing**: "estado" en la barra de navegación superior + "📡 Estado de los servicios" en el footer.
-- **Commit**: `3402236` (repo viajeinteligencia-landing).
+- **Panel de estado (uptime-kuma)**: se mantiene **privado** (decisión de producto: no exponer infraestructura/nombres de servicios/latencias).
+- **Aclaración de URLs (confusión resuelta)**: el dominio `status.viajeinteligencia.com` NO era kuma — sirve el **mapa fail2ban de SIEG Security** (`/var/www/html`, raíz). kuma estaba oculto en `status.../dashboard`.
+- **Subdominio dedicado para kuma**: creado **`uptime.viajeinteligencia.com`** → registro A grey-cloud en Cloudflare + vhost nginx + cert Let's Encrypt (plugin nginx) + auth básica (htpasswd). kuma ahora tiene URL propia y clara, separada del mapa fail2ban.
+- **Enlaces de la landing actualizados**: "monitoreo" en la barra superior + "📡 Monitoreo del ecosistema" en el footer → `uptime.viajeinteligencia.com`.
+- **Commit**: `3402236` (Fundación activa) + `3813659` (enlaces uptime).
 
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
