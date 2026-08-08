@@ -256,6 +256,13 @@ eclipse-2026-osint/
 - **Recursos**: ~0 (curl cada 5 min, 12 peticiones ligeras). Carga 0.30, swap bajó a 876MB.
 - **Pendiente (opcional)**: configurar notificación nativa de kuma por la UI (login admin) para tener alertas + panel en uno solo.
 
+## Sprint 9f — Landing: Fundación RyM activa + acceso al panel de estado (8 Ago 2026)
+
+- **Fundación RyM**: la fila pasó de "en construcción/próximamente" a **activa** — `boinasverdes.es` verificado (200, "Fundación de los Boinas Verdes Españoles"). Descripción real + enlace "Visitar →" (target blank).
+- **Panel de estado (uptime-kuma)**: se mantiene **privado** (decisión de producto: no exponer infraestructura/nombres de servicios/latencias). Acceso: https://status.viajeinteligencia.com con auth básica + login kuma (`admin`/`status`).
+- **Enlaces añadidos en la landing**: "estado" en la barra de navegación superior + "📡 Estado de los servicios" en el footer.
+- **Commit**: `3402236` (repo viajeinteligencia-landing).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
