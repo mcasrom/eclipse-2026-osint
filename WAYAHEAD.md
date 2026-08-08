@@ -247,9 +247,18 @@ eclipse-2026-osint/
 - **Checklist a ejecutar por el usuario**: D-2 (16-Ago) subir borrador PH · D-1 (17-Ago) preparar RRSS sin publicar · 18-Ago 00:00 PT publicar + maker comment · 0-2h primer círculo · mañana r/... + X · tarde Show HN · responder comentarios <1h · D+1 thank-you + `/analytics`.
 - **Siguiente sprint (recomendado)**: Country Intel **resumen IA LLM** (1/día) + **monitor uptime-kuma sobre `/api/health`** (frescura de datos).
 
+## Sprint 9e — Alertas proactivas: healthcheck del ecosistema por Telegram (8 Ago 2026)
+
+- **Objetivo**: aviso temprano cuando un servicio cae. Complementa a uptime-kuma (panel visual + histórico) con alertas proactivas.
+- **Intento 1 — notificación nativa de kuma por SQL**: creada notificación `telegram-alertas` (provider telegram) + asociación a los 12 monitores vía SQL directo en la BD del volumen. **No funciona**: kuma no activa el envío en memoria al insertar `monitor_notification` a mano (ORM RedBeanPHP gestiona la relación M:N; el `type` del provider no se carga, y el login admin no está disponible para configurarlo por la UI). Lección: **las notificaciones de kuma se configuran por la UI, no por SQL**.
+- **Solución — `ecosystem-healthcheck.sh`** (`/home/deploy/scripts/`): verifica los 12 servicios (mismos endpoints de kuma), avisa por Telegram (mismo bot `nearme_status_bot` + chat_id de NearMe) **solo en cambios de estado** (down/recovery), con estado persistido en `state/ecosystem.state`. Cron `*/5`.
+- **Verificado**: down→"🚨 ECOSISTEMA DOWN: myip(502)" → recovery→"✅ ECOSISTEMA OK de nuevo". sendMessage confirmado ("enviado: True"). myip restaurado (200).
+- **Recursos**: ~0 (curl cada 5 min, 12 peticiones ligeras). Carga 0.30, swap bajó a 876MB.
+- **Pendiente (opcional)**: configurar notificación nativa de kuma por la UI (login admin) para tener alertas + panel en uno solo.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
 - [ ] Decidir sobre el beacon de Web Analytics de Cloudflare (consola limpia vs analytics) — opcional.
 - [ ] Monitorizar el día 12-Ago (pico de tráfico, caché CF, forecast).
-- [ ] **Próximo sprint: notificaciones en uptime-kuma** (email/Telegram) para alertar cuando un monitor caiga — hoy solo hay panel/histórico, sin avisos proactivos. Los 12 monitores del ecosistema ya están UP.
+- [ ] **Próximo sprint: notificaciones nativas de uptime-kuma por la UI** (email/Telegram) — el SQL directo no activa el envío en memoria (kuma no respeta la tabla monitor_notification insertada a mano). Canal ya probado con healthcheck propio (ver Sprint 9e); la notificación `telegram-alertas` existe en la BD de kuma pero requiere configurarla desde la UI (login admin) para que kuma la envíe.
