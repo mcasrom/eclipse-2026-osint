@@ -208,6 +208,7 @@ eclipse-2026-osint/
 - **Causa raíz**: la fuente `estadoembalses.es` no renueva `ultima_lectura` de todos los embalses; el colector ponía `expires_at = ultima_lectura + 6h` → con lecturas viejas (Alarcón, Contreras, La Toba +80 más) `expires_at` quedaba en el pasado → `/api/nearby` (filtra `expires_at > NOW()`) los excluía. **83 embalses invisibles** pese a estar en la BD.
 - **Fix**: `EMBALSE_TTL_DAYS = 7` (expiración desde el momento de recolección, no desde `ultima_lectura`). El colector corre cada 30 min y refresca `expires_at`, así que el dato es estable. Verificado: 0 expirados (antes 83), 452/452 visibles, Alarcón en `/api/nearby` y en prod. Commit `54ba2a2`, WAYAHEAD NearMe `38a97b9`.
 - **Sin impacto en recursos**: solo cambia la fecha de expiración al insertar.
+- **Siguiente (Opción 1, `e47eca5`)**: frescura visible — la descripción del embalse incluye "Medición: DD/MM/AAAA HH:MM" (la `ultima_lectura` real) y el popup del mapa + modal de detalle muestran `freshnessBadge(updated_at)` (verde <30min / naranja <2h / rojo ≥2h). El dato nunca desaparece del mapa y el usuario ve cuándo se midió. WAYAHEAD NearMe `e73d713`.
 
 ## Sprint 9 — Landing v3 viajeinteligencia.com: hub en vivo del ecosistema (8 Ago 2026)
 
