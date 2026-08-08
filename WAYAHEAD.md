@@ -290,6 +290,13 @@ eclipse-2026-osint/
 - **Diagnóstico**: el headless no reproducía el bug porque su localStorage estaba vacío; se detectó con el test que llena localStorage antes de cargar + captura de `pageerror`. Confirma la regla: **nunca dejar que localStorage.setItem pueda romper la UI**.
 - **Verificado**: con localStorage lleno, click en 200/500 activa el botón y sin errores JS. Commit `302fd9d`.
 
+## Sprint 10b — Cierre SEO: Eclipse + Landing (8 Ago 2026)
+
+- **Eclipse** (commit `e0825bf`): ya tenía title/meta ES por keyword, canonical, robots y sitemap (del trabajo anterior). Solo faltaba **IndexNow**: añadida key `133a9cae...` en `frontend/indexnow.key` (nginx `try_files` la sirve directo). Ping **202**.
+- **Landing** (commit `c920d63`): añadido **`<link rel="canonical">`** (faltaba) + **IndexNow key** (`indexnow.key`, servida 200). Robots y sitemap (9 subdominios) ya existían. Ping **202**.
+- **Estado SEO del ecosistema tras el Sprint 10 completo**: NearMe (title ES, canonical, robots, sitemap, /firms, IndexNow), MyIP (robots, sitemap, IndexNow), Eclipse (todo + IndexNow), Landing (title, robots, sitemap, canonical + IndexNow). **Todos los subdominios rankean por su keyword con IndexNow activo.**
+- **Coste recursos**: ~0 (archivos estáticos + 1 key por dominio). Carga <0.3, RAM estable.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
