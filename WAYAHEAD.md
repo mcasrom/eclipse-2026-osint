@@ -327,6 +327,15 @@ eclipse-2026-osint/
 - **Commits**: `94dd41c` (myip), `5cb220c` (landing).
 - **Coste recursos**: ~0. Nota: el server.cjs del contenedor se reemplazó manualmente; en el próximo rebuild Docker se regenerará desde server.ts (con la ruta incluida).
 
+## Sprint 10f — tools decomisionado + Country: mapa de riesgo por país (8 Ago 2026)
+
+- **tools.viajeinteligencia.com DECOMISIONADO**: tenía enlaces 404 a páginas eliminadas y dependía de una API ML muerta (`tools.../proxy/ml/score`). Redirigido **301 → viajeinteligencia.com** (HTTP y HTTPS, manteniendo cert). Contenido archivado en `/var/backups/tools-decomisionado-20260808.tar.gz` y eliminado de `/var/www`. Registro DNS de Cloudflare eliminado.
+- **Lección**: la página era irrecuperable de forma barata (API muerta + enlaces rotos). Country ya superaba su funcionalidad.
+- **Country — mapa de riesgo por país** (commits `2011b0c`, `bdc0799`): markers Leaflet coloreados por **riesgo de visita** (verde `#22c55e` bajo / ámbar `#f59e0b` medio / rojo `#ef4444` alto) usando la heurística transparente existente (`RISK`), + **leyenda** flotante en el mapa + **riesgo en el popup** del marker.
+- **Fix durante el trabajo**: `riesgoVisita()` devuelve HTML (string), no array → se añadió `riesgoVisitaNivel()`/`riesgoVisitaScore()` que devuelven el nivel/score puros (el marker usaba `rv[0]` sobre un string, siempre daba verde).
+- **Verificado headless**: 217 markers, **91 verde / 73 ámbar / 53 rojo**, leyenda visible, sin errores JS.
+- **Coste recursos**: ~0 (solo JS/CSS del frontend).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
