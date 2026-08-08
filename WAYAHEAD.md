@@ -297,6 +297,17 @@ eclipse-2026-osint/
 - **Estado SEO del ecosistema tras el Sprint 10 completo**: NearMe (title ES, canonical, robots, sitemap, /firms, IndexNow), MyIP (robots, sitemap, IndexNow), Eclipse (todo + IndexNow), Landing (title, robots, sitemap, canonical + IndexNow). **Todos los subdominios rankean por su keyword con IndexNow activo.**
 - **Coste recursos**: ~0 (archivos estáticos + 1 key por dominio). Carga <0.3, RAM estable.
 
+## Sprint 10c — Landing: acceso rápido a herramientas primero (8 Ago 2026)
+
+- **Motivación** (análisis SME): para el 90% del tráfico de búsqueda el log técnico en vivo es "ruido antes de la respuesta". Un visitante que busca "incendios ahora" quiere la herramienta, no el log.
+- **Cambios** (commit `71f0193`):
+  - Nueva sección **`#acceso`** justo tras el hero: 6 tarjetas de acceso directo (NearMe, MyIP, Eclipse, Country, Centro de Juego, Intelligence Hub) con icono, descripción, CTA y fuentes. Tarjetas clicables completas.
+  - **CTA del hero** "Usar una herramienta →" apunta a `#acceso` (antes a `#datos`/log). "Ver datos en vivo" queda como ghost button.
+  - **Nav superior** añade "acceso" como primer elemento.
+  - El log en vivo (`#datos`) y el resto se mantienen, ahora después del acceso rápido.
+- **Verificado**: orden DOM `acceso` → `datos` → `osint`; render headless 200; las 6 tarjetas presentes.
+- **Coste recursos**: ~0 (solo HTML/CSS).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
