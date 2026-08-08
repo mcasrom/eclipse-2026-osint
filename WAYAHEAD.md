@@ -280,6 +280,16 @@ eclipse-2026-osint/
 - **Coste recursos**: ~0 (solo HTML/meta/estáticos, un endpoint). Carga 0.48, RAM 2.1G libres.
 - **Pendiente siguiente**: título/meta por keyword en Eclipse, landing indexada; replicar IndexNow si hace falta.
 
+## Fix 10a — NearMe: selector de radio 50/200/500 km bloqueado (8 Ago 2026)
+
+- **Síntoma**: los botones 50/200/500 km no respondían; solo 50 km parecía activo. El usuario hacía clic en 200/500 y nada cambiaba.
+- **Causa raíz (2 niveles)**:
+  1. `localStorage.setItem('nearme_radius', km)` en `setRadius()` lanzaba **`DOMException: The quota has been exceeded`** (el storage del navegador estaba lleno, probablemente por `nearme_guest_alerts`/`nearme_alerts_seen` acumuladas).
+  2. Como no había try/catch, la excepción **cortaba `setRadius()` a mitad**: nunca llamaba a `updateRadiusBtns()`, `updateMap()` ni `loadEvents()` → el botón no se activaba ni el mapa cambiaba.
+- **Fix**: try/catch en las escrituras a localStorage de las funciones críticas: `setRadius`, toggle de filtros, `setGuestLocations`, `setGuestAlerts`. El radio ahora funciona aunque el storage esté lleno (el guardado falla en silencio, la UI no se bloquea).
+- **Diagnóstico**: el headless no reproducía el bug porque su localStorage estaba vacío; se detectó con el test que llena localStorage antes de cargar + captura de `pageerror`. Confirma la regla: **nunca dejar que localStorage.setItem pueda romper la UI**.
+- **Verificado**: con localStorage lleno, click en 200/500 activa el botón y sin errores JS. Commit `302fd9d`.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
