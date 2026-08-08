@@ -265,6 +265,21 @@ eclipse-2026-osint/
 - **Enlaces de la landing actualizados**: "monitoreo" en la barra superior + "📡 Monitoreo del ecosistema" en el footer → `uptime.viajeinteligencia.com`.
 - **Commit**: `3402236` (Fundación activa) + `3813659` (enlaces uptime).
 
+## Sprint 10 — SEO técnico por subdominio (NearMe + MyIP) (8 Ago 2026)
+
+- **Motivación** (análisis SME): el dominio raíz fragmenta autoridad SEO; NearMe compite con landing mono-propósito (incendiohoy.es) usando las mismas fuentes FIRMS. Subdominios deben rankear por su keyword.
+- **NearMe** (commits `a714af9`, `82e5dcb`):
+  - `<title>`/meta/og/twitter en **español** enfocado a keyword: "Incendios en vivo España · Mapa de eventos en tiempo real".
+  - `<link rel="canonical">`, `robots.txt` (disallow /admin y /api), `sitemap.xml`.
+  - **Página evergreen `/firms`** ("¿Qué es FIRMS y cómo detecta incendios por satélite?") — contenido informativo indexable con CTA al mapa. Ruta servida por el server (FileResponse), coste ~0.
+  - **IndexNow**: key `133a9cae...` en `/indexnow.key` + ping 202 a Bing/Yandex.
+- **MyIP** (commits `64d1e34`, `8d9241f`):
+  - `robots.txt` + `sitemap.xml` en `public/` (incluidos en build Vite) y copiados al `dist/` del contenedor (producción inmediata sin rebuild).
+  - **IndexNow** key + ping 202.
+  - Nota: `/robots.txt` antes devolvía el fallback SPA (HTML); ahora sirve el archivo real (text/plain).
+- **Coste recursos**: ~0 (solo HTML/meta/estáticos, un endpoint). Carga 0.48, RAM 2.1G libres.
+- **Pendiente siguiente**: título/meta por keyword en Eclipse, landing indexada; replicar IndexNow si hace falta.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
