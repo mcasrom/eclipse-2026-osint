@@ -170,7 +170,7 @@
   <button class="tab" data-tab="2027" data-i18n="tab_2027">🌒 Eclipse 2027</button>
   <button class="tab" data-tab="auroras" data-i18n="tab_auroras">🌌 Auroras</button>
   <button class="tab" data-tab="calendario" data-i18n="tab_calendario">📅 Calendario</button>
-  <button class="tab" data-tab="celeste" data-i18n="tab_celeste">🪐 Configuración celeste</button>
+  <button class="tab" data-tab="celeste" data-i18n="tab_celeste">🔭 Observación celeste</button>
   <button class="tab" data-tab="guias" data-i18n="tab_guias">📖 Guías</button>
 </div>
 <div id="otherCards" class="hidden">
@@ -212,8 +212,12 @@
     <div>
     <h2>🪐 Configuración celeste · eclipse 12 Ago 2026</h2>
     <div class="meta">Geometría Sol–Tierra–Luna y vista desde tu ciudad · cálculos con datos reales del evento</div>
-    <div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;align-items:center;">
       <select id="celesteCity" class="tab" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;border-radius:999px;padding:7px 14px;font-size:.85em;cursor:pointer;"></select>
+      <span id="celFreeCtrl" style="display:none;gap:6px;align-items:center;font-size:.8em;color:var(--muted);">
+        lat <input id="celFreeLat" type="number" step="0.0001" placeholder="40.42" style="width:70px;background:#0d1322;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:5px 8px;">
+        lon <input id="celFreeLon" type="number" step="0.0001" placeholder="-3.70" style="width:70px;background:#0d1322;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:5px 8px;">
+      </span>
       <button class="tab" id="celesteRelojBtn" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;border-radius:999px;padding:7px 14px;font-size:.85em;cursor:pointer;">▶ Reproducir cronología</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
@@ -385,7 +389,7 @@ var I18N = {
     brand_title: '🌑 Eclipse Solar Total · 12 de agosto de 2026 · España',
     brand_sub: 'Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares',
     tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseidas', tab_2027: '🌒 Eclipse 2027',
-    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendario', tab_guias: '📖 Guías',
+    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendario', tab_celeste: '🔭 Observación celeste', tab_guias: '📖 Guías',
     btn_ayuda: '❓ Ayuda', btn_instalar: '⬇️ Instalar', btn_explorar: 'Explorar el mapa →',
     btn_ayuda_seg: '❓ Ayuda y seguridad', phen_label: 'Fenómeno:',
     sec_ubicacion: '📍 Mi ubicación', sec_hoy: '☀️ Hoy en el cielo',
@@ -422,7 +426,7 @@ var I18N = {
     brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
     brand_sub: 'First total eclipse visible from the Iberian peninsula in over a century · Totality band over Spain and the Balearics',
     tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseids', tab_2027: '🌒 Eclipse 2027',
-    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendar', tab_guias: '📖 Guides',
+    tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendar', tab_celeste: '🔭 Celestial observation', tab_guias: '📖 Guides',
     btn_ayuda: '❓ Help', btn_instalar: '⬇️ Install', btn_explorar: 'Explore the map →',
     btn_ayuda_seg: '❓ Help & safety', phen_label: 'Phenomenon:',
     sec_ubicacion: '📍 My location', sec_hoy: '☀️ Sky today',
@@ -1005,8 +1009,7 @@ function finTot(city){
 
 function celesteTick(){
   if (CELESTE_CTX) CELESTE_CTX = new Date(CELESTE_CTX.getTime() + 60000); // 1 min por tick
-  var sel = document.getElementById('celesteCity');
-  var city = CELESTE_CITIES.find(function(c){ return c.id === sel.value; }) || CELESTE_CITIES[0];
+  var city = celesteCitySel();
   if (CELESTE_CTX) {
     var t = document.getElementById('celesteReloj');
     if (t) t.textContent = CELESTE_CTX.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid' });
@@ -1014,15 +1017,42 @@ function celesteTick(){
     renderCelesteTimeline(city);
   }
 }
+function celesteCitySel(){
+  var sel = document.getElementById('celesteCity');
+  var v = sel.value;
+  if (v === '__free') {
+    var lat = parseFloat(document.getElementById('celFreeLat').value);
+    var lon = parseFloat(document.getElementById('celFreeLon').value);
+    if (!isNaN(lat) && !isNaN(lon)) {
+      return { id: '__free', name: 'Coordenadas libres', lat: lat, lon: lon, tipo: 'parcial' };
+    }
+    return null;
+  }
+  return CELESTE_CITIES.find(function(c){ return c.id === v; }) || CELESTE_CITIES[0];
+}
+
 function initCeleste(){
   renderCelesteDiagrama();
   fetch('/data/2026/cities.json').then(function(r){ return r.json(); }).then(function(d){
-    CELESTE_CITIES = (d.cities || []).filter(function(c){ return c.tipo === 'total'; });
-    if (CELESTE_CITIES.length === 0) CELESTE_CITIES = d.cities || [];
+    // Todas las ciudades (totales y parciales) para ampliar el abanico
+    CELESTE_CITIES = d.cities || [];
     var sel = document.getElementById('celesteCity');
-    sel.innerHTML = CELESTE_CITIES.map(function(c){ return '<option value="' + c.id + '">' + c.name + '</option>'; }).join('');
-    sel.onchange = function(){ CELESTE_CTX = null; CELESTE_T = 0; renderCelesteHorizonte(CELESTE_CITIES.find(function(c){ return c.id === sel.value; }) || CELESTE_CITIES[0]); renderCelesteTimeline(CELESTE_CITIES.find(function(c){ return c.id === sel.value; }) || CELESTE_CITIES[0]); };
-    var city = CELESTE_CITIES[0];
+    var opts = '<option value="__free">📍 Coordenadas libres…</option>';
+    opts += CELESTE_CITIES.map(function(c){ return '<option value="' + c.id + '">' + c.name + (c.tipo === 'total' ? ' (total)' : '') + '</option>'; }).join('');
+    sel.innerHTML = opts;
+    var ctrl = document.getElementById('celFreeCtrl');
+    if (ctrl) ctrl.style.display = 'none';
+    sel.onchange = function(){
+      CELESTE_CTX = null; CELESTE_T = 0;
+      var ctrl = document.getElementById('celFreeCtrl');
+      if (ctrl) ctrl.style.display = (sel.value === '__free') ? 'flex' : 'none';
+      var city = celesteCitySel();
+      if (city) { renderCelesteHorizonte(city); renderCelesteTimeline(city); }
+    };
+    var latI = document.getElementById('celFreeLat'), lonI = document.getElementById('celFreeLon');
+    if (latI) latI.oninput = function(){ if (sel.value === '__free') { var c = celesteCitySel(); if (c) renderCelesteHorizonte(c); } };
+    if (lonI) lonI.oninput = function(){ if (sel.value === '__free') { var c = celesteCitySel(); if (c) renderCelesteHorizonte(c); } };
+    var city = celesteCitySel();
     renderCelesteHorizonte(city);
     renderCelesteTimeline(city);
     var t = document.getElementById('celesteReloj');
@@ -1030,8 +1060,9 @@ function initCeleste(){
   }).catch(function(){});
   var btn = document.getElementById('celesteRelojBtn');
   if (btn) btn.onclick = function(){
-    var city = CELESTE_CITIES.find(function(c){ return c.id === document.getElementById('celesteCity').value; }) || CELESTE_CITIES[0];
+    var city = celesteCitySel();
     if (CELESTE_PLAYING) { clearInterval(CELESTE_TMR); CELESTE_PLAYING = false; btn.textContent = '▶ Reproducir cronología'; CELESTE_CTX = null; return; }
+    if (!city || !city.inicio) { document.getElementById('celesteFase').textContent = 'La cronología necesita una ciudad con horarios de totalidad.'; return; }
     // inicio 30 min antes del eclipse
     var t0 = new Date('2026-08-12T' + city.inicio + '+02:00').getTime() - 30 * 60000;
     CELESTE_CTX = new Date(t0);
