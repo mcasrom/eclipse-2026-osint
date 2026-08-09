@@ -370,6 +370,16 @@ eclipse-2026-osint/
 - **Verificado**: lógica testada con casos (sismo 1h→flash, 100h→no; carretera 1h→flash, 10h→no). Tipos reales confirmados en BD (earthquake, fire, road_incident, warning, weather). Sin errores JS.
 - **Coste recursos**: ~0 (JS/CSS + 1 función). Carga 0.02.
 
+## Sprint 10j — Eclipse: tab "Configuración celeste" (9 Ago 2026)
+
+- **Nuevo tab `🪐 Configuración celeste`** en Eclipse (commit `97bd199`):
+  - **Diagrama geométrico Sol→Luna→Tierra** en SVG con la sombra de la Luna sobre la franja de totalidad y rayos solares.
+  - **Vista desde tu ciudad**: selector con las 11 ciudades de totalidad (de cities.json) + lat/lon. Cálculo real de **altura y azimut del Sol y la Luna** (fórmulas de efemérides estándar) con visualización de horizonte semicircular (alt/az proyectados).
+  - **Cronología con reloj**: timeline con los 4 hitos reales de cities.json (inicio parcial → inicio totalidad → fin totalidad → fin parcial), reloj en tiempo real y **botón "Reproducir cronología"** que avanza minuto a minuto desde 30 min antes del eclipse, mostrando la fase actual (antes/parcial/totalidad/fin).
+- **Verificado headless**: tab visible, diagrama renderiza, 11 ciudades cargadas, datos de A Coruña (Sol 12° az 279°, Luna 4°), reloj y fase correctos, reproducción avanza (19:04→totalidad), sin errores JS.
+- **Coste recursos**: ~0 (todo en el navegador; SVG + JS). Carga 0.24.
+- **Nota**: la posición lunar usa una aproximación (Luna frente al Sol durante el eclipse) — suficiente para la visualización; las efemérides exactas ya están en los horarios de cities.json.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
