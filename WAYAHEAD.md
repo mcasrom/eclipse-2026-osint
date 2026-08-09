@@ -507,3 +507,24 @@ eclipse-2026-osint/
 - [ ] Decidir sobre el beacon de Web Analytics de Cloudflare (consola limpia vs analytics) — opcional.
 - [ ] Monitorizar el día 12-Ago (pico de tráfico, caché CF, forecast).
 - [ ] **Próximo sprint: notificaciones nativas de uptime-kuma por la UI** (email/Telegram) — el SQL directo no activa el envío en memoria (kuma no respeta la tabla monitor_notification insertada a mano). Canal ya probado con healthcheck propio (ver Sprint 9e); la notificación `telegram-alertas` existe en la BD de kuma pero requiere configurarla desde la UI (login admin) para que kuma la envíe.
+- [ ] **Próximo sprint (9-Ago): MICROTOOLS del ecosistema** — documento de opciones ordenado por demanda×viabilidad (Tier 1/2/3, ver detalle abajo). **PRIORIDAD del usuario: Tier 1 opciones 2 y 3.**
+
+### Microtools del ecosistema — backlog de opciones (9 Ago 2026)
+
+**Tier 1 — Alta demanda + datos ya disponibles:**
+- #1 ⚡ Calculadora de tarifa eléctrica (REE: precio €/MWh por hora + demanda) — keyword top España, uso diario.
+- **#2 🚗 ¿Cuándo es mejor hora para salir a la carretera?** (DGT tráfico ya en NearMe) — retenciones y peor hora por provincia. **PRIORIDAD usuario.**
+- **#3 🌍 Comparador rápido "¿dónde ir de vacaciones?"** (Country: 217 países PIB/IDH/moneda/internet/seguridad) — "¿cuánto cuesta un día en X?" o "¿cuál es más barato entre 2?". **PRIORIDAD usuario.**
+- #4 🛡️ "¿Mi VPN filtra?" mini-check viral (MyIP) — verde/rojo, compartible.
+
+**Tier 2 — Media demanda + viable:**
+- #5 🌡️ Alerta de ola de calor / riesgo térmico por código postal (AEMET+UV+heatwave NearMe) — picos estacionales.
+- #6 🚆 "¿Me compensa el abono?" (RENFE; requiere datos de tarifas, coste medio).
+- #7 🏖️ Bandera azul / calidad de playa hoy (NearMe Playas + ICA).
+- #8 🌌 "¿Qué puedo ver en el cielo esta noche?" (Eclipse ya casi lo tiene) — pico del 12-Ago.
+
+**Tier 3 — Menor demanda/más esfuerzo:**
+- #9 📊 "¿Cuánto cuesta vivir en X país?" (Country).
+- #10 🌊 Radar de inundaciones/riesgo hidrológico (datos escasos, backlog).
+
+Todas cuestan ~0 recursos (páginas estáticas sobre datos ya recolectados). Coste + enganche valorado.
