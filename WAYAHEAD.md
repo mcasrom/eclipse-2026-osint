@@ -426,6 +426,14 @@ eclipse-2026-osint/
 - **Radar UX**: banner sutil "¿Quieres alertas en tu zona?" (1 sola vez, localStorage, abre panel de suscripción Telegram). Commit `b49c85d`.
 - **Coste recursos**: ~0 (páginas estáticas + HTML). Todos los posts 200 en producción.
 
+## Sprint 10p — Radar bot test + post wifi-publica (9 Ago 2026)
+
+- **B4 — test end-to-end del bot del Radar**:
+  - **Fix bug BASE path**: `Path(__file__).parent.parent` apuntaba a `/home/deploy` (mal) → corregido a `parent` (el dir del script). La BD de suscripciones ahora se crea en `/home/deploy/radar-alerts/data/`.
+  - **Verificado**: comando `/radar 40.42 -3.70 200` guarda la suscripción correctamente `(chat_id, 40.42, -3.7, 200.0)`; bot online (long-polling); mensaje de prueba enviado a Telegram (ok). Commits `451afd6` (fix BASE) + `5d7a7b9` (gitignore data/logs).
+- **C6 — 6º post `/wifi-publica`** (MyIP): "Cómo proteger tu IP en redes wifi públicas" — sniffing, fuga de DNS, rogue AP, VPN + CTA a MyIP. Ruta en server.ts (compilada a server.cjs en el contenedor) + sitemap 3 urls + IndexNow **202** + **6ª guía en la landing** (sección Guías completa con 6 tarjetas par). Commits `7f53d76` (MyIP) + `18f58ce` (landing).
+- **Coste recursos**: ~0. Todos 200 en producción. Repos limpios.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
