@@ -501,6 +501,13 @@ eclipse-2026-osint/
 - **Verificado**: Wiki ahora **0 vistas, 0 IPs, 425 bots** (solo monitores, correcto); Landing 32 vistas/6 IPs/1604 bots. El dashboard ahora separa humano vs bot de forma honesta.
 - **Nota**: las vistas bajaron respecto al pre-fix porque antes se contaban los healthchecks como vistas. Los números actuales son los reales.
 
+## Sprint 10w — Microtools: tráfico en vivo + comparador de vacaciones (9 Ago 2026)
+
+- **Opción 2 — `trafico.viajeinteligencia.com`** (repo `trafico-espana`): tráfico en vivo de la **DGT por provincia** — retenciones, accidentes, cierres y obras. Consume `/api/nearby` de NearMe (limit 2000 para cubrir toda España). Búsqueda por provincia/carretera, stats (accidentes/cierres/obstáculos), auto-refresh 15 min. Verificado: 545 provincias/rutas, 9 accidentes, sin errores JS. SEO + IndexNow 202.
+- **Opción 3 — `country.viajeinteligencia.com/vacaciones`**: comparador de destinos de vacaciones con **217 países** (renta pc, PIB, IDH, internet, inflación, esperanza de vida, Gini) + resumen automático ("A tiene mayor renta que B"). Selector 2 países con banderas. Verificado: España vs México, 7 indicadores, resumen OK. Añadido al sitemap (219 urls) + IndexNow 202.
+- **Commits**: Country `6943a16` · repo nuevo `trafico-espana`. Coste recursos ~0 (páginas estáticas sobre datos ya recolectados).
+- **Nota fix**: Country no tiene `FRONTEND_DIR` (es `FRONTEND`/`BASE_DIR/frontend`) → corregido al servir /vacaciones.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
