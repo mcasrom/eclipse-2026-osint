@@ -336,6 +336,16 @@ eclipse-2026-osint/
 - **Verificado headless**: 217 markers, **91 verde / 73 ámbar / 53 rojo**, leyenda visible, sin errores JS.
 - **Coste recursos**: ~0 (solo JS/CSS del frontend).
 
+## Sprint 10g — Landing: formularios #empezar funcionales (9 Ago 2026)
+
+- **Síntoma**: la sección "Empezar" (Individual + Empresa) parecía desactivada — los 2 formularios eran decorativos (sin JS ni backend conectado), y los bullets mencionaban servicios decomisionados (GeoRisk, Emergency).
+- **Diagnóstico**: el endpoint `/api/leads` YA existía en landing-stats-api (SQLite + aviso por email Resend a gestion@viajeinteligencia.com) pero **el frontend nunca lo llamaba** (0 refs) y **nginx no lo proxeaba** (solo /api/visit y /api/stats/pulse).
+- **Fix** (commit `f50e7d5`):
+  - nginx: añadido `location /api/leads` → :3017 (proxy con X-Real-IP).
+  - Frontend: JS `submitLead()` conecta ambos botones a `POST /api/leads`, con validación de email, feedback en línea (`.lead-msg` verde/rojo), disable del botón y reset del input.
+  - Bullets Empresa actualizados: "GeoRisk / Emergency" (muertos) → "feeds de NearMe, Country, MyIP y Eclipse".
+- **Verificado**: POST vía nginx `{"ok":true}`, lead guardado en SQLite, feedback OK. Coste ~0 (JS + 1 location nginx).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
