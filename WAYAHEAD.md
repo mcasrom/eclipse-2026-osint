@@ -475,6 +475,13 @@ eclipse-2026-osint/
 - **Resultado**: la home ya no tiene "en construcción" — solo servicios activos + las 3 puertas de entrada.
 - **Coste recursos**: ~0.
 
+## Sprint 10u — status/resumen.html obsoleto + verificación 217 fichas Country (9 Ago 2026)
+
+- **`status.viajeinteligencia.com/resumen.html` mostraba datos del 20-Jul**: era un **snapshot estático manual** sin generador ni cron (búsqueda exhaustiva: no hay script que lo cree). Quedó obsoleto cuando construimos el dashboard real `/analytics.html` (Sprint 10h, `/api/visit/summary`).
+- **Fix**: eliminado `resumen.html` (backup en `/var/backups/resumen.html.bak-20260809`) + **redirect nginx** `location = /resumen.html → 301 https://www.viajeinteligencia.com/analytics.html`. Verificado: 301 → analytics.html (por IP directa y con auth). Nota: sin auth da 401 por Cloudflare (esperado).
+- **Verificación 217 fichas Country** (antes de enviar sitemap a GSC): **217/217 OK** (200 con title), 0 errores. Sitemap limpio para GSC.
+- **Coste recursos**: ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
