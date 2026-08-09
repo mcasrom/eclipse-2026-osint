@@ -455,6 +455,15 @@ eclipse-2026-osint/
 - **Coste recursos**: ~0 (HTML/CSS). Las tarjetas de acceso rápido se mantienen debajo.
 - **Siguiente (paso 2)**: mover Fundación a `fundacion.viajeinteligencia.com` + `/roadmap` para "próximamente".
 
+## Sprint 10s — Fundación a subdominio propio (paso 2 de la propuesta) (9 Ago 2026)
+
+- **Nuevo subdominio `fundacion.viajeinteligencia.com`**: página social de la Fundación de los Boinas Verdes RyM — misión, Centro de Juego (enlace), web oficial boinasverdes.es y donaciones Ko-fi.
+- **Decisión clave (Centro de Juego NO se mueve)**: ya tiene su propio subdominio `operacion-puzzle.viajeinteligencia.com` con SEO/IndexNow/PWA asentados (547 vistas, 43 IPs). Se **enlaza** desde la nueva página, sin romper su indexación. Repo nuevo `mcasrom/fundacion-rym`.
+- **Landing limpia** (commit `d50311a`): eliminado el bloque "Para la Fundación" de la home → ahora es **solo OSINT + B2B** (puertas → datos → OSINT → B2B). Enlace discreto "💛 Fundación →" en el footer.
+- **Infra**: DNS grey-cloud + vhost nginx + cert Let's Encrypt + robots/sitemap/IndexNow (ping 202). Verificado: subdominio 200, enlaces OK, home sin bloque fundación.
+- **Coste recursos**: ~0 (página estática + routing).
+- **Pendiente del paso 2**: `/roadmap` público para los "próximamente" (Tools, MigrationFlow) que aún están en la home.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
