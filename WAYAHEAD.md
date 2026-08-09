@@ -443,6 +443,18 @@ eclipse-2026-osint/
 - **Nota**: el feed_health de France24 se actualizará a la URL FR en la próxima corrida (update_feed_health por nombre). El scraper corre cada 6h (cron).
 - **Coste recursos**: ~0. News 200, api/count 200.
 
+## Sprint 10r — Home: 3 puertas de entrada por intención (9 Ago 2026)
+
+- **Motivación** (crítica): 14 tarjetas iguales + fundación + B2B mezclados → sobrecarga cognitiva, sin jerarquía por intención. Propuesta: segmentar la home.
+- **Implementado** (commit `1df10f5`): sección **"¿Qué necesitas hoy?"** con **3 puertas de entrada** entre el hero y las tarjetas:
+  - 🔴 **"Vivo cerca de un riesgo"** → NearMe + Radar Emergencias + Eclipse (borde rojo)
+  - 🌍 **"Trabajo con datos de país"** → Country + Intel Hub (borde verde)
+  - 🛡️ **"Compruebo mi red"** → myip (borde cyan)
+- CTA del hero "¿Qué necesitas? →" apunta a `#puertas`; nav actualizada (empezar/en vivo/OSINT/b2b/monitoreo).
+- **Verificado**: 3 puertas renderizan, antes que el acceso rápido, sin errores JS.
+- **Coste recursos**: ~0 (HTML/CSS). Las tarjetas de acceso rápido se mantienen debajo.
+- **Siguiente (paso 2)**: mover Fundación a `fundacion.viajeinteligencia.com` + `/roadmap` para "próximamente".
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
