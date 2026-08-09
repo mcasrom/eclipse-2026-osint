@@ -415,6 +415,17 @@ eclipse-2026-osint/
 - **Verificado**: bot online estable, cron activo, mensaje de test enviado, Ko-fi 200.
 - **Coste recursos**: +~31MB (bot PM2) + cron ligero. Carga 0.27.
 
+## Sprint 10o — Posts SEO evergreen + sección Guías en la landing (9 Ago 2026)
+
+- **2 posts nuevos** (misma receta que `/firms`/`/calidad-aire`/`/email-filtrado`):
+  - **`/precio-luz`** (NearMe): "Precio de la luz hoy en España" — keyword top nacional, datos REE, CTA al mapa. Commit `cec58f0`.
+  - **`/auroras-espana`** (Eclipse): "Cómo ver auroras boreales en España" — índice Kp NOAA, latitudes, CTA a Eclipse. Commit `8fc8f87`.
+  - Ambos: title/meta/canonical/og/twitter/JSON-LD Article + sitemap + **IndexNow 202**.
+- **Fix nginx**: `/precio-luz` caía al fallback SPA (sin `location =`) → añadida regla en nginx de NearMe. Verificado con cache-bust (title correcto).
+- **Sección "📚 Guías y recursos" en la landing**: 5 tarjetas que enlazan los 5 posts (precio-luz, auroras, firms, calidad-aire, email-filtrado) con CTA a cada servicio — **pasa autoridad de la landing a los posts** y los hace visibles. Commit `e0c158d`.
+- **Radar UX**: banner sutil "¿Quieres alertas en tu zona?" (1 sola vez, localStorage, abre panel de suscripción Telegram). Commit `b49c85d`.
+- **Coste recursos**: ~0 (páginas estáticas + HTML). Todos los posts 200 en producción.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
