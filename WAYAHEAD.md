@@ -346,6 +346,16 @@ eclipse-2026-osint/
   - Bullets Empresa actualizados: "GeoRisk / Emergency" (muertos) → "feeds de NearMe, Country, MyIP y Eclipse".
 - **Verificado**: POST vía nginx `{"ok":true}`, lead guardado en SQLite, feedback OK. Coste ~0 (JS + 1 location nginx).
 
+## Sprint 10h — Landing v1.0.0: versión + valoración (9 Ago 2026)
+
+- **Sistema de versión**: badge en el footer (v1.0.0 · commit · fecha) servido por **`/api/version`** (lee el último commit de `/var/www/viajeinteligencia-landing/.git`). Tag `v1.0.0` + CHANGELOG.md en el repo.
+- **Valoración emoji**: 👍/👎 en el footer con contador agregado. Endpoint **`/api/rating`** (SQLite `ratings.db`, 1 voto por IP hasheada, sin cookies). Frontend con feedback "✓ Gracias" y resaltado del voto.
+- **Mails**: verificados — Resend envía el aviso de leads (id generado), 3 leads guardados. `gestion@viajeinteligencia.com` es el destino.
+- **Commits**: `18b234d` (API: version+rating), `fa0c7d4` (landing: badge+valoración+CHANGELOG), tag `v1.0.0`.
+- **nginx**: añadidos proxies `/api/version` y `/api/rating`.
+- **Coste recursos**: ~0 (SQLite pequeña + 2 endpoints + JS). Carga estable.
+- **Nota**: el 404 inicial de /api/version era cache de Cloudflare (ya 200).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
