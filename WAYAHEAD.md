@@ -540,6 +540,15 @@ eclipse-2026-osint/
   - [ ] Lookup público de IOCs de SIEG ("¿esta IP está en nuestra lista de bloqueadas?") — pasivo, ético, sin fricción.
   - [ ] **Breach auto-check por EMAIL (NO viable gratis)** — el endpoint `/breachedAccount/{email}` requiere **API key de pago** (suscripción HIBP). Descartado como opción gratuita; solo si algún día hay presupuesto B2B. La guía `/email-filtrado` (enlaza a HIBP web) sigue siendo la vía gratis.
 
+## Sprint 10z — Pack RRSS del eclipse + demo en vídeo (9 Ago 2026)
+
+- **Contexto**: ecosistema sólido pero poco conocido → prioridad difusión con coste ~0. El eclipse del 12-Ago es el pico natural de tráfico (D-3).
+- **Pack RRSS** (`rrss_eclipse_11ago.md` en el hub): textos listos para Reddit (r/askspain, r/spain), X/Twitter, TikTok/Instagram + checklist. Datos reales: totalidad ~20:28, Oviedo 108s, León 105s, Burgos 104s, Palma 96s.
+- **Capturas limpias** (sin el funnel de bienvenida que bloqueaba): se inyecta `localStorage ecl2026_seen=1` antes de cargar. 3 capturas en la laptop (`shots/eclipse/`).
+- **Demo en vídeo `demo_eclipse_v2.mp4`**: recorrido panorámico real sobre la franja (A Coruña→Valencia→Palma) con overlay de título+horarios y cierre con la URL `eclipse.viajeinteligencia.com`. 4.8s, H.264, 1280×900. Verificado: movimiento real (diff 583K), cierre OK.
+- **A ejecutar por el usuario**: 11-Ago publicar en Reddit, 12-Ago X, reel TikTok/Instagram.
+- **Coste**: ~0 (solo difusión).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
