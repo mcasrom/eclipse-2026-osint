@@ -536,9 +536,9 @@ eclipse-2026-osint/
   - **SIEG Security** (correlación de LOS PROPIOS logs fail2ban → IOCs)
   - **Breach check** como auto-check HIBP del propio email (si se hace) — nunca datos robados.
 - **Pendiente del documento base (lo que nos queda, viable y ético)**:
-  - [ ] Breach auto-check con HIBP en MyIP (el usuario introduce SU email → verde/rojo, sin exposición) — coste ~0.
+  - [ ] **Pwned Passwords (GRATIS y sin key — verificado en doc HIBP v3)** — verificar TU contraseña sin revelarla: el usuario la introduce, se hashea localmente (SHA-1), se envían los primeros 6 chars del hash a `range/XXXXXX` (k-anonymity) y se compara. No requiere key ni registro. Ya hay `password_health.py` en MyIP → integrarlo. **Opción recomendada y viable coste ~0.**
   - [ ] Lookup público de IOCs de SIEG ("¿esta IP está en nuestra lista de bloqueadas?") — pasivo, ético, sin fricción.
-  - [ ] Pwned Passwords (verificar TU contraseña sin revelarla) — ya hay `password_health.py` en MyIP, integrarlo con HIBP.
+  - [ ] **Breach auto-check por EMAIL (NO viable gratis)** — el endpoint `/breachedAccount/{email}` requiere **API key de pago** (suscripción HIBP). Descartado como opción gratuita; solo si algún día hay presupuesto B2B. La guía `/email-filtrado` (enlaza a HIBP web) sigue siendo la vía gratis.
 
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
