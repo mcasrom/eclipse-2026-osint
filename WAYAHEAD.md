@@ -396,6 +396,12 @@ eclipse-2026-osint/
 - **Landing**: tarjeta "🚨 Radar de Emergencias" añadida en acceso rápido (commit `87a00fc`).
 - **Decisión de producto**: NO se fusionó con la opción B (leak radar) — intenciones distintas; la B queda como mejora futura de MyIP (ya tiene `/email-filtrado`).
 - **Verificado**: radar 200, API proxy 200, 31 alertas renderizadas, sin errores JS. Recursos ~0 (carga 0.44).
+- **Valor real añadido (Sprint 10m)** — para no ser solo una réplica de NearMe:
+  - **Eventos críticos/alert pulsantes y distinguibles**: cada crítico/alert tiene **anillo pulsante propio** (escala 0.55→2) + **badge de severidad** (¡ rojo / ⚠ ámbar) + glow. Verificado: 15 animaciones en el mapa.
+  - **Mapa de España por CCAA coloreado por riesgo** (capa territorial): 19 CCAA coloreadas (rojo=crítica, naranja/ámbar=alertas, gris=normal) con popup de conteos. Usa el GeoJSON `spain-ccaa.geojson` de NearMe + nuevo endpoint **`/api/ccaa-stats`** (spatial join con PostGIS: críticas/alertas/total por CCAA).
+  - **Estadísticas en vivo** en cabecera: 🚨 críticas · ⚠️ alertas · 🔥 incendios · 🌍 sismos · 📌 total en tu radio.
+  - Commit endpoint: `407a661` (NearMe).
+- **Pendiente opcional**: capa 3 (alertas de zona por Telegram sin registro) — requiere backend de suscripción.
 
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
