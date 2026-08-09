@@ -356,6 +356,20 @@ eclipse-2026-osint/
 - **Coste recursos**: ~0 (SQLite pequeña + 2 endpoints + JS). Carga estable.
 - **Nota**: el 404 inicial de /api/version era cache de Cloudflare (ya 200).
 
+## Sprint 10i — Eclipse RRSS + NearMe flash de eventos (9 Ago 2026)
+
+- **Eclipse SEO/RRSS maximizado** (commit `46d5ae3`): el SEO ya estaba muy completo (title ES, canonical, robots, sitemap, JSON-LD WebSite+Event con location/image/offers gratuito, IndexNow). Faltaba `twitter:site` + `twitter:creator` para compartir en X → añadidos. El JSON-LD Event (12-Ago) es rico para rich results de Google.
+- **NearMe — flash temporal por tipo de evento** (commit `a70efaf`): los eventos "nuevos" se destacan en el mapa con un **anillo pulsante que decae con la antigüedad**, con **duración por tipo**:
+  - **sismo/terremoto**: 48h
+  - **incendio**: 72h (hasta extinción)
+  - **carretera/tráfico**: 6h
+  - **aviso meteorológico**: 12h
+  - **resto**: 24h
+  - Intensidad: más reciente = más opaco/rápido (escala 0.7→1.6). Colores: incendio naranja, sismo rojo, resto ámbar.
+  - Función `eventFlash(e)` + keyframe `event-flash` + span envolvente en el divIcon.
+- **Verificado**: lógica testada con casos (sismo 1h→flash, 100h→no; carretera 1h→flash, 10h→no). Tipos reales confirmados en BD (earthquake, fire, road_incident, warning, weather). Sin errores JS.
+- **Coste recursos**: ~0 (JS/CSS + 1 función). Carga 0.02.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
