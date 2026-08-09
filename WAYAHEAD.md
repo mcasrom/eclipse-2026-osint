@@ -516,6 +516,17 @@ eclipse-2026-osint/
 - **Commits**: `215d010` (pipeline+enrich+frontend) + `864e0e9` (JSON). Repos limpios.
 - **PENDIENTE (backlog)**: cobertura amplia de Gini para los ~137 restantes — opción B (indicador alternativo `SI.DST.FRST.10` del WB) a medio plazo, o ampliar enrich con más datos nacionales.
 
+## Sprint 10y — GSC: "Duplicate without user-selected canonical" (9 Ago 2026)
+
+- **Síntoma**: GSC reporta páginas no indexadas por "Duplicate without user-selected canonical".
+- **Causa raíz**: el **fallback SPA** de NearMe y Eclipse (`try_files $uri $uri/ /index.html`) hacía que **cualquier URL inexistente** (p.ej. `/xyz123`, `/precio-luz/extra`) sirviera el index.html con canonical a `/` pero SIN canonical propio → Google ve cientos de URLs duplicadas. Igual en MyIP (SPA Express `app.get('*')`).
+- **Fix**:
+  - **NearMe y Eclipse** (nginx): `location = /` sirve index.html + `location /` con `try_files $uri =404` → URLs inexistentes devuelven **404**. Verificado: `/xyz123` 404, home y posts 200. (Backups: `nearme-osint.bak-20260809`, `eclipse.bak-20260809`.)
+  - **MyIP** (commit `3d145f1`): añadido **canonical a `/`** en index.html (las rutas SPA duplicadas ahora apuntan a la home). Copiado al dist del contenedor.
+  - **Country**: `/?c=X` ya tenía canonical a `/` (ok); sitemap limpio.
+- **Nota**: los 200 iniciales eran cache de Cloudflare; verificado por IP directa (bypass CF) con 404 real.
+- **Coste recursos**: ~0 (solo nginx + 1 línea HTML).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
