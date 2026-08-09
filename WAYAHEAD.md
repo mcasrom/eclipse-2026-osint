@@ -464,6 +464,17 @@ eclipse-2026-osint/
 - **Coste recursos**: ~0 (página estática + routing).
 - **Pendiente del paso 2**: `/roadmap` público para los "próximamente" (Tools, MigrationFlow) que aún están en la home.
 
+## Sprint 10t — Home sin candados: Tools fuera, MigrationFlow activo (9 Ago 2026)
+
+- **Corrección de diagnóstico**: Tools ya está **redirigido** a viajeinteligencia.com (301) y es redundante con Country (predictor/mapa); MigrationFlow está **activo** (200, health 200, PM2 online).
+- **Cambios** (commit `d22e128`):
+  - **Eliminada la fila "Tools"** de la home (redirigida + redundante).
+  - **MigrationFlow → activa** (pill verde, enlace real a migrationflow.viajeinteligencia.com).
+  - **Cifra corregida 14 → 13 servicios** (statusbar, eyebrow, og:description, quick-note, lista, JS updateStatusBar).
+- **Verificado**: 0 candados "próximamente" en la home, sin fila Tools, MigrationFlow activa, statusbar "13 servicios · 7 fuentes en vivo".
+- **Resultado**: la home ya no tiene "en construcción" — solo servicios activos + las 3 puertas de entrada.
+- **Coste recursos**: ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
