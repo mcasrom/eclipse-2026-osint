@@ -508,6 +508,14 @@ eclipse-2026-osint/
 - **Commits**: Country `6943a16` · repo nuevo `trafico-espana`. Coste recursos ~0 (páginas estáticas sobre datos ya recolectados).
 - **Nota fix**: Country no tiene `FRONTEND_DIR` (es `FRONTEND`/`BASE_DIR/frontend`) → corregido al servir /vacaciones.
 
+## Sprint 10x — Gini enriquecido + fix nombres del comparador (9 Ago 2026)
+
+- **Hallazgo**: solo 70/217 países tenían Gini (el WB `SI.POV.GINI` no cubre Japón, Suiza, etc. — es limitación de fuente, no bug).
+- **Fix parcial (Opción D)**: añadido `gini` al enriquecimiento estático (enrich.json) + patrón en `worldbank.py` (como moneda/idh). **24 países** con Gini oficial: Japón 32.9, Suiza 32.3, Canadá 33.3, Corea 31.4, EAU 26, Israel 37.9, Singapur 37.5, países nórdicos... Total: **80/217**.
+- **Fix comparador /vacaciones**: nombre completo (no código "JP") usando `geo.name` + eliminado el **doble flag** ("🇪🇸 🇪🇸" → "🇪🇸").
+- **Commits**: `215d010` (pipeline+enrich+frontend) + `864e0e9` (JSON). Repos limpios.
+- **PENDIENTE (backlog)**: cobertura amplia de Gini para los ~137 restantes — opción B (indicador alternativo `SI.DST.FRST.10` del WB) a medio plazo, o ampliar enrich con más datos nacionales.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
