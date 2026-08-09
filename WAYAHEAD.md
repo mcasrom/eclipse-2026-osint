@@ -388,6 +388,15 @@ eclipse-2026-osint/
 - **Verificado headless**: tab "🔭 Observación celeste", 20 opciones, coordenadas libres funcionando, sin errores JS.
 - **Commit**: `359a034`. Coste recursos ~0 (JS/HTML).
 
+## Sprint 10l — Radar de Emergencias (nuevo servicio) (9 Ago 2026)
+
+- **Nuevo subdominio `radar.viajeinteligencia.com`**: dashboard de alertas críticas en tiempo real (incendios, sismos, avisos, calidad del aire) que **reutiliza los eventos de NearMe** vía API (sin procesos nuevos, coste ~0).
+- **Frontend estático** (`/var/www/radar`): mapa Leaflet + feed "🚨 Últimas alertas" con eventos critical/alert/fire/earthquake recientes (<48h) + flash ring en el más crítico, selector de radio (50/200/500 km), geolocalización, permalink (?lat&lon&r), auto-refresh 1 min.
+- **Infra**: DNS grey-cloud + vhost nginx (HTML estático + proxy `/api/` → NearMe :8100) + cert Let's Encrypt + robots/sitemap/IndexNow (ping 202).
+- **Landing**: tarjeta "🚨 Radar de Emergencias" añadida en acceso rápido (commit `87a00fc`).
+- **Decisión de producto**: NO se fusionó con la opción B (leak radar) — intenciones distintas; la B queda como mejora futura de MyIP (ya tiene `/email-filtrado`).
+- **Verificado**: radar 200, API proxy 200, 31 alertas renderizadas, sin errores JS. Recursos ~0 (carga 0.44).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
