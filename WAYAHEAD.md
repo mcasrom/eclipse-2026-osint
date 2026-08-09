@@ -380,6 +380,14 @@ eclipse-2026-osint/
 - **Coste recursos**: ~0 (todo en el navegador; SVG + JS). Carga 0.24.
 - **Nota**: la posición lunar usa una aproximación (Luna frente al Sol durante el eclipse) — suficiente para la visualización; las efemérides exactas ya están en los horarios de cities.json.
 
+## Sprint 10k — Observación celeste: i18n + más ciudades + coords libres (9 Ago 2026)
+
+- **Fix i18n**: el tab mostraba la clave cruda "tab_celeste" porque el diccionario I18N no la tenía. Añadidas traducciones ES/EN y renombrado a **"🔭 Observación celeste"** (fallback + diccionario).
+- **Más ciudades**: el selector ya no se limita a las 11 de totalidad — ahora **19 ciudades** (totales y parciales: A Coruña, Oviedo, Bilbao, León, Burgos, Soria, Zaragoza, Teruel, València, Palma, Reykjavik + parciales: Castelló, Madrid, Barcelona, Akureyri, Londres, París, Lisboa, Roma), marcando "(total)" donde aplica.
+- **Coordenadas libres**: nueva opción "📍 Coordenadas libres…" en el selector + campos lat/lon que recalculan la vista de horizonte en vivo (ej. Tenerife 28.29,-16.63 → Sol altura 16.4°).
+- **Verificado headless**: tab "🔭 Observación celeste", 20 opciones, coordenadas libres funcionando, sin errores JS.
+- **Commit**: `359a034`. Coste recursos ~0 (JS/HTML).
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
