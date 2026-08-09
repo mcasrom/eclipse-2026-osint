@@ -491,6 +491,16 @@ eclipse-2026-osint/
 - **Nota**: la ventana con datos completos empieza el **08-Ago-2026** (cuando se activó el formato `host=`); los .gz antiguos no tienen host (se omiten para rapidez).
 - **Verificado**: endpoint 200 (0.3s), dashboard renderiza, auth 401 sin credencial (esperado), repos limpios. Coste recursos ~0.
 
+## Fix 10v — /api/ecosystem: extracción de UA y bots corregida (9 Ago 2026)
+
+- **Síntoma**: Wiki mostraba "0 IPs · 428 reqs humanas" — el dashboard contaba monitores (ecosystem-healthcheck, Uptime-Kuma) como tráfico humano.
+- **Causa raíz (2 bugs)**:
+  1. **Extracción de UA**: el formato de log tiene un doble cierre (`"UA"" host=`) que dejaba `parts[4]` vacío; el UA real está en `parts[5]`. Al no leer el UA, ningún bot se detectaba.
+  2. **BOT_RE incompleto**: no incluía `healthcheck`/`kuma` (los monitores propios del ecosistema).
+- **Fix** (commit `d555d79`): UA desde `parts[5]` + BOT_RE con healthcheck/kuma.
+- **Verificado**: Wiki ahora **0 vistas, 0 IPs, 425 bots** (solo monitores, correcto); Landing 32 vistas/6 IPs/1604 bots. El dashboard ahora separa humano vs bot de forma honesta.
+- **Nota**: las vistas bajaron respecto al pre-fix porque antes se contaban los healthchecks como vistas. Los números actuales son los reales.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
