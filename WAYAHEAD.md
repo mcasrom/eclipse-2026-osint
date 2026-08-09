@@ -403,6 +403,18 @@ eclipse-2026-osint/
   - Commit endpoint: `407a661` (NearMe).
 - **Pendiente opcional**: capa 3 (alertas de zona por Telegram sin registro) — requiere backend de suscripción.
 
+## Sprint 10n — Radar: alertas de zona por Telegram + Ko-fi (9 Ago 2026)
+
+- **Capa 3 implementada — alertas de zona por Telegram sin registro**:
+  - **Bot Telegram** (`radar-bot`, PM2, ~31MB): comando `/radar lat lon radio_km` suscribe el chat a una zona; `/zonas` y `/salir` gestionan. Guarda en SQLite (`radar_subs.db`). Usa el mismo bot `@nearme_status_bot`.
+  - **Script de alertas** (cron cada 5 min): consulta `/api/nearby` por zona suscrita y envía mensajes 🚨/⚠️ por eventos críticos NUEVOS (dedupe con `radar_seen.json`, máx 5000).
+  - **Frontend**: botón "🔔 Activar alertas" muestra las instrucciones + el comando `/radar <lat> <lon> <radio>` con las coordenadas actuales.
+  - **Ko-fi**: enlace añadido en el footer del Radar (☕ Apóyame en Ko-fi).
+- **Fix dotenv**: dotenv no está instalado en el python3 del sistema → se reemplazó por `load_env()` (lectura manual del .env, sin dependencia).
+- **Repos nuevos** (seguro de vida): `mcasrom/radar-emergencias` (frontend) + `mcasrom/radar-alerts` (bot + alertas).
+- **Verificado**: bot online estable, cron activo, mensaje de test enviado, Ko-fi 200.
+- **Coste recursos**: +~31MB (bot PM2) + cron ligero. Carga 0.27.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
