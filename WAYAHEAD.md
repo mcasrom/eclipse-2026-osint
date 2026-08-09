@@ -482,6 +482,15 @@ eclipse-2026-osint/
 - **Verificación 217 fichas Country** (antes de enviar sitemap a GSC): **217/217 OK** (200 con title), 0 errores. Sitemap limpio para GSC.
 - **Coste recursos**: ~0.
 
+## Sprint 10v — Dashboard del ecosistema web (9 Ago 2026)
+
+- **Motivación**: `/analytics.html` solo mide la landing; no da visión de qué servicio del ecosistema es más visitado.
+- **`/api/ecosystem`** (landing-stats-api, commit `80788a8`): lee los logs de nginx (`host=`), agrupa por subdominio, separa **humano vs bot** (regex UA), cuenta páginas HTML (no assets/API). Endpoint `?days=1|3|7`. Rápido (~0.3s, solo access.log + .1).
+- **`/ecosystem.html`** (landing, commit `841b219`): dashboard protegido (auth) con **ranking de servicios** por visitas, barras de progreso, IPs únicas, humano/bot y top páginas. Selector de días (hoy/3/7).
+- **nginx**: proxy `/api/ecosystem` + auth para `/ecosystem.html`.
+- **Nota**: la ventana con datos completos empieza el **08-Ago-2026** (cuando se activó el formato `host=`); los .gz antiguos no tienen host (se omiten para rapidez).
+- **Verificado**: endpoint 200 (0.3s), dashboard renderiza, auth 401 sin credencial (esperado), repos limpios. Coste recursos ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
