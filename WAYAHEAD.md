@@ -434,6 +434,15 @@ eclipse-2026-osint/
 - **C6 — 6º post `/wifi-publica`** (MyIP): "Cómo proteger tu IP en redes wifi públicas" — sniffing, fuga de DNS, rogue AP, VPN + CTA a MyIP. Ruta en server.ts (compilada a server.cjs en el contenedor) + sitemap 3 urls + IndexNow **202** + **6ª guía en la landing** (sección Guías completa con 6 tarjetas par). Commits `7f53d76` (MyIP) + `18f58ce` (landing).
 - **Coste recursos**: ~0. Todos 200 en producción. Repos limpios.
 
+## Sprint 10q — Intelligence Hub: Le Figaro bloqueado, sustituido por France24 FR (9 Ago 2026)
+
+- **Síntoma**: Le Figaro daba problemas/fallos en news.viajeinteligencia.com.
+- **Causa raíz**: Le Figaro devuelve **403 Forbidden** desde la IP del servidor Hetzner — incluso el homepage (`lefigaro.fr`) da 403 con la página "Avant de poursuivre votre lecture..." (anti-bot). **Bloqueo por IP de datacenter/cloud**, no por User-Agent (probado con UA Firefox + headers completos → 403). 23 fallos consecutivos en feed_health, último artículo 03-Ago.
+- **Búsqueda de alternativas**: probados 12+ feeds franceses desde el servidor — casi todos bloquean la IP (Libération, RFI, 20minutes, LesEchos, LeParisien, Ouest-France) o URLs 404. **Accesibles**: Le Monde (200, ya estaba), France24 **en francés** (`/fr/rss`, 200, 20-23 items) y BFMTV (200 pero sin RSS válido). RSSHub también 403.
+- **Fix** (commit `ee92ded`): eliminado Le Figaro del config; France24 cambiado del feed EN (`/en/rss`) al **FR** (`/fr/rss`). Francia queda: Le Monde + France24 FR. Verificado: `process_feed(France24, /fr/rss)` → 20 artículos en francés (`fr`, internacional).
+- **Nota**: el feed_health de France24 se actualizará a la URL FR en la próxima corrida (update_feed_health por nombre). El scraper corre cada 6h (cron).
+- **Coste recursos**: ~0. News 200, api/count 200.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
