@@ -527,6 +527,19 @@ eclipse-2026-osint/
 - **Nota**: los 200 iniciales eran cache de Cloudflare; verificado por IP directa (bypass CF) con 404 real.
 - **Coste recursos**: ~0 (solo nginx + 1 línea HTML).
 
+## Decisión 10z — ThreatRadar NO se revive: límite ético + patrón MyIP (9 Ago 2026)
+
+- **Contexto**: análisis externo proponía comparar un "ThreatRadar de 9 módulos" contra Shodan/DeHashed/Recorded Future. **ThreatRadar NO existe** en el server (quedó decomisado por ser excesivamente agresivo): no se podía garantizar que quien pedía escanear una IP fuera su propietario real → el escaneo activo podía ser un ataque a un server ajeno. Límite ético/legal no negociable.
+- **Lección clave (patrón MyIP)**: el usuario NO introduce su IP — el sistema la **descubre automáticamente** al visitar (su IP de salida). Eso es radicalmente distinto a "pegar un token/IP del server" (agresivo, rompe el modelo sin fricción). **MyIP es el patrón correcto: auto-detección pasiva de lo propio.**
+- **Decisión**: NO revivir ThreatRadar ni escaneo activo. Tampoco pedir tokens de verificación (agresivo). La ciberseguridad del ecosistema queda en:
+  - **MyIP** (diagnóstico de TU conexión, auto-detectada)
+  - **SIEG Security** (correlación de LOS PROPIOS logs fail2ban → IOCs)
+  - **Breach check** como auto-check HIBP del propio email (si se hace) — nunca datos robados.
+- **Pendiente del documento base (lo que nos queda, viable y ético)**:
+  - [ ] Breach auto-check con HIBP en MyIP (el usuario introduce SU email → verde/rojo, sin exposición) — coste ~0.
+  - [ ] Lookup público de IOCs de SIEG ("¿esta IP está en nuestra lista de bloqueadas?") — pasivo, ético, sin fricción.
+  - [ ] Pwned Passwords (verificar TU contraseña sin revelarla) — ya hay `password_health.py` en MyIP, integrarlo con HIBP.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
