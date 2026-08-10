@@ -66,7 +66,7 @@ Idea de guion (30s):
 
 ## 📋 Checklist de publicación
 
-- [ ] 11-Ago: generar las 3 capturas (mapa, ciudad, observación celeste)
+- [x] 11-Ago: generar las 3 capturas (mapa, ciudad, observación celeste) — hechas 10-Ago en `shots/eclipse/`
 - [ ] 11-Ago tarde: publicar en Reddit (r/askspain + r/spain)
 - [ ] 12-Ago mañana: post en X con el mapa
 - [ ] (opcional) reel corto en TikTok/Instagram
