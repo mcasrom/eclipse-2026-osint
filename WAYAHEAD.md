@@ -557,6 +557,18 @@ eclipse-2026-osint/
 - **Verificado**: toggle funciona (mapa oculto, 30 items en lista, sin errores JS), og.png 200, favicon 200.
 - **Commit**: `fea2877`. Coste ~0.
 
+## Sprint 10ab — Ecosistema visible: og:image faltantes + vitrina visual (10 Ago 2026)
+
+- **Opción A — og:image de los 3 servicios sin preview**: Tráfico, Fundación y Wiki no tenían og:image (se compartían en RRSS sin imagen). Generados con el mismo patrón que Radar (`google-chrome --headless` 1200×630):
+  - `trafico/og.png` (DGT en vivo, KPIs verdes/ámbar/rojo) + `<meta og:image>` en index.
+  - `fundacion/og.png` (estética dorada, proyectos sociales) + meta.
+  - `wiki/og.png` (cián/violeta) + meta og:title/description/canonical (WikiPaste no tenía SEO alguno).
+  - Los 13 servicios del ecosistema comparten ahora con preview en RRSS (todos og:image 200).
+- **Opción B — Vitrina visual /ecosistema.html**: página pública indexable con los 15 servicios como tarjetas, cada una con su og:image real como thumbnail (1200×630) + descripción + fuente + CTA. Servicios restringidos (SIEG, Life IKM) con icono + badge "acceso restringido". Canónica, og, robots index.
+- **Landing**: footer añade `/ecosistema.html` (Vitrina) y renombra `/ecosystem.html` a "Ranking de visitas"; el CTA "Ver los 13 servicios →" apunta ahora a la vitrina.
+- **Verificado**: vitrina 200 (www), los 13 thumbnails 200.
+- **Commit**: `342b59d` (landing). Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
