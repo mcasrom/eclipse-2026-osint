@@ -596,7 +596,7 @@ eclipse-2026-osint/
   - Se sincroniza con la cronología (Reproducir) y con el cambio de ciudad.
   - Fix `finTot` (crash con ciudades sin tot_inicio, p.ej. `__free`).
 - **Verificado** con puppeteer: tab 2028 (12 ciudades, banda, SEO), slider (cobertura 0→99→0%, hora interpola, luna se mueve), 0 errores JS, forecast 2028 con nubosidad.
-- **Commit**: pendiente. Coste ~0.
+- **Commit**: `3167c13`. Coste ~0.
 
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
