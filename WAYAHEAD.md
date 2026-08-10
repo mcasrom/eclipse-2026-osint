@@ -575,6 +575,14 @@ eclipse-2026-osint/
 - **Fix Life IKM**: NO es referencia médica — es **la narrativa/diario de un viaje con IA**. Descripción corregida: "La escritura y narrativa de un viaje personal con inteligencia artificial: un diario a medio camino entre registro y crónica."
 - **Commit**: `b956990`. Coste ~0.
 
+## Sprint 10ad — Vitrina: fix descripción Intelligence Hub (10 Ago 2026)
+
+- **Intelligence Hub corregido**: la tarjeta lo definía como "agregación geopolítica RSS"; realmente es **extracto por scraping de los principales diarios más influyentes** de varios países, con **archivo histórico de 7 días**, agrupado en **clústeres por tema**, **sincronización editorial** y seguimiento de palabras.
+  - Título: "Extracto de la prensa influyente"
+  - Desc: "Scraping diario de los principales diarios más influyentes de varios países, con archivo histórico de 7 días, agrupado en clústeres por tema, sincronización editorial y seguimiento de palabras."
+  - Fuente: "16 fuentes · 7 países · histórico 7d"
+- **Commit**: `cbe8123`. Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
