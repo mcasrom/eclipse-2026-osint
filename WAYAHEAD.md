@@ -569,6 +569,12 @@ eclipse-2026-osint/
 - **Verificado**: vitrina 200 (www), los 13 thumbnails 200.
 - **Commit**: `342b59d` (landing). Coste ~0.
 
+## Sprint 10ac — Vitrina: toggle claro/oscuro + fix Life IKM (10 Ago 2026)
+
+- **Toggle claro/oscuro** en `/ecosistema.html`: botón ☀️/🌙 en el header, persiste en `localStorage` (`eco_theme`), usa `:root[data-theme="light"]` con variables CSS del tema. Verificado: dark→light cambia bg, persiste tras recarga.
+- **Fix Life IKM**: NO es referencia médica — es **la narrativa/diario de un viaje con IA**. Descripción corregida: "La escritura y narrativa de un viaje personal con inteligencia artificial: un diario a medio camino entre registro y crónica."
+- **Commit**: `b956990`. Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
