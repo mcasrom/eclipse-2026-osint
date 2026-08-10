@@ -549,6 +549,14 @@ eclipse-2026-osint/
 - **A ejecutar por el usuario**: 11-Ago publicar en Reddit, 12-Ago X, reel TikTok/Instagram.
 - **Coste**: ~0 (solo difusión).
 
+## Sprint 10aa — Radar: preview + favicon + icon view (10 Ago 2026)
+
+- **Preview (og:image)**: generado `og.png` 1200×630 del Radar (marca, "EMERGENCIAS EN VIVO", KPIs) — antes apuntaba a un og.png inexistente → RRSS sin imagen. Ahora 200 y visible.
+- **Favicon**: `favicon.svg` (círculo de alerta rojo con ¡) + enlace en el head.
+- **Icon view / toggle Mapa-Lista**: botón "📋 Lista / 🗺️ Mapa" que alterna entre el mapa y el feed a pantalla completa (grid de alertas 320px), con `map.invalidateSize()` al volver al mapa.
+- **Verificado**: toggle funciona (mapa oculto, 30 items en lista, sin errores JS), og.png 200, favicon 200.
+- **Commit**: `fea2877`. Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
