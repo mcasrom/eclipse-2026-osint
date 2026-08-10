@@ -598,6 +598,16 @@ eclipse-2026-osint/
 - **Verificado** con puppeteer: tab 2028 (12 ciudades, banda, SEO), slider (cobertura 0→99→0%, hora interpola, luna se mueve), 0 errores JS, forecast 2028 con nubosidad.
 - **Commit**: `3167c13`. Coste ~0.
 
+## Sprint 10af — Fix GSC: schema Event de Eclipse (10 Ago 2026)
+
+- **Problema GSC (4 warnings)**: "Falta el campo availability/validFrom/url (en offers)" + "Falta el campo performer" — en el schema Event del eclipse solar.
+- **Causa**: el objeto `offers` solo tenía `price` y `priceCurrency`; faltaba el resto de campos obligatorios para Google.
+- **Fix** (frontend/index.html):
+  - `offers` ahora tiene: `availability: https://schema.org/InStock`, `validFrom: 2026-01-01`, `url`.
+  - `performer: { @type: Person, name: "El Sol y la Luna" }` (factual para un eclipse).
+- **Verificado**: 4 campos presentes en el HTML servido, Eclipse funcional (tab celeste + slider OK), ecosistema intacto.
+- **Commit**: `1d73a49`. Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
