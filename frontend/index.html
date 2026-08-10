@@ -153,6 +153,7 @@
       <option value="eclipse">🌑 Eclipse 2026</option>
       <option value="perseidas">☄️ Perseidas</option>
       <option value="2027">🌒 Eclipse 2027</option>
+      <option value="2028">🌞 Eclipse Anular 2028</option>
       <option value="auroras">🌌 Auroras</option>
       <option value="calendario">📅 Calendario</option>
     </select>
@@ -168,6 +169,7 @@
   <button class="tab active" data-tab="eclipse" data-i18n="tab_eclipse">🌑 Eclipse 2026</button>
   <button class="tab" data-tab="perseidas" data-i18n="tab_perseidas">☄️ Perseidas</button>
   <button class="tab" data-tab="2027" data-i18n="tab_2027">🌒 Eclipse 2027</button>
+  <button class="tab" data-tab="2028" data-i18n="tab_2028">🌞 Anular 2028</button>
   <button class="tab" data-tab="auroras" data-i18n="tab_auroras">🌌 Auroras</button>
   <button class="tab" data-tab="calendario" data-i18n="tab_calendario">📅 Calendario</button>
   <button class="tab" data-tab="celeste" data-i18n="tab_celeste">🔭 Observación celeste</button>
@@ -190,6 +192,13 @@
     <p style="font-size:.9em;line-height:1.6;">El 2 de agosto de 2027 la franja de totalidad cruza el <b>sur peninsular</b> (Cádiz, Málaga, Granada, Almería) con una totalidad de hasta ~6 minutos, la mayor en España continental en décadas. Marca la fecha: será aún más espectacular que el de 2026. Este portal lo cubrirá.</p>
     </div>
   </div>
+  <div id="ocard-2028" class="ocard hidden">
+    <div data-i18n-html="eclipse2028">
+    <h2>🌞 Eclipse Anular · 26 de enero de 2028</h2>
+    <div class="meta">El eclipse que la Luna no llega a cubrir del todo</div>
+    <p style="font-size:.9em;line-height:1.6;">El 26 de enero de 2028 la <b>franja de anularidad</b> cruza el suroeste peninsular (Huelva, Sevilla, Córdoba) con la Luna cubriendo hasta un ~91% del Sol en el eje central. Fuera de esa franja el eclipse es <b>parcial</b> (Murcia ~29%, Madrid ~40%): notable, pero nunca llega a oscurecerse del todo. <b>Al ser anular, la protección ISO 12312-2 es obligatoria durante todo el evento.</b></p>
+    </div>
+  </div>
   <div id="ocard-auroras" class="ocard hidden">
     <div data-i18n-html="auroras">
     <h2>🌌 Auroras boreales</h2>
@@ -204,7 +213,7 @@
   <div id="ocard-calendario" class="ocard hidden">
     <div data-i18n-html="calendario">
     <h2>📅 Calendario de fenómenos celestes</h2>
-    <div class="meta">2026–2027 · lluvias de meteoros, eclipses, oposiciones</div>
+    <div class="meta">2026–2028 · lluvias de meteoros, eclipses, oposiciones</div>
     <div id="calendarList" style="font-size:.9em;"></div>
     </div>
   </div>
@@ -238,6 +247,20 @@
       <div id="celesteTimeline" style="font-size:.85em;"></div>
       <p id="celesteFase" style="font-size:.85em;color:var(--text);margin-top:8px;"></p>
     </div>
+    <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;">
+      <h3 style="color:var(--accent);font-size:.85em;text-transform:uppercase;letter-spacing:.8px;margin:0 0 8px;">▶ Progresión del eclipse (slider)</h3>
+      <p style="font-size:.78em;color:var(--muted);margin-bottom:8px;">Mueve el slider para ver el avance: arriba la alineación esquemática Sol–Luna–Tierra, y abajo el disco solar tal como se vería desde la ciudad elegida a medida que la Luna lo va tapando.</p>
+      <div id="celesteProgDiag" style="text-align:center;margin-bottom:6px;"></div>
+      <input type="range" id="celesteProgSlider" min="0" max="100" value="0" step="1" style="width:100%;accent-color:var(--accent);">
+      <div style="display:flex;justify-content:space-between;font-family:ui-monospace,monospace;font-size:.72em;color:var(--muted);margin-top:2px;">
+        <span id="celesteProgStart">Inicio</span><span id="celesteProgTime">—</span><span id="celesteProgEnd">Fin</span>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <svg id="celesteDisco" viewBox="0 0 160 160" style="width:180px;height:180px;"></svg>
+        <div id="celesteProgCober" style="font-family:ui-monospace,monospace;font-size:.85em;color:var(--accent);font-weight:600;margin-top:4px;">Cobertura: 0%</div>
+        <p id="celesteProgNota" style="font-size:.75em;color:var(--muted);margin-top:4px;max-width:420px;margin-left:auto;margin-right:auto;"></p>
+      </div>
+    </div>
     </div>
   </div>
   <div id="ocard-guias" class="ocard hidden">
@@ -263,6 +286,7 @@
         <option value="eclipse">🌑 Eclipse 2026</option>
         <option value="perseidas">☄️ Perseidas</option>
         <option value="2027">🌒 Eclipse 2027</option>
+        <option value="2028">🌞 Eclipse Anular 2028</option>
         <option value="auroras">🌌 Auroras</option>
         <option value="calendario">📅 Calendario</option>
       </select>
@@ -368,7 +392,7 @@
     <h3>🗺️ Cómo leer el mapa</h3>
     <p>La <b>franja amarilla</b> es la zona de totalidad. Los puntos de colores son ciudades, con su previsión de nubosidad a las 20:00. Clic en una ciudad para ver sus horarios.</p>
     <h3>🕐 Horarios</h3>
-    <p>Todos los horarios están en <b>hora local de España</b> (CEST) y corresponden al fenómeno activo (Eclipse 2026 / 2027). En 2026 la totalidad es ≈ <b>20:28</b> (30 s – 1 m 48 s según ubicación); en 2027 ≈ <b>10:47</b> de la mañana (hasta ~5 min). Los horarios del 2027 son estimados de la línea central (NASA), refinables con el IGN.</p>
+    <p>Todos los horarios están en <b>hora local de España</b> (CEST/CET) y corresponden al fenómeno activo (Eclipse 2026 / 2027 / Anular 2028). En 2026 la totalidad es ≈ <b>20:28</b> (30 s – 1 m 48 s según ubicación); en 2027 ≈ <b>10:47</b> de la mañana (hasta ~5 min); en 2028 el máximo anular es ≈ <b>17:55</b> en el suroeste (cobertura hasta ~91%). Los horarios del 2027 y 2028 son estimados de la línea central (NASA), refinables con el IGN.</p>
     <h3>☁️ Colores de nubosidad</h3>
     <p>🟢 Despejado · 🟡 Parcialmente nublado · 🟠 Nublado · 🔴 Muy nublado. Previsión de Open-Meteo, se actualiza cada 3 horas.</p>
     <h3>🕶️ Seguridad (importante)</h3>
@@ -388,7 +412,7 @@ var I18N = {
   es: {
     brand_title: '🌑 Eclipse Solar Total · 12 de agosto de 2026 · España',
     brand_sub: 'Primer eclipse total visible desde la península en más de un siglo · Franja de totalidad sobre España y Baleares',
-    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseidas', tab_2027: '🌒 Eclipse 2027',
+    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseidas', tab_2027: '🌒 Eclipse 2027', tab_2028: '🌞 Anular 2028',
     tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendario', tab_celeste: '🔭 Observación celeste', tab_guias: '📖 Guías',
     btn_ayuda: '❓ Ayuda', btn_instalar: '⬇️ Instalar', btn_explorar: 'Explorar el mapa →',
     btn_ayuda_seg: '❓ Ayuda y seguridad', phen_label: 'Fenómeno:',
@@ -425,7 +449,7 @@ var I18N = {
   en: {
     brand_title: '🌑 Total Solar Eclipse · August 12, 2026 · Spain',
     brand_sub: 'First total eclipse visible from the Iberian peninsula in over a century · Totality band over Spain and the Balearics',
-    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseids', tab_2027: '🌒 Eclipse 2027',
+    tab_eclipse: '🌑 Eclipse 2026', tab_perseidas: '☄️ Perseids', tab_2027: '🌒 Eclipse 2027', tab_2028: '🌞 Annular 2028',
     tab_auroras: '🌌 Auroras', tab_calendario: '📅 Calendar', tab_celeste: '🔭 Celestial observation', tab_guias: '📖 Guides',
     btn_ayuda: '❓ Help', btn_instalar: '⬇️ Install', btn_explorar: 'Explore the map →',
     btn_ayuda_seg: '❓ Help & safety', phen_label: 'Phenomenon:',
@@ -493,7 +517,7 @@ var DEEP_EN = {
     '<h3 style="color:var(--accent);margin:12px 0 4px;">📷 Photography</h3><p style="font-size:.9em;line-height:1.6;margin-bottom:8px;">For the Sun: certified solar filter ALWAYS on the objective (never on the eyepiece). For meteors: long exposure on a tripod. For auroras: high ISO and 2-4 s exposure.</p>',
   ayuda: '<h2 style="color:var(--accent)">❓ Help</h2>' +
     '<h3>🗺️ How to read the map</h3><p>The <b>yellow band</b> is the totality zone. The coloured dots are cities, with their cloud forecast. Click a city to see its times.</p>' +
-    '<h3>🕐 Times</h3><p>All times are <b>local Spanish time</b> (CEST) for the active phenomenon (2026 / 2027 eclipse). In 2026 totality is ≈ <b>20:28</b> (30 s – 1 m 48 s depending on location); in 2027 ≈ <b>10:47</b> a.m. (up to ~5 min). The 2027 times are estimates of the NASA central line, refinable with the IGN.</p>' +
+    '<h3>🕐 Times</h3><p>All times are <b>local Spanish time</b> (CEST/CET) for the active phenomenon (2026 / 2027 / annular 2028 eclipse). In 2026 totality is ≈ <b>20:28</b> (30 s – 1 m 48 s depending on location); in 2027 ≈ <b>10:47</b> a.m. (up to ~5 min); in 2028 the annular maximum is ≈ <b>17:55</b> in the southwest (up to ~91% coverage). The 2027 and 2028 times are estimates of the NASA central line, refinable with the IGN.</p>' +
     '<h3>☁️ Cloud colours</h3><p>🟢 Clear · 🟡 Partly cloudy · 🟠 Cloudy · 🔴 Very cloudy. Open-Meteo forecast, updated every 3 hours.</p>' +
     '<h3>🕶️ Safety (important)</h3><p>Never look at the Sun without <b>ISO 12312-2 certified glasses</b>. Regular sunglasses are NOT enough. Only during the seconds of totality can you look without a filter. With binoculars/telescope: certified solar filter ALWAYS. <a class="link" href="https://astronomia.ign.es/eclipses" target="_blank" rel="noopener">More info (IGN)</a></p>' +
     '<h3>📊 Sources</h3><p>City times: <b>IGN</b>. Totality band and partiality: <b>NASA GSFC</b> (Besselian elements). Cloud: <b>Open-Meteo</b>. Open source · no tracking · no cookies.</p>',
@@ -503,11 +527,13 @@ var DEEP_EN = {
     '<p style="font-size:.8em;color:var(--muted);margin-top:6px;">The golden dot marks the <b>radiant</b> (the direction meteors appear to come from, in Perseus). Best seen after midnight, away from lights, facing northeast. With the dark eclipse sky that same day, a double show.</p>',
   eclipse2027: '<h2>🌒 Total Eclipse · August 2, 2027</h2><div class="meta">The next total eclipse in Spain</div>' +
     '<p style="font-size:.9em;line-height:1.6;">On August 2, 2027 the totality band crosses the <b>southern peninsula</b> (Cádiz, Málaga, Granada, Almería) with up to ~6 minutes of totality, the longest in mainland Spain in decades. Mark the date: it will be even more spectacular than 2026. This portal will cover it.</p>',
+  eclipse2028: '<h2>🌞 Annular Eclipse · January 26, 2028</h2><div class="meta">The eclipse the Moon never fully covers</div>' +
+    '<p style="font-size:.9em;line-height:1.6;">On January 26, 2028 the <b>annular band</b> crosses the southwest of the peninsula (Huelva, Sevilla, Córdoba) with the Moon covering up to ~91% of the Sun on the central line. Outside that band the eclipse is <b>partial</b> (Murcia ~29%, Madrid ~40%): noticeable, but never reaching full darkness. <b>Since it is annular, ISO 12312-2 eye protection is mandatory for the whole event.</b></p>',
   auroras: '<h2>🌌 Northern lights</h2><div class="meta">Solar maximum 2026</div>' +
     '<p style="font-size:.9em;line-height:1.6;">We are at the peak of solar cycle 25: with high activity, auroras are visible from the <b>northern peninsula</b> (Galicia, Cantabrian coast, Pyrenees) on clear nights. Follow the geomagnetic activity forecast (Kp index) and look for dark skies. A perfect complement to the eclipse season.</p>' +
     '<div id="auroraInfo"></div><div id="auroraMap" class="minimap"></div>' +
     '<p style="font-size:.8em;color:var(--muted);margin-top:6px;">Real-time status of the <b>Kp index</b> (NOAA, 10 min cache). Dots are coloured according to whether their latitude allows seeing the aurora at the current Kp. Look for dark skies and a clear northern horizon.</p>',
-  calendario: '<h2>📅 Sky events calendar</h2><div class="meta">2026–2027 · meteor showers, eclipses, oppositions</div><div id="calendarList" style="font-size:.9em;"></div>',
+  calendario: '<h2>📅 Sky events calendar</h2><div class="meta">2026–2028 · meteor showers, eclipses, oppositions</div><div id="calendarList" style="font-size:.9em;"></div>',
   welcome: '<h2>🌑 Total Solar Eclipse · Aug 12, 2026</h2>' +
     '<p class="sub" style="color:var(--muted);font-size:.92em;">The first one visible from the Iberian peninsula in over a century</p>' +
     '<div class="facts">' +
@@ -589,13 +615,13 @@ function toggleSim(){
   else { p.classList.add('hidden'); clearSim(); }
 }
 function loadSim(){
-  var url = (currentYear === '2027') ? '/data/2027/simulacion.geojson' : '/data/2026/simulacion.geojson';
+  var url = (currentYear === '2027') ? '/data/2027/simulacion.geojson' : (currentYear === '2028' ? '/data/2028/simulacion.geojson' : '/data/2026/simulacion.geojson');
   fetch(url).then(function(r){ return r.json(); }).then(function(gj){
     simData = gj.features;
     var sl = document.getElementById('simRange');
     sl.max = simData.length - 1;
     var sd = document.getElementById('simDate');
-    if (sd) sd.textContent = (currentYear === '2027' ? '2 Ago 2027' : '12 Ago 2026');
+    if (sd) sd.textContent = (currentYear === '2027' ? '2 Ago 2027' : (currentYear === '2028' ? '26 Ene 2028' : '12 Ago 2026'));
     setSimStep(0);
   }).catch(function(){ var st = document.getElementById('simState'); if (st) st.textContent = 'Simulación no disponible.'; });
 }
@@ -996,8 +1022,104 @@ function renderCelesteTimeline(city){
   document.getElementById('celesteFase').innerHTML = '<b style="color:var(--accent);">Fase actual:</b> ' + fase;
 }
 
+// ===== Progresión del eclipse (slider) =====
+var CELESTE_PROG_INIT = false;
+function renderCelesteProgDiag(){
+  var el = document.getElementById('celesteProgDiag');
+  var W = 360, H = 100, cy = 52;
+  var html = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;max-width:420px;height:auto;">';
+  html += '<defs><linearGradient id="gProgSol" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff7ae"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>';
+  html += '<line x1="30" y1="' + cy + '" x2="' + (W-30) + '" y2="' + cy + '" stroke="#334155" stroke-width="1" stroke-dasharray="4,4"/>';
+  html += '<circle cx="34" cy="' + cy + '" r="14" fill="url(#gProgSol)" stroke="#f59e0b" stroke-width="1.5"/><text x="34" y="' + (cy+34) + '" text-anchor="middle" fill="#fcd34d" font-size="9">SOL</text>';
+  html += '<circle cx="' + (W-34) + '" cy="' + cy + '" r="12" fill="#1e40af" stroke="#2563eb" stroke-width="1.5"/><text x="' + (W-34) + '" y="' + (cy+32) + '" text-anchor="middle" fill="#60a5fa" font-size="9">TIERRA</text>';
+  html += '<g id="progMoon">';
+  html += '<polygon points="' + (130-20) + ',' + (cy-9) + ' ' + (W-40) + ',' + (cy-16) + ' ' + (W-40) + ',' + (cy+16) + ' ' + (130-20) + ',' + (cy+9) + '" fill="#000" opacity="0.35"/>';
+  html += '<circle cx="130" cy="' + cy + '" r="9" fill="#64748b" stroke="#475569" stroke-width="1"/><text x="130" y="' + (cy+28) + '" text-anchor="middle" fill="#94a3b8" font-size="8">LUNA</text>';
+  html += '</g>';
+  html += '</svg>';
+  el.innerHTML = html;
+}
+function setProgMoon(t){
+  var g = document.getElementById('progMoon');
+  if (!g) return;
+  var W = 360, cy = 52;
+  // Luna viaja de Sol (34) a Tierra (W-34) según t (0..1)
+  var x = 34 + (W-68) * t;
+  g.setAttribute('transform', 'translate(' + (x - 130) + ',0)');
+}
+function renderCelesteDisco(city, t){
+  var svg = document.getElementById('celesteDisco');
+  if (!svg) return;
+  var R = 62, c = 80;
+  var html = '';
+  html += '<circle cx="' + c + '" cy="' + c + '" r="' + R + '" fill="#fcd34d" stroke="#f59e0b" stroke-width="2"/>';
+  if (city) {
+    // cobertura interpolada 0 -> max -> 0 a lo largo del evento
+    var maxPct = city.cobertura_pct != null ? city.cobertura_pct : (city.tipo === 'total' ? 100 : 60);
+    var cov = 0;
+    if (t >= 0 && t <= 1) cov = Math.sin(t * Math.PI) * maxPct;
+    cov = Math.max(0, Math.min(maxPct, cov));
+    var frac = cov / 100; // 0..1
+    // mordida de la Luna: dibujar un círculo oscuro que avanza y retrocede
+    var off = (1 - 2 * Math.abs(t - 0.5)) * 6; // peaking en medio
+    var mx = c - off * 4;
+    // dibujar la Luna como círculo oscuro desplazado hacia la derecha según cobertura
+    var moonX = c + (frac * R * 1.6);
+    html += '<circle cx="' + (moonX) + '" cy="' + c + '" r="' + (R * (0.55 + frac * 0.35)) + '" fill="#111827"/>';
+    // si es anular y cobertura máxima < 100, dejar un anillo en el pico
+    var pcov = document.getElementById('celesteProgCober');
+    if (pcov) pcov.textContent = 'Cobertura: ' + Math.round(cov) + '%';
+    // nota dinámica
+    var nota = document.getElementById('celesteProgNota');
+    if (nota) {
+      var tipo = city.tipo === 'total' ? 'anular/total' : 'parcial';
+      var msg;
+      if (city.tipo !== 'total') {
+        msg = 'Desde ' + city.name + ' el eclipse es <b>parcial</b>: máximo ≈ ' + Math.round(maxPct) + '% de cobertura, sin llegar a oscurecerse del todo. Gafas ISO 12312-2 en toda la observación.';
+      } else if (city.totalidad_s > 0 && maxPct < 100) {
+        msg = 'Desde ' + city.name + ' (franja anular) la Luna alcanza ≈ ' + Math.round(maxPct) + '% en el máximo: queda un <b>anillo</b> de Sol visible. Gafas ISO obligatorias siempre.';
+      } else {
+        msg = 'Desde ' + city.name + ' la totalidad es de ' + city.totalidad_s + ' s. Solo entonces puedes mirar sin gafas.';
+      }
+      nota.innerHTML = msg;
+    }
+  } else {
+    var pcov = document.getElementById('celesteProgCober');
+    if (pcov) pcov.textContent = 'Cobertura: —';
+    var nota = document.getElementById('celesteProgNota');
+    if (nota) nota.innerHTML = 'Selecciona una ciudad para ver el disco solar desde ahí.';
+  }
+  svg.innerHTML = html;
+}
+function initCelesteSlider(){
+  if (CELESTE_PROG_INIT) return;
+  CELESTE_PROG_INIT = true;
+  renderCelesteProgDiag();
+  var slider = document.getElementById('celesteProgSlider');
+  if (!slider) return;
+  slider.addEventListener('input', function(){
+    var t = parseInt(slider.value) / 100;
+    var city = celesteCitySel();
+    setProgMoon(t);
+    renderCelesteDisco(city, t);
+    var tm = document.getElementById('celesteProgTime');
+    if (tm && city && city.inicio) {
+      // interpolar hora entre inicio y fin parcial (simetría)
+      var s0 = city.inicio.split(':').map(Number);
+      var s1 = (city.tot_fin && city.tot_inicio) ? city.tot_fin.split(':').map(Number) : s0;
+      var dur = (s1[0]*3600+s1[1]*60+s1[2]) - (s0[0]*3600+s0[1]*60+s0[2]);
+      var mins = s0[0]*60+s0[1] + t*dur/60;
+      var hh = Math.floor(mins/60)%24, mm = Math.round(mins%60);
+      if (mm === 60){ mm = 0; hh = (hh+1)%24; }
+      tm.textContent = (hh<10?'0':'') + hh + ':' + (mm<10?'0':'') + mm;
+    } else if (tm) { tm.textContent = '—'; }
+  });
+}
+
 function finTot(city){
   // fin parcial ≈ totalidad_fin + (inicio→totalidad) como aproximación simétrica
+  if (!city || !city.inicio) return city && city.inicio ? city.inicio : '00:00:00';
+  if (!city.tot_inicio || !city.tot_fin) return city.inicio;
   var i = city.inicio.split(':').map(Number), tm = city.tot_inicio.split(':').map(Number), tf = city.tot_fin.split(':').map(Number);
   var dur = (tf[0]*3600+tf[1]*60+tf[2]) - (tm[0]*3600+tm[1]*60+tm[2]);
   var start = i[0]*3600+i[1]*60+i[2];
@@ -1015,6 +1137,17 @@ function celesteTick(){
     if (t) t.textContent = CELESTE_CTX.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid' });
     renderCelesteHorizonte(city);
     renderCelesteTimeline(city);
+    // sincronizar slider con la cronología
+    if (city && city.inicio) {
+      var s0 = city.inicio.split(':').map(Number);
+      var fin = city.tot_fin && city.tot_inicio ? city.tot_fin.split(':').map(Number) : s0;
+      var t0 = s0[0]*60+s0[1], t1 = fin[0]*60+fin[1];
+      var nowMin = CELESTE_CTX.getHours()*60 + CELESTE_CTX.getMinutes();
+      var prog = t1 > t0 ? (nowMin - t0) / (t1 - t0) : 0;
+      prog = Math.max(0, Math.min(1, prog));
+      var slider = document.getElementById('celesteProgSlider');
+      if (slider) { slider.value = Math.round(prog*100); setProgMoon(prog); renderCelesteDisco(city, prog); }
+    }
   }
 }
 function celesteCitySel(){
@@ -1048,6 +1181,8 @@ function initCeleste(){
       if (ctrl) ctrl.style.display = (sel.value === '__free') ? 'flex' : 'none';
       var city = celesteCitySel();
       if (city) { renderCelesteHorizonte(city); renderCelesteTimeline(city); }
+      var slider = document.getElementById('celesteProgSlider');
+      if (slider && slider.value) renderCelesteDisco(city, parseInt(slider.value)/100);
     };
     var latI = document.getElementById('celFreeLat'), lonI = document.getElementById('celFreeLon');
     if (latI) latI.oninput = function(){ if (sel.value === '__free') { var c = celesteCitySel(); if (c) renderCelesteHorizonte(c); } };
@@ -1055,6 +1190,9 @@ function initCeleste(){
     var city = celesteCitySel();
     renderCelesteHorizonte(city);
     renderCelesteTimeline(city);
+    initCelesteSlider();
+    var slider = document.getElementById('celesteProgSlider');
+    if (slider && slider.value) renderCelesteDisco(city, parseInt(slider.value)/100);
     var t = document.getElementById('celesteReloj');
     if (t) t.textContent = 'ahora · ' + new Date().toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid' });
   }).catch(function(){});
@@ -1076,10 +1214,10 @@ function switchTab(t){
   document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('active', x.dataset.tab === t); });
   var sel = document.getElementById('phenSelect'); if (sel) sel.value = t;
   var hsel = document.getElementById('headerPhen'); if (hsel) hsel.value = t;
-  if (t === 'eclipse' || t === '2027') {
+  if (t === 'eclipse' || t === '2027' || t === '2028') {
     document.getElementById('main').classList.remove('hidden');
     document.getElementById('otherCards').classList.add('hidden');
-    var yr = (t === '2027') ? '2027' : '2026';
+    var yr = (t === '2027') ? '2027' : (t === '2028' ? '2028' : '2026');
     if (currentYear !== yr) loadPhenomenon(yr);
     if (typeof map !== undefined) map.invalidateSize();
   } else {
@@ -1096,9 +1234,10 @@ function switchTab(t){
 var TABS_META = {
   eclipse: { title: 'Eclipse Solar Total 12 Ago 2026 en España · Mapa, horarios y nubosidad', desc: 'Mapa interactivo de la franja de totalidad del eclipse solar total del 12 de agosto de 2026 en España: horarios por ciudad, duración, previsión de nubosidad y seguridad.' },
   '2027': { title: 'Eclipse Solar Total 2 Ago 2027 en España · Cádiz, Málaga, Almería', desc: 'El eclipse solar total del 2 de agosto de 2027 cruzará el sur de España: franja de totalidad, horarios estimados y cómo verlo.' },
+  '2028': { title: 'Eclipse Anular 26 Ene 2028 en España · Huelva, Sevilla, Córdoba', desc: 'El eclipse solar anular del 26 de enero de 2028 cruzará el suroeste de España: franja de anularidad, cobertura por ciudad y cómo verlo con seguridad.' },
   perseidas: { title: 'Lluvia de Perseidas 2026 · Cuándo y cómo verlas', desc: 'Perseidas 2026: pico la noche del 12-13 de agosto, coincidiendo con el eclipse. Hasta ~100 meteoros/hora.' },
   auroras: { title: 'Auroras boreales en España · Índice Kp en tiempo real', desc: 'Previsión de auroras boreales en tiempo real (índice Kp de NOAA) y desde qué latitudes son visibles.' },
-  calendario: { title: 'Calendario de fenómenos astronómicos 2026-2027', desc: 'Eclipses, lluvias de meteoros y oposiciones planetarias: calendario completo de fenómenos celestes.' },
+  calendario: { title: 'Calendario de fenómenos astronómicos 2026-2028', desc: 'Eclipses, lluvias de meteoros y oposiciones planetarias: calendario completo de fenómenos celestes.' },
   guias: { title: 'Guías de observación astronómica · Eclipses, meteoros y auroras', desc: 'Guías prácticas y seguras para observar eclipses, lluvias de meteoros y auroras boreales.' },
   celeste: { title: 'Configuración celeste del eclipse · Sol, Luna y Tierra desde tu ciudad', desc: 'Geometría del eclipse solar del 12-08-2026, posición del Sol y la Luna desde tu ciudad, y cronología con reloj en tiempo real.' }
 };
@@ -1196,7 +1335,7 @@ function targetTime(hhmmss){
 }
 function cdText(now, t, label){
   var d = t - now;
-  if (d <= 0) return '🌑 Totalidad ' + (selectedCity ? ('en ' + selectedCity.name) : '') + ' ya ha pasado · proxima: Eclipse 2027 (2-Ago)';
+  if (d <= 0) return '🌑 Totalidad ' + (selectedCity ? ('en ' + selectedCity.name) : '') + ' ya ha pasado · próximos: Eclipse 2027 (2-Ago) y Anular 2028 (26-Ene)';
   var days = Math.floor(d/86400000), h = Math.floor(d/3600000)%24, mi = Math.floor(d/60000)%60, se = Math.floor(d/1000)%60;
   return '⏳ Faltan ' + days + 'd ' + h + 'h ' + mi + 'm ' + se + 's' + label;
 }
@@ -1377,7 +1516,7 @@ document.addEventListener('click', function(e){ var p = document.getElementById(
 applyLang();
 
 var urlTab = new URLSearchParams(location.search).get('tab');
-if (urlTab && ['eclipse','2027','perseidas','auroras','calendario','guias'].indexOf(urlTab) >= 0) {
+if (urlTab && ['eclipse','2027','2028','perseidas','auroras','calendario','guias'].indexOf(urlTab) >= 0) {
   document.querySelectorAll('#tabs .tab').forEach(function(x){ x.classList.toggle('active', x.dataset.tab === urlTab); });
   var hsel2 = document.getElementById('headerPhen'); if (hsel2) hsel2.value = urlTab;
 }

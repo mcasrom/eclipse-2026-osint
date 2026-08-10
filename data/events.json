@@ -163,12 +163,12 @@
   {
    "date": "2028-01-26",
    "type": "eclipse_total",
-   "name": "Eclipse solar anular",
-   "visible": "América / Europa parcial",
-   "note": "Eclipse anular visible desde América; en España será parcial al amanecer.",
+   "name": "Eclipse solar anular (suroeste peninsular)",
+   "visible": "Huelva · Sevilla · Córdoba · parcial en el resto",
+   "note": "Franja de anularidad por el suroeste (cobertura hasta ~91%). En toda España, protección ISO 12312-2 obligatoria durante todo el evento: al ser anular, la Luna nunca cubre el Sol por completo.",
    "name_en": "Annular solar eclipse",
    "visible_en": "Americas / partial in Europe",
-   "note_en": "Annular eclipse over the Americas; partial at dawn in Spain."
+   "note_en": "Annular band over the southwest (up to ~91% coverage). ISO 12312-2 eye protection mandatory across Spain for the whole event: being annular, the Moon never fully covers the Sun."
   },
   {
    "date": "2028-04-22",
@@ -204,7 +204,7 @@
    "date": "2028-07-22",
    "type": "eclipse_total",
    "name": "Eclipse solar total",
-   "visible": "Australia y Nueva Zelanda",
+   "visible": "Australia · Nueva Zelanda (no visible en España)",
    "note": "Total visible desde Australia y Nueva Zelanda; no desde España. El siguiente gran total mundial.",
    "name_en": "Total solar eclipse",
    "visible_en": "Australia & New Zealand",

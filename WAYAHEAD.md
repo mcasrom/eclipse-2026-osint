@@ -583,6 +583,21 @@ eclipse-2026-osint/
   - Fuente: "16 fuentes · 7 países · histórico 7d"
 - **Commit**: `cbe8123`. Coste ~0.
 
+## Sprint 10ae — Eclipse Anular 2028 + slider de progresión (10 Ago 2026)
+
+- **Nuevo fenómeno "🌞 Anular 2028"** (26-ene-2028, eclipse solar ANULAR visible desde España):
+  - `data/2028/`: cities.json (12 ciudades), franja.geojson (banda de anularidad desde NASA GSFC, 218 pts), simulacion.geojson (217 features minuto a minuto, 13:20–16:56 UTC).
+  - Datos de la línea central extraídos de la tabla de NASA GSFC (`SE2028Jan26Apath.html`), coberturas por distancia perpendicular a la línea central (haversine): Sevilla 90.6%, Huelva 86%, Córdoba 75.8% (franja anular, con anillo); Málaga 69%, Murcia 29%, Valencia 12.5% (parcial).
+  - Tab + select (header/phen) + ocard + i18n ES/EN + switchTab + simulador + SEO (TABS_META) + calendario (events.json: "Eclipse solar anular (suroeste peninsular)").
+  - El forecast API ya es genérico (`data/{year}/cities.json`) → nubosidad real Open-Meteo para 2028 sin cambios.
+- **Slider de progresión del eclipse** en el tab "🔭 Observación celeste":
+  - Arriba: diagrama esquemático Sol–Luna–Tierra con la Luna desplazándose según el slider.
+  - Abajo: **disco solar** con la mordida de la Luna (cobertura interpolada 0→máx→0, seno) según la ciudad seleccionada + % en vivo + nota dinámica (anular/total vs parcial, gafas ISO).
+  - Se sincroniza con la cronología (Reproducir) y con el cambio de ciudad.
+  - Fix `finTot` (crash con ciudades sin tot_inicio, p.ej. `__free`).
+- **Verificado** con puppeteer: tab 2028 (12 ciudades, banda, SEO), slider (cobertura 0→99→0%, hora interpola, luna se mueve), 0 errores JS, forecast 2028 con nubosidad.
+- **Commit**: pendiente. Coste ~0.
+
 ## ⚠️ Pendientes
 - [ ] **Opción 5** (global + i18n + parcialidad) — post-12-Ago.
 - [ ] Calibración horarios 2027 con datos oficiales IGN cuando los publique.
