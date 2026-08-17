@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://eclipse.viajeinteligencia.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://eclipse.viajeinteligencia.com/auroras-espana</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/auroras-espana</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/cuadrantidas-pico-2027-01-03.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/cuadrantidas-pico-2028-01-04.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/draconidas-aprox-2026-10-09.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-lunar-parcial-aprox-2026-08-28.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-lunar-parcial-aprox-2028-08-05.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-lunar-parcial-aprox-2028-12-28.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-solar-anular-suroeste-peninsular-2028-01-26.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-solar-parcial-2028-06-12.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-solar-total-2028-07-22.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-solar-total-espana-2026-08-12.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eclipse-solar-total-sur-peninsular-n-africa-2027-08-02.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eta-acuaridas-pico-aprox-2027-05-06.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eta-acuaridas-pico-aprox-2028-05-06.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/eventos-astronomicos.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/geminidas-pico-2026-12-13.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/geminidas-pico-2028-12-13.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/leonidas-pico-aprox-2026-11-17.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/leonidas-pico-aprox-2028-11-17.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/liridas-pico-aprox-2027-04-22.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/liridas-pico-aprox-2028-04-22.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/oposicion-de-jupiter-aprox-2026-09-26.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/oposicion-de-marte-aprox-2027-02-15.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/oposicion-de-saturno-aprox-2026-08-20.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/orionidas-pico-aprox-2026-10-21.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/orionidas-pico-aprox-2028-10-21.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/perseidas-pico-2026-08-12.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/perseidas-pico-2027-08-12.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
+  <url><loc>https://eclipse.viajeinteligencia.com/perseidas-pico-2028-08-12.html</loc><lastmod>2026-08-17</lastmod><priority>0.6</priority></url>
 </urlset>

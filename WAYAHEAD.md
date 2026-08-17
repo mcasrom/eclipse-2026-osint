@@ -635,3 +635,9 @@ eclipse-2026-osint/
 - #10 🌊 Radar de inundaciones/riesgo hidrológico (datos escasos, backlog).
 
 Todas cuestan ~0 recursos (páginas estáticas sobre datos ya recolectados). Coste + enganche valorado.
+## Hito: hub de eventos astronómicos + lead-time 2027 (17/Ago)
+- 27 páginas de evento generadas desde data/events.json (schema Event, title query-matching)
+  + hub /eventos-astronomicos.html (ItemList). Sitemap 30 URLs. IndexNow push 202.
+- Eclipse solar total 2027-08-02 (sur peninsular) ya tiene página con 12 meses de lead.
+- Autoridad: landing ya enlaza eclipse; se mantiene auroras-espana (Kp real-time).
+- Evaluado: on-page ya era bueno (schema/title); el cuello de botella es autoridad del dominio.
