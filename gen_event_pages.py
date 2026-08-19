@@ -39,9 +39,12 @@ def page_html(ev):
         "@type": "Event",
         "name": f"{nombre} · {fecha}",
         "startDate": ev["date"],
+        "endDate": ev["date"],
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "location": {"@type": "Place", "name": visible},
+        "image": "https://eclipse.viajeinteligencia.com/og-image.png",
+        "location": {"@type": "Place", "name": visible, "address": {"@type": "PostalAddress", "addressCountry": "ES"}},
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": f"{SITE}/{slug}.html"},
         "description": nota,
         "organizer": {"@type": "Organization", "name": "Viaje Inteligencia", "url": "https://www.viajeinteligencia.com/"},
     }
