@@ -105,6 +105,7 @@
   .minimap { height:300px; border-radius:10px; border:1px solid var(--line); margin-top:10px; }
   .minimap.perseidas { height:260px; }
   #auroraInfo { font-size:.9em; line-height:1.6; margin-top:8px; }
+.osm-dark .leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.8) contrast(1.1) saturate(0.5); }
 </style>
 <script type="application/ld+json">
 {
@@ -558,7 +559,7 @@ document.querySelectorAll('[data-i18n-html]').forEach(function(el){ _origHtml[el
 var langBtn = document.getElementById('langBtn');
 if (langBtn) langBtn.onclick = function(){ LANG = LANG === 'es' ? 'en' : 'es'; lsSet('ecl_lang', LANG); applyLang(); };
 const map = L.map('map').setView([40.5, -3.5], 6);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19 }).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', subdomains:'abc', maxZoom:19 , className: 'osm-dark'}).addTo(map);
 
 function fmtT(s){ return s || '—'; }
 function fmtDur(sec){ return sec > 0 ? Math.floor(sec/60) + 'm ' + (sec%60) + 's' : '—'; }
@@ -1460,7 +1461,7 @@ function initAuroraMap(){
   if (auroraReady) return;
   auroraReady = true;
   auroraMap = L.map('auroraMap').setView([60, 8], 4);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CARTO', subdomains:'abcd', maxZoom:19 }).addTo(auroraMap);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', subdomains:'abc', maxZoom:19 , className: 'osm-dark'}).addTo(auroraMap);
   loadAurora();
 }
 async function loadAurora(){
@@ -1489,7 +1490,7 @@ function initPerseidasMap(){
   if (perseidasReady) return;
   perseidasReady = true;
   perseidasMap = L.map('perseidasMap').setView([50, 5], 3);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution:'© CARTO', subdomains:'abcd', maxZoom:19 }).addTo(perseidasMap);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', subdomains:'abc', maxZoom:19 , className: 'osm-dark'}).addTo(perseidasMap);
   L.circleMarker([58, 40], { radius: 7, color:'#fff', weight:1, fillColor:'#ffd54f', fillOpacity:.9 })
     .bindPopup('<b>Radiant: Perseo</b><br>Dirección de la que parecen salir los meteoros.<br>Mira hacia el noreste tras la medianoche.')
     .addTo(perseidasMap);
